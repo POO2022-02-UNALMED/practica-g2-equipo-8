@@ -23,6 +23,14 @@ public class Aeropuerto {
 		nextId++;
 	}
 
+	public void copiarAeropuerto(Aeropuerto aeropuerto) {
+		this.nombre = aeropuerto.nombre;
+		this.vuelos = aeropuerto.vuelos;
+		this.empleados = aeropuerto.empleados;
+		this.salas = aeropuerto.salas;
+		this.aviones = aeropuerto.aviones;
+	}
+
 	public static List<Aeropuerto> getAeropuertos() {
 		return aeropuertos;
 	}
