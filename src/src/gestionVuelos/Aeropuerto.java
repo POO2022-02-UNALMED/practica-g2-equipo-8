@@ -4,49 +4,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aeropuerto {
-    private List<Aeropuerto> aeropuertos = new ArrayList<>();
-    private List<Vuelo> vuelos = new ArrayList<>();
-    private List<Empleado> empleados = new ArrayList<>();
-    private List<String> salas = new ArrayList<>();
-    private List<Avion> aviones = new ArrayList<>();
+	private String nombre;
+	private static List<Aeropuerto> aeropuertos = new ArrayList<>();
+	private static int nextId = 0;
+	private final int id;
+	private List<Vuelo> vuelos = new ArrayList<>();
+	private List<Empleado> empleados = new ArrayList<>();
+	private List<String> salas = new ArrayList<>();
+	private List<Avion> aviones = new ArrayList<>();
 
-    public List<Aeropuerto> getAeropuertos() {
-        return aeropuertos;
-    }
+	public Aeropuerto() {
+		this(null);
+	}
 
-    public void setAeropuertos(List<Aeropuerto> aeropuertos) {
-        this.aeropuertos = aeropuertos;
-    }
+	public Aeropuerto(String nombre) {
+		this.nombre = nombre;
+		this.id = nextId;
+		nextId++;
+	}
 
-    public List<Vuelo> getVuelos() {
-        return vuelos;
-    }
+	public static List<Aeropuerto> getAeropuertos() {
+		return aeropuertos;
+	}
 
-    public void setVuelos(List<Vuelo> vuelos) {
-        this.vuelos = vuelos;
-    }
+	public List<Vuelo> getVuelos() {
+		return vuelos;
+	}
 
-    public List<Empleado> getEmpleados() {
-        return empleados;
-    }
+	public void setVuelos(List<Vuelo> vuelos) {
+		this.vuelos = vuelos;
+	}
 
-    public void setEmpleados(List<Empleado> empleados) {
-        this.empleados = empleados;
-    }
+	public List<Empleado> getEmpleados() {
+		return empleados;
+	}
 
-    public List<String> getSalas() {
-        return salas;
-    }
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
+	}
 
-    public void setSalas(List<String> salas) {
-        this.salas = salas;
-    }
+	public List<String> getSalas() {
+		return salas;
+	}
 
-    public List<Avion> getAviones() {
-        return aviones;
-    }
+	public void setSalas(List<String> salas) {
+		this.salas = salas;
+	}
 
-    public void setAviones(List<Avion> aviones) {
-        this.aviones = aviones;
-    }
+	public List<Avion> getAviones() {
+		return aviones;
+	}
+
+	public void setAviones(List<Avion> aviones) {
+		this.aviones = aviones;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }

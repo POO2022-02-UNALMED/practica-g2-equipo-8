@@ -2,6 +2,8 @@ package administrador;
 
 import java.util.Scanner;
 
+import gestionVuelos.Aeropuerto;
+
 public class Administrador {
 	private String nombre;
 	private int cedula;
@@ -32,10 +34,17 @@ public class Administrador {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Bienvenido Administrador\n¿Qué desea hacer hoy? Ingrese el número de la opción a elegir:");
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("Bienvenido Administrador ¿Qué aeropuerto desea administrar?");
+
+		for (Aeropuerto aeropuerto : Aeropuerto.getAeropuertos()) {
+			System.out.println(aeropuerto.getId() + " " + aeropuerto.getNombre());
+		}
+		int aeropuertoElegido = entrada.nextInt();
+		System.out.println("¿Qué desea hacer hoy? Ingrese el número de la opción a elegir:");
 		System.out.println("1. Reserva de vuelo.\n" + "2. Ver información del vuelo.\n" + "3. Asignar empleados.\n"
 				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n" + "6. Finalizar programa.\n");
-		Scanner entrada = new Scanner(System.in);
+
 		int option = entrada.nextInt();
 		switch (option) {
 		case 1: {
@@ -57,5 +66,9 @@ public class Administrador {
 			break;
 		}
 		}
+	}
+
+	private void ReservaDeVuelo() {
+
 	}
 }
