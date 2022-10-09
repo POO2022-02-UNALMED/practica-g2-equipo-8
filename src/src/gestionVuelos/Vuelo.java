@@ -50,6 +50,12 @@ public class Vuelo {
         return pesoActual < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size();
     }
 
+    @Override
+    public String toString(){
+        String infoVuelo = "Fecha del vuelo: "+fecha+" - Origen: "+origen+" - Destino: "+destino+" - precio: "+costo+"\n";
+        return infoVuelo;
+    }
+
     public Avion getAvion() {
         return avion;
     }

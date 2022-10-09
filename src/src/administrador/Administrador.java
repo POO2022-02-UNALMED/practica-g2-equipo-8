@@ -1,8 +1,9 @@
 package administrador;
 
+import java.util.Date;
 import java.util.Scanner;
 
-import gestionVuelos.Aeropuerto;
+import gestionVuelos.*;
 
 public class Administrador {
 	private String nombre;
@@ -38,6 +39,12 @@ public class Administrador {
 	}
 
 	public static void main(String[] args) {
+		//Pruebas
+		Vuelo vuelo = new Vuelo(new Avion("X",100,1000), new Date(),"Medellin","Bogota",1000,"10A");
+		System.out.println(vuelo);
+		for(Asiento asiento: vuelo.getAvion().getAsientos()) System.out.println(asiento);
+		//Pruebas
+
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --\nAdministrador, Elija que aeropuerto desea administrar.");
 

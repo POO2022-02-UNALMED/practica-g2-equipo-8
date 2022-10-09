@@ -7,14 +7,14 @@ public class Avion {
     private int id;
     private String modelo;
     private int pesoMaximo;
-    private List<Asiento> asientos;
+    private List<Asiento> asientos = new ArrayList<>();
     private int valor;
 
     public Avion(String modelo, int pesoMaximo, int valor) {
         this.modelo = modelo;
         this.pesoMaximo = pesoMaximo;
         this.valor = valor;
-        genAsientos(10,15);
+        this.genAsientos(10,15);
         Aeropuerto.agregarAvion(this);
     }
 
@@ -25,9 +25,9 @@ public class Avion {
         tipoAsiento.add("primera clase");
 
         int cant = (int) (min + Math.random()*(max-min));
-        int ind = (int) (Math.random()*3);
 
         for(int i = 1; i <= cant; i++){
+            int ind = (int) (Math.random()*3);
             asientos.add(new Asiento(i,tipoAsiento.get(ind)));
         }
     }

@@ -11,6 +11,12 @@ public class Asiento {
         this.clase = clase;
     }
 
+    @Override
+    public String toString(){
+        String infoSilla = "";
+        return "Fila: "+fila+" - numero: "+numero+" - clase: "+clase;
+    }
+
     public char getFila() {
         return fila;
     }
