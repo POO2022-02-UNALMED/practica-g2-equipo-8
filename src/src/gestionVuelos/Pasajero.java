@@ -11,11 +11,10 @@ public class Pasajero {
     private String nombre;
     private List<Equipaje> equipajes;
 
-    public Pasajero(int edad, int cedula, String nombre, List<Equipaje> equipajes) {
+    public Pasajero(int edad, int cedula, String nombre) {
         this.edad = edad;
         this.cedula = cedula;
         this.nombre = nombre;
-        this.equipajes = equipajes;
     }
 
     public int getEdad() {

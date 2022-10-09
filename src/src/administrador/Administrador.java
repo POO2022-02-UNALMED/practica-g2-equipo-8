@@ -1,6 +1,8 @@
 package administrador;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import gestionVuelos.*;
@@ -40,9 +42,17 @@ public class Administrador {
 
 	public static void main(String[] args) {
 		//Pruebas
-		Vuelo vuelo = new Vuelo(new Avion("X",100,1000), new Date(),"Medellin","Bogota",1000,"10A");
+		Vuelo vuelo = new Vuelo(new Avion("X",10,1000), new Date(),"Medellin","Bogota",1000,"10A");
 		System.out.println(vuelo);
+
 		for(Asiento asiento: vuelo.getAvion().getAsientos()) System.out.println(asiento);
+
+		Pasajero pasajero = new Pasajero(15,10001,"pepito");
+		List<Equipaje> equipaje = new ArrayList<>();
+		equipaje.add(new Equipaje(12.4,pasajero));
+		pasajero.setEquipajes(equipaje);
+		vuelo.agregarPasajero(pasajero, 10);
+		System.out.println(equipaje);
 		//Pruebas
 
 		Scanner entrada = new Scanner(System.in);

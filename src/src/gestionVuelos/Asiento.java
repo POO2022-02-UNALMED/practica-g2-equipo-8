@@ -13,7 +13,6 @@ public class Asiento {
 
     @Override
     public String toString(){
-        String infoSilla = "";
         return "Fila: "+fila+" - numero: "+numero+" - clase: "+clase;
     }
 

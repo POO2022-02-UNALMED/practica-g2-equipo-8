@@ -36,9 +36,9 @@ public class Vuelo {
         if (pesoActual+pesoEquipajePasajero < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size() && !avion.getAsientos().get(nroAsiento).isOcupado()){
             pesoActual += pesoEquipajePasajero;
             pasajeros.add(pasajero);
-            pasajero.setAsiento(avion.getAsientos().get(nroAsiento));
+            pasajero.setAsiento(avion.getAsientos().get(nroAsiento-1));
             pasajero.setVuelo(this);
-            avion.getAsientos().get(nroAsiento).setOcupado(true);
+            avion.getAsientos().get(nroAsiento-1).setOcupado(true);
             Administrador.ingresarDinero(costo);
         } else {
             System.out.println("No queda espacio suficiente en este vuelo, lo sentimos mucho.");
