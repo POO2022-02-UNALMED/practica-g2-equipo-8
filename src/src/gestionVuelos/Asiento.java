@@ -6,6 +6,11 @@ public class Asiento {
     private boolean ocupado;
     private String clase;
 
+    public Asiento(int numero, String clase) {
+        this.numero = numero;
+        this.clase = clase;
+    }
+
     public char getFila() {
         return fila;
     }

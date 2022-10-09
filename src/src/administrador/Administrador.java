@@ -7,7 +7,11 @@ import gestionVuelos.Aeropuerto;
 public class Administrador {
 	private String nombre;
 	private int cedula;
-	private int dinero;
+	private static int dinero;
+
+	public static void ingresarDinero(int pago){
+		Administrador.dinero += pago;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -25,12 +29,12 @@ public class Administrador {
 		this.cedula = cedula;
 	}
 
-	public int getDinero() {
+	public static int getDinero() {
 		return dinero;
 	}
 
-	public void setDinero(int dinero) {
-		this.dinero = dinero;
+	public static void setDinero(int dinero) {
+		Administrador.dinero = dinero;
 	}
 
 	public static void main(String[] args) {

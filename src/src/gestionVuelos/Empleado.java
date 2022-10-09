@@ -6,6 +6,14 @@ public class Empleado {
     private int cedula;
     private String cargo;
 
+    public Empleado(String nombre, int sueldo, int cedula, String cargo) {
+        this.nombre = nombre;
+        this.sueldo = sueldo;
+        this.cedula = cedula;
+        this.cargo = cargo;
+        Aeropuerto.agregarEmpleado(this);
+    }
+
     public String getNombre() {
         return nombre;
     }
