@@ -35,7 +35,7 @@ public class Administrador {
 
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
-		System.out.println("Bienvenido Administrador ¿Qué aeropuerto desea administrar?");
+		System.out.println("-- Bienvenido al sistema de administracion de Vuelos --\n\nAdministrador ¿Qué aeropuerto desea administrar?");
 
 		for (Aeropuerto aeropuerto : Aeropuerto.getAeropuertos()) {
 			System.out.println(aeropuerto.getId() + " " + aeropuerto.getNombre());
@@ -43,7 +43,7 @@ public class Administrador {
 		int aeropuertoElegido = entrada.nextInt();
 		System.out.println("¿Qué desea hacer hoy? Ingrese el número de la opción a elegir:");
 		System.out.println("1. Reserva de vuelo.\n" + "2. Ver información del vuelo.\n" + "3. Asignar empleados.\n"
-				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n" + "6. Finalizar programa.\n");
+				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n" + "6. Finalizar programa.\n");
 
 		int option = entrada.nextInt();
 		switch (option) {
