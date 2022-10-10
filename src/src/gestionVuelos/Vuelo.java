@@ -32,16 +32,20 @@ public class Vuelo {
 
         double pesoEquipajePasajero = 0;
         for(Equipaje equipaje: pasajero.getEquipajes()) pesoEquipajePasajero += equipaje.getPeso();
+        Asiento asientoElegido = avion.getAsientos().get(nroAsiento-1);
 
-        if (pesoActual+pesoEquipajePasajero < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size() && !avion.getAsientos().get(nroAsiento).isOcupado()){
+        if (pesoActual+pesoEquipajePasajero < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size() && !asientoElegido.isOcupado()){
             pesoActual += pesoEquipajePasajero;
             pasajeros.add(pasajero);
-            pasajero.setAsiento(avion.getAsientos().get(nroAsiento-1));
+            pasajero.setAsiento(asientoElegido);
             pasajero.setVuelo(this);
-            avion.getAsientos().get(nroAsiento-1).setOcupado(true);
-            Administrador.ingresarDinero(costo);
+            asientoElegido.setOcupado(true);
+            if(asientoElegido.getClase().equals("primera clase")) Administrador.ingresarDinero(3*costo);
+            else if(asientoElegido.getClase().equals("ejecutiva")) Administrador.ingresarDinero(2*costo);
+            else Administrador.ingresarDinero(costo);
+
         } else {
-            System.out.println("No queda espacio suficiente en este vuelo, lo sentimos mucho.");
+            System.out.println("No queda espacio suficiente en este vuelo, por favor elija otro vuelo, lo sentimos mucho.");
         }
     }
 
