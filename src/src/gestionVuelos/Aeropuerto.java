@@ -5,25 +5,26 @@ import java.util.List;
 
 public class Aeropuerto {
 	private static String nombre;
-	private static List<Aeropuerto> aeropuertos = new ArrayList<>();
-	private static int nextId = 0;
-	private final int id;
 	private static List<Vuelo> vuelos = new ArrayList<>();
 	private static List<Empleado> empleados = new ArrayList<>();
 	private static List<String> salas = new ArrayList<>();
 	private static List<Avion> aviones = new ArrayList<>();
+	private static int dinero;
 
-	//Comentario importante, me parece mejor tratar la administracion de UN solo aeropuerto, que sean muchos realmente solo nos agrega complejidad (lo que se traduce en mas trabajo)
-	//mas no funcionalidad, por eso creo que es mejor concentrar los esfuerzos en que todas las demas funcionalidades queden muy bien.
+	public static void ingresarDinero(int pago) {
+		Aeropuerto.dinero += pago;
+	}
 
-	public Aeropuerto() {
-		this(null);
+	public static int getDinero() {
+		return dinero;
+	}
+
+	public static void setDinero(int dinero) {
+		Aeropuerto.dinero = dinero;
 	}
 
 	public Aeropuerto(String nombre) {
 		this.nombre = nombre;
-		this.id = nextId;
-		nextId++;
 	}
 
 	public static void agregarVuelo(Vuelo vuelo){
@@ -40,10 +41,6 @@ public class Aeropuerto {
 
 	public static void agregarAvion(Avion avion){
 		Aeropuerto.aviones.add(avion);
-	}
-
-	public static List<Aeropuerto> getAeropuertos() {
-		return aeropuertos;
 	}
 
 	public static List<Vuelo> getVuelos() {
@@ -78,15 +75,11 @@ public class Aeropuerto {
 		Aeropuerto.aviones = aviones;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public static String getNombre() {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public static void setNombre(String nombre) {
+	public void setNombre(String nombre) {
 		Aeropuerto.nombre = nombre;
 	}
 }

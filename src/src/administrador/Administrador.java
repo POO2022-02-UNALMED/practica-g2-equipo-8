@@ -8,38 +8,6 @@ import java.util.Scanner;
 import gestionVuelos.*;
 
 public class Administrador {
-	private String nombre;
-	private int cedula;
-	private static int dinero;
-
-	public static void ingresarDinero(int pago) {
-		Administrador.dinero += pago;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public int getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(int cedula) {
-		this.cedula = cedula;
-	}
-
-	public static int getDinero() {
-		return dinero;
-	}
-
-	public static void setDinero(int dinero) {
-		Administrador.dinero = dinero;
-	}
-
 	public static void main(String[] args) {
 		//Pruebas
 		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Medellin", "Bogota", 1000, "10A");
@@ -54,12 +22,8 @@ public class Administrador {
 		//Pruebas
 
 		Scanner entrada = new Scanner(System.in);
-		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --\nAdministrador, Elija que aeropuerto desea administrar.");
+		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
 
-		for (Aeropuerto aeropuerto : Aeropuerto.getAeropuertos()) {
-			System.out.println(aeropuerto.getId() + " " + aeropuerto.getNombre());
-		}
-		int aeropuertoElegido = entrada.nextInt();
 		int option;
 		do {
 			System.out.println("\nIngrese el numero de la opcion a elegir:");

@@ -44,9 +44,9 @@ public class Vuelo {
             pasajero.setAsiento(asientoElegido);
             pasajero.setVuelo(this);
             asientoElegido.setOcupado(true);
-            if(asientoElegido.getClase().equals("primera clase")) Administrador.ingresarDinero(3*costo);
-            else if(asientoElegido.getClase().equals("ejecutiva")) Administrador.ingresarDinero(2*costo);
-            else Administrador.ingresarDinero(costo);
+            if(asientoElegido.getClase().equals("primera clase")) Aeropuerto.ingresarDinero(3*costo);
+            else if(asientoElegido.getClase().equals("ejecutiva")) Aeropuerto.ingresarDinero(2*costo);
+            else Aeropuerto.ingresarDinero(costo);
             System.out.println("Ha sido registrado exitosamente.");
         } else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
             System.out.println("No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
