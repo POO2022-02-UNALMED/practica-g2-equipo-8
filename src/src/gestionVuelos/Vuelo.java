@@ -17,6 +17,8 @@ public class Vuelo {
     private int costo;
     private String salaEmbarque;
     private double pesoActual;
+    public static int globalID = 1;
+    public int id;
 
     public Vuelo(Avion avion, Date fecha, String origen, String destino, int costo, String salaEmbarque) {
         this.avion = avion;
@@ -26,6 +28,8 @@ public class Vuelo {
         this.costo = costo;
         this.salaEmbarque = salaEmbarque;
         Aeropuerto.agregarVuelo(this);
+        this.id = globalID;
+        Vuelo.globalID++;
     }
 
     public void agregarPasajero(Pasajero pasajero, int nroAsiento) {
@@ -43,9 +47,11 @@ public class Vuelo {
             if(asientoElegido.getClase().equals("primera clase")) Administrador.ingresarDinero(3*costo);
             else if(asientoElegido.getClase().equals("ejecutiva")) Administrador.ingresarDinero(2*costo);
             else Administrador.ingresarDinero(costo);
-
+            System.out.println("Ha sido registrado exitosamente.");
+        } else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
+            System.out.println("No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
         } else {
-            System.out.println("No queda espacio suficiente en este vuelo, por favor elija otro vuelo, lo sentimos mucho.");
+            System.out.println("Ha elegido un puesto no disponible, por favor elija otro.");
         }
     }
 
@@ -56,7 +62,7 @@ public class Vuelo {
 
     @Override
     public String toString(){
-        String infoVuelo = "Fecha del vuelo: "+fecha+" - Origen: "+origen+" - Destino: "+destino+" - precio: "+costo+"\n";
+        String infoVuelo = "ID vuelo: "+id+" - Fecha del vuelo: "+fecha+" - Origen: "+origen+" - Destino: "+destino+" - precio: "+costo+"\n";
         return infoVuelo;
     }
 
@@ -138,5 +144,9 @@ public class Vuelo {
 
     public void setPesoActual(double pesoActual) {
         this.pesoActual = pesoActual;
+    }
+
+    public int getId() {
+        return id;
     }
 }
