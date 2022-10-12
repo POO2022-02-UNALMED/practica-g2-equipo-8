@@ -5,6 +5,11 @@ public class Equipaje {
     private double peso;
     private Pasajero propietario;
 
+    public Equipaje(double peso, Pasajero propietario) {
+        this.peso = peso;
+        this.propietario = propietario;
+    }
+
     public int getId() {
         return id;
     }

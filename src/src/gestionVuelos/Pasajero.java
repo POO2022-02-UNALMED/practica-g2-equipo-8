@@ -9,7 +9,13 @@ public class Pasajero {
     private Asiento asiento;
     private Vuelo vuelo;
     private String nombre;
-    private List<Equipaje> equipajes = new ArrayList<>();
+    private List<Equipaje> equipajes;
+
+    public Pasajero(int edad, int cedula, String nombre) {
+        this.edad = edad;
+        this.cedula = cedula;
+        this.nombre = nombre;
+    }
 
     public int getEdad() {
         return edad;

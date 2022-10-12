@@ -1,5 +1,7 @@
 package gestionVuelos;
 
+import administrador.Administrador;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,55 @@ public class Vuelo {
     private boolean enVuelo;
     private int costo;
     private String salaEmbarque;
+    private double pesoActual;
+    public static int globalID = 1;
+    public int id;
+
+    public Vuelo(Avion avion, Date fecha, String origen, String destino, int costo, String salaEmbarque) {
+        this.avion = avion;
+        this.fecha = fecha;
+        this.origen = origen;
+        this.destino = destino;
+        this.costo = costo;
+        this.salaEmbarque = salaEmbarque;
+        Aeropuerto.agregarVuelo(this);
+        this.id = globalID;
+        Vuelo.globalID++;
+    }
+
+    public void agregarPasajero(Pasajero pasajero, int nroAsiento) {
+
+        double pesoEquipajePasajero = 0;
+        for(Equipaje equipaje: pasajero.getEquipajes()) pesoEquipajePasajero += equipaje.getPeso();
+        Asiento asientoElegido = avion.getAsientos().get(nroAsiento-1);
+
+        if (pesoActual+pesoEquipajePasajero < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size() && !asientoElegido.isOcupado()){
+            pesoActual += pesoEquipajePasajero;
+            pasajeros.add(pasajero);
+            pasajero.setAsiento(asientoElegido);
+            pasajero.setVuelo(this);
+            asientoElegido.setOcupado(true);
+            if(asientoElegido.getClase().equals("primera clase")) Aeropuerto.ingresarDinero(3*costo);
+            else if(asientoElegido.getClase().equals("ejecutiva")) Aeropuerto.ingresarDinero(2*costo);
+            else Aeropuerto.ingresarDinero(costo);
+            System.out.println("Ha sido registrado exitosamente.");
+        } else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
+            System.out.println("No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
+        } else {
+            System.out.println("Ha elegido un puesto no disponible, por favor elija otro.");
+        }
+    }
+
+    //Este metodo servira para verificar los vuelos disponibles en el main
+    public boolean vueloLleno(){
+        return pesoActual < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size();
+    }
+
+    @Override
+    public String toString(){
+        String infoVuelo = "ID vuelo: "+id+" - Fecha del vuelo: "+fecha+" - Origen: "+origen+" - Destino: "+destino+" - precio: "+costo+"\n";
+        return infoVuelo;
+    }
 
     public Avion getAvion() {
         return avion;
@@ -85,5 +136,17 @@ public class Vuelo {
 
     public void setSalaEmbarque(String salaEmbarque) {
         this.salaEmbarque = salaEmbarque;
+    }
+
+    public double getPesoActual() {
+        return pesoActual;
+    }
+
+    public void setPesoActual(double pesoActual) {
+        this.pesoActual = pesoActual;
+    }
+
+    public int getId() {
+        return id;
     }
 }
