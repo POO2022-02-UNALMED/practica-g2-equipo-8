@@ -9,17 +9,17 @@ public class Aeropuerto {
 	private static List<Empleado> empleados = new ArrayList<>();
 	private static List<String> salas = new ArrayList<>();
 	private static List<Avion> aviones = new ArrayList<>();
-	private static int dinero;
+	private static float dinero;
 
 	public static void ingresarDinero(int pago) {
 		Aeropuerto.dinero += pago;
 	}
 
-	public static int getDinero() {
+	public static float getDinero() {
 		return dinero;
 	}
 
-	public static void setDinero(int dinero) {
+	public static void setDinero(float dinero) {
 		Aeropuerto.dinero = dinero;
 	}
 

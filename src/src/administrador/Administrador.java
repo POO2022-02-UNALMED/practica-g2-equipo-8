@@ -19,6 +19,11 @@ public class Administrador {
 		pasajero.setEquipajes(equipaje);
 		vuelo.agregarPasajero(pasajero, 10);
 		System.out.println(equipaje);
+
+		Aeropuerto.setDinero((float) Math.pow(10,7));
+		Empleado e1 = new Empleado("Juan Carlos" ,1200000, 10023031, "Piloto");
+		Empleado e2 = new Empleado("Felipe" ,900000, 4553031, "control de pista");
+		Empleado e3 = new Empleado("Andrea" ,600000, 67489, "azafata");
 		//Pruebas
 
 		Scanner entrada = new Scanner(System.in);
@@ -34,9 +39,8 @@ public class Administrador {
 				case 1: reservaDeVuelo(); break;
 				case 2: break;
 				case 3: break;
-				case 4: break;
+				case 4: interfazFinanzas();
 				case 5: break;
-				case 6: break;
 			}
 		} while (option != 6);
 	}
@@ -95,5 +99,91 @@ public class Administrador {
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
 		vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
+	}
+
+	public static void interfazFinanzas() {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("\n-- Bienvenido al sistema de administracion de Finanzas --");
+
+		int option;
+		do {
+			System.out.println("\nIngrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Pagar Nomina de empleados.
+					2. ver historial de transacciones.
+					3. Otorgar un aumento o disminución de sueldo a un empleado.
+					4. Modificar el presupuesto.
+					5. Volver.
+					""");
+
+			option = entrada.nextInt();
+			switch (option) {
+				case 1: pagarNominaInterfaz();
+				case 2: break;
+				case 3: break;
+				case 4: break;
+			}
+		} while (option != 5);
+	}
+	private static void pagarNomina(Empleado empleado) {
+		float dineroapagar = empleado.getSueldo();
+		float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
+
+		if (nuevosaldo < 0) {
+			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+		} else {
+			Aeropuerto.setDinero(nuevosaldo);
+			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
+		}
+	}
+	private static void pagarNomina(List<Empleado> empleados){
+		float dineroapagar = 0;
+		for (Empleado empleado : empleados) {
+			dineroapagar += empleado.getSueldo();
+		}
+		float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
+
+		if (nuevosaldo < 0) {
+			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+		} else {
+			Aeropuerto.setDinero(nuevosaldo);
+			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
+		}
+	}
+	public static void pagarNominaInterfaz() {
+		int dineroapagar = 0;
+		List<Empleado> lempleados = Aeropuerto.getEmpleados();
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("\n-- Bienvenido al sistema de pago de nomina --");
+
+		int option;
+		int option2;
+		do {
+			System.out.println("\n¿Desea pagarle a todos los empleados?");
+			System.out.print("""
+					1. Pagar a todos los empleados
+					2. Elegir empleados
+					3. Finalizar y Volver.
+					""");
+
+			option = entrada.nextInt();
+
+			if (option == 1) {
+				pagarNomina(Aeropuerto.getEmpleados());
+			} else if (option == 2) {
+				System.out.println("\nListado de empleados");
+				for (int i = 0; i < lempleados.size(); i++) {
+					System.out.println((i+1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
+				}
+				System.out.println("Selecciona el numero del empleado a pagar:");
+				option2 = entrada.nextInt();
+
+				if (option2 < 1 || option2 > lempleados.size() + 1) {
+					System.out.println("Error: numero incorrecto");
+				} else {
+					pagarNomina(lempleados.get(option2-1));
+				}
+			}
+		} while (option != 3);
 	}
 }
