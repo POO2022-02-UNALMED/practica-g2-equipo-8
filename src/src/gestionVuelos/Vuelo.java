@@ -11,7 +11,7 @@ public class Vuelo {
     private List<Empleado> empleados = new ArrayList<>();
     private List<Pasajero> pasajeros = new ArrayList<>();
     private Date fecha;
-    private String origen;
+    private final static String origen = "Medellin";
     private String destino;
     private boolean enVuelo;
     private int costo;
@@ -20,10 +20,9 @@ public class Vuelo {
     public static int globalID = 1;
     public int id;
 
-    public Vuelo(Avion avion, Date fecha, String origen, String destino, int costo, String salaEmbarque) {
+    public Vuelo(Avion avion, Date fecha, String destino, int costo, String salaEmbarque) {
         this.avion = avion;
         this.fecha = fecha;
-        this.origen = origen;
         this.destino = destino;
         this.costo = costo;
         this.salaEmbarque = salaEmbarque;
@@ -100,10 +99,6 @@ public class Vuelo {
 
     public String getOrigen() {
         return origen;
-    }
-
-    public void setOrigen(String origen) {
-        this.origen = origen;
     }
 
     public String getDestino() {

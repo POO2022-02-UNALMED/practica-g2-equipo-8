@@ -10,7 +10,7 @@ import gestionVuelos.*;
 public class Administrador {
 	public static void main(String[] args) {
 		//Pruebas
-		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Medellin", "Bogota", 1000, "10A");
+		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Bogota", 1000, "10A");
 		System.out.println(vuelo);
 		for (Asiento asiento : vuelo.getAvion().getAsientos()) System.out.println(asiento);
 		Pasajero pasajero = new Pasajero(15, 10001, "pepito");
@@ -47,15 +47,12 @@ public class Administrador {
 
 	public static void reservaDeVuelo() {
 		Scanner entradas = new Scanner(System.in);
-		System.out.print("Por favor inserte la ciudad de origen: ");
-		String entradaOrigen = entradas.nextLine();
 		System.out.print("Por favor inserte la ciudad de destino: ");
 		String entradaDestino = entradas.nextLine();
 
 		List<Vuelo> vuelosDisp = new ArrayList<>();
 		for (Vuelo vuelo : Aeropuerto.getVuelos()) {
-			if (vuelo.getOrigen().equals(entradaOrigen) && vuelo.getDestino().equals(entradaDestino)
-					&& !vuelo.isEnVuelo()) {
+			if (vuelo.getDestino().equals(entradaDestino) && !vuelo.isEnVuelo()) {
 				vuelosDisp.add(vuelo);
 			}
 		}
