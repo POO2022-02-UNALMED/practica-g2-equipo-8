@@ -104,6 +104,7 @@ public class Administrador {
 	public static void interfazFinanzas() {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Finanzas --");
+		System.out.println("Saldo actual = " + Aeropuerto.getDinero());
 
 		int option;
 		do {
@@ -125,31 +126,7 @@ public class Administrador {
 			}
 		} while (option != 5);
 	}
-	private static void pagarNomina(Empleado empleado) {
-		float dineroapagar = empleado.getSueldo();
-		float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
 
-		if (nuevosaldo < 0) {
-			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
-		} else {
-			Aeropuerto.setDinero(nuevosaldo);
-			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
-		}
-	}
-	private static void pagarNomina(List<Empleado> empleados){
-		float dineroapagar = 0;
-		for (Empleado empleado : empleados) {
-			dineroapagar += empleado.getSueldo();
-		}
-		float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
-
-		if (nuevosaldo < 0) {
-			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
-		} else {
-			Aeropuerto.setDinero(nuevosaldo);
-			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
-		}
-	}
 	public static void pagarNominaInterfaz() {
 		int dineroapagar = 0;
 		List<Empleado> lempleados = Aeropuerto.getEmpleados();
@@ -169,7 +146,7 @@ public class Administrador {
 			option = entrada.nextInt();
 
 			if (option == 1) {
-				pagarNomina(Aeropuerto.getEmpleados());
+				Empleado.pagarNomina(Aeropuerto.getEmpleados());
 			} else if (option == 2) {
 				System.out.println("\nListado de empleados");
 				for (int i = 0; i < lempleados.size(); i++) {
@@ -181,7 +158,7 @@ public class Administrador {
 				if (option2 < 1 || option2 > lempleados.size() + 1) {
 					System.out.println("Error: numero incorrecto");
 				} else {
-					pagarNomina(lempleados.get(option2-1));
+					lempleados.get(option2-1).pagarNomina();
 				}
 			}
 		} while (option != 3);

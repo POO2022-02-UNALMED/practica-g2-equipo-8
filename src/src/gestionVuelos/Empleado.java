@@ -1,5 +1,7 @@
 package gestionVuelos;
 
+import java.util.List;
+
 public class Empleado {
     private String nombre;
     private int sueldo;
@@ -44,5 +46,31 @@ public class Empleado {
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
+    }
+
+    public void pagarNomina() {
+        float dineroapagar = this.getSueldo();
+        float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
+
+        if (nuevosaldo < 0) {
+            System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+        } else {
+            Aeropuerto.setDinero(nuevosaldo);
+            System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
+        }
+    }
+    public static void pagarNomina(List<Empleado> empleados){
+        float dineroapagar = 0;
+        for (Empleado empleado : empleados) {
+            dineroapagar += empleado.getSueldo();
+        }
+        float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
+
+        if (nuevosaldo < 0) {
+            System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+        } else {
+            Aeropuerto.setDinero(nuevosaldo);
+            System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
+        }
     }
 }
