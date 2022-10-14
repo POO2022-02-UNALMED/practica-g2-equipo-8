@@ -24,6 +24,7 @@ public class Deserializador {
 
 					Aeropuerto aux = (Aeropuerto) ois.readObject();
 
+					//aeropuerto.copiarAeropuerto(aux);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
