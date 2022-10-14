@@ -9,8 +9,25 @@ import java.io.PrintWriter;
 
 import gestionVuelos.Aeropuerto;
 
-public class Serlializador {
-	private static File rutaTempFile = new File("src//basedatos//temp");
+public class Serializador {
+	private static File rutaTempFile = new File("//src//basedatos//temp");
+
+	public static void main(String[] args) {
+		System.out.println(rutaTempFile.listFiles());
+		FileOutputStream fos;
+		ObjectOutputStream oos;
+		File[] docs = rutaTempFile.listFiles();
+		PrintWriter pw;
+
+		for (File file : docs) {
+			System.out.println(file);
+			try {
+				pw = new PrintWriter(file);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public static void serializarAeropuertos(Aeropuerto aeropuerto) {
 		FileOutputStream fos;

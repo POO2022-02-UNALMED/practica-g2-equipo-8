@@ -1,15 +1,24 @@
 package gestionVuelos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Aeropuerto {
+public class Aeropuerto implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static String nombre;
 	private static List<Vuelo> vuelos = new ArrayList<>();
 	private static List<Empleado> empleados = new ArrayList<>();
 	private static List<String> salas = new ArrayList<>();
 	private static List<Avion> aviones = new ArrayList<>();
 	private static int dinero;
+
+	public Aeropuerto() {
+		// Deserializador.deserializarAeropuerto(this);
+	}
 
 	public static void ingresarDinero(int pago) {
 		Aeropuerto.dinero += pago;
@@ -27,19 +36,19 @@ public class Aeropuerto {
 		this.nombre = nombre;
 	}
 
-	public static void agregarVuelo(Vuelo vuelo){
+	public static void agregarVuelo(Vuelo vuelo) {
 		Aeropuerto.vuelos.add(vuelo);
 	}
 
-	public static void agregarEmpleado(Empleado empleado){
+	public static void agregarEmpleado(Empleado empleado) {
 		Aeropuerto.empleados.add(empleado);
 	}
 
-	public static void agregarSalas(String sala){
+	public static void agregarSalas(String sala) {
 		Aeropuerto.salas.add(sala);
 	}
 
-	public static void agregarAvion(Avion avion){
+	public static void agregarAvion(Avion avion) {
 		Aeropuerto.aviones.add(avion);
 	}
 
@@ -75,11 +84,11 @@ public class Aeropuerto {
 		Aeropuerto.aviones = aviones;
 	}
 
-	public String getNombre() {
+	public static String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public static void setNombre(String nombre) {
 		Aeropuerto.nombre = nombre;
 	}
 }

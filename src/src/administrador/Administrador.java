@@ -5,21 +5,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import gestionVuelos.*;
+import basedatos.Serializador;
+import gestionVuelos.Aeropuerto;
+import gestionVuelos.Asiento;
+import gestionVuelos.Avion;
+import gestionVuelos.Equipaje;
+import gestionVuelos.Pasajero;
+import gestionVuelos.Vuelo;
 
 public class Administrador {
 	public static void main(String[] args) {
-		//Pruebas
+		// Pruebas
+
+		Aeropuerto aeropuerto = new Aeropuerto();
 		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Medellin", "Bogota", 1000, "10A");
 		System.out.println(vuelo);
-		for (Asiento asiento : vuelo.getAvion().getAsientos()) System.out.println(asiento);
+		for (Asiento asiento : vuelo.getAvion().getAsientos())
+			System.out.println(asiento);
 		Pasajero pasajero = new Pasajero(15, 10001, "pepito");
 		List<Equipaje> equipaje = new ArrayList<>();
 		equipaje.add(new Equipaje(12.4, pasajero));
 		pasajero.setEquipajes(equipaje);
 		vuelo.agregarPasajero(pasajero, 10);
 		System.out.println(equipaje);
-		//Pruebas
+		// Pruebas
 
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
@@ -31,14 +40,28 @@ public class Administrador {
 					+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n" + "6. Finalizar programa.\n");
 			option = entrada.nextInt();
 			switch (option) {
-				case 1: reservaDeVuelo(); break;
-				case 2: break;
-				case 3: break;
-				case 4: break;
-				case 5: break;
-				case 6: break;
+			case 1:
+				reservaDeVuelo();
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				salirDelSistema(aeropuerto);
+				break;
 			}
 		} while (option != 6);
+	}
+
+	public static void salirDelSistema(Aeropuerto aeropuerto) {
+		System.out.println("Vuelva pronto");
+		Serializador.serializarAeropuertos(aeropuerto);
+		System.exit(0);
 	}
 
 	public static void reservaDeVuelo() {
@@ -56,7 +79,9 @@ public class Administrador {
 			}
 		}
 
-		if (!vuelosDisp.isEmpty()) for (Vuelo vuelo : vuelosDisp) System.out.println(vuelo);
+		if (!vuelosDisp.isEmpty())
+			for (Vuelo vuelo : vuelosDisp)
+				System.out.println(vuelo);
 		else {
 			System.out.println("Lo sentimos, no hay vuelos disponibles desde ese origen para el destino indicado");
 			return;
@@ -65,7 +90,9 @@ public class Administrador {
 		int IDvuelo = entradas.nextInt();
 
 		Vuelo vueloElegido = null;
-		for (Vuelo vuelo : vuelosDisp) if (vuelo.getId() == IDvuelo) vueloElegido = vuelo;
+		for (Vuelo vuelo : vuelosDisp)
+			if (vuelo.getId() == IDvuelo)
+				vueloElegido = vuelo;
 
 		System.out.println("\nFormulario de datos personales");
 		System.out.print("Inserte su nombre: ");
@@ -89,7 +116,8 @@ public class Administrador {
 
 		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
 		for (Asiento asiento : vueloElegido.getAvion().getAsientos()) {
-			if (!asiento.isOcupado()) System.out.println(asiento);
+			if (!asiento.isOcupado())
+				System.out.println(asiento);
 		}
 
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");

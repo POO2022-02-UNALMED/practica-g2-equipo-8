@@ -9,14 +9,14 @@ import java.io.ObjectInputStream;
 import gestionVuelos.Aeropuerto;
 
 public class Deserializador {
-	private static File rutaTempFile = new File("src//basedatos//temp");
+	private static File rutaTempFile = new File("src\\basedatos\\temp");
 
 	public static void deserializarAeropuerto(Aeropuerto aeropuerto) {
-		File[] dosc = rutaTempFile.listFiles();
+		File[] docs = rutaTempFile.listFiles();
 		FileInputStream fis;
 		ObjectInputStream ois;
 
-		for (File file : dosc) {
+		for (File file : docs) {
 			if (file.getAbsolutePath().contains("aeropuertos")) {
 				try {
 					fis = new FileInputStream(file);
@@ -24,7 +24,6 @@ public class Deserializador {
 
 					Aeropuerto aux = (Aeropuerto) ois.readObject();
 
-					aeropuerto.copiarAeropuerto(aux);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
