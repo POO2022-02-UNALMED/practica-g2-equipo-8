@@ -2,47 +2,43 @@ package gestionVuelos;
 
 import java.util.List;
 
-public class Empleado {
-	private String nombre;
+public class Empleado extends Persona {
+
 	private int sueldo;
-	private final int cedula;
 	private String cargo;
 	private Vuelo vuelo;
 
-	public Empleado(String nombre, int sueldo, int cedula, String cargo) {
-		this.nombre = nombre;
+	public Empleado(String nombre, int sueldo, int cedula, Cargos cargo, int edad, String sexo) {
+		super(nombre, cedula, edad, sexo);
 		this.sueldo = sueldo;
-		this.cedula = cedula;
-		this.cargo = cargo;
+		this.cargo = cargo.getCargo();
 		Aeropuerto.agregarEmpleado(this);
+	}
+
+	public Empleado(String nombre, int cedula, Cargos cargo, int edad, String sexo) {
+		this(nombre, cargo.getSueldoBase(), cedula, cargo, edad, sexo);
 	}
 
 	@Override
 	public String toString() {
 		if (this.vuelo == null) {
-			return "Nombre: " + this.getNombre() + ".\nCedula: " + this.getCedula() + ".\nCargo: " + this.cargo
-					+ ".\nSueldo: " + this.sueldo + ".\nVuelo: Este empleado aún no tiene un vuelo asignado.";
+			return "Nombre: " + this.getNombre() + ".\nCedula: " + this.getCedula() + "\nEdad: " + this.getEdad()
+					+ "\nSexo: " + this.getSexo() + ".\nCargo: " + this.cargo + ".\nSueldo: " + this.sueldo
+					+ "$.\nVuelo: Este empleado aún no tiene un vuelo asignado.";
 		} else {
-			return "Nombre: " + this.getNombre() + ".\nCedula: " + this.getCedula() + ".\nCargo: " + this.cargo
-					+ ".\nSueldo: " + this.sueldo + "$.\nVuelo: " + vuelo.toString();
+			return "Nombre: " + this.getNombre() + ".\nCedula: " + this.getCedula() + "\nEdad: " + this.getEdad()
+					+ "\nSexo: " + this.getSexo() + ".\nCargo: " + this.cargo + ".\nSueldo: " + this.sueldo
+					+ "$.\nVuelo: " + vuelo.toString();
 		}
 	}
 
 	public static Empleado buscarEmpleado(int cedula) {
 		for (Empleado empleado : Aeropuerto.getEmpleados()) {
-			if (empleado.cedula == cedula) {
+			if (empleado.getCedula() == cedula) {
 				return empleado;
 			}
 		}
 		return null;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public int getSueldo() {
@@ -53,16 +49,12 @@ public class Empleado {
 		this.sueldo = sueldo;
 	}
 
-	public int getCedula() {
-		return cedula;
-	}
-
 	public String getCargo() {
 		return cargo;
 	}
 
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
+	public void setCargo(Cargos cargo) {
+		this.cargo = cargo.getCargo();
 	}
 
 	public Vuelo getVuelo() {

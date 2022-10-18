@@ -8,6 +8,7 @@ import java.util.Scanner;
 import gestionVuelos.Aeropuerto;
 import gestionVuelos.Asiento;
 import gestionVuelos.Avion;
+import gestionVuelos.Cargos;
 import gestionVuelos.Empleado;
 import gestionVuelos.Equipaje;
 import gestionVuelos.Pasajero;
@@ -30,11 +31,12 @@ public class Administrador {
 		System.out.println(equipaje);
 
 		Aeropuerto.setDinero((float) Math.pow(10, 7));
-		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, "Piloto");
-		Empleado e2 = new Empleado("Felipe", 900000, 4553031, "control de pista");
-		Empleado e3 = new Empleado("Andrea", 600000, 1, "azafata");
+		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, Cargos.PILOTO, 45, "M");
+		Empleado e2 = new Empleado("Felipe", 900000, 4553031, Cargos.COPILOTO, 37, "M");
+		Empleado e3 = new Empleado("Andrea", 600000, 456174, Cargos.AZAFATA, 31, "F");
+		Empleado e4 = new Empleado("Sara", 1, Cargos.COPILOTO, 38, "F");
 
-		e3.setVuelo(vuelo);
+		e4.setVuelo(vuelo);
 
 		// Pruebas
 
@@ -93,6 +95,11 @@ public class Administrador {
 		}
 		Empleado empleadoActual = Empleado.buscarEmpleado(cedula);
 		System.out.println(empleadoActual);
+		System.out.println("Seleccione la acción que quiere realizar:\n1. Cambiar cargo.");
+	}
+
+	public static void cambiarCargo() {
+
 	}
 
 	public static void mostrarEmpleados() {
