@@ -35,7 +35,7 @@ public class Persona {
 	}
 
 	public Persona(String nombre, int cedula, int edad, String sexo) {
-		super();
+
 		this.nombre = nombre;
 		this.cedula = cedula;
 		this.edad = edad;

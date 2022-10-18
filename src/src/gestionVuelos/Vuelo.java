@@ -70,16 +70,16 @@ public class Vuelo {
 		return infoVuelo;
 	}
 
-	public String tiquete(String nombre, int nro){
+	public String tiquete(Pasajero pasajero){
 		String tique =
 					"------------------------------------\n" +
 					"      Tiquete No." + this.id + "\n" +
 					"------------------------------------\n" +
-					"Nombre Pasajero: " + nombre + "\n" +
+					"Nombre Pasajero: " + pasajero.getNombre() + "\n" +
 					"Fecha: " + fecha + "\n" +
 					"Vuelo: " + getId() + "\n" +
-					"Clase: " + getClass().getName() + "\n" +
-					"Num Silla: " + nro + "\n" +
+					"Clase: " + pasajero.getAsiento().getClase() + "\n" +
+					"Num Silla: " + pasajero.getAsiento().getNumero() + "\n" +
 					"Origen: " + origen + "\n" +
 					"Destino: " + getDestino() + "\n" +
 					"Precio Total: " + getCosto() + "\n" +

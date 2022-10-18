@@ -23,8 +23,9 @@ public class Administrador {
 		System.out.println(vuelo);
 		for (Asiento asiento : vuelo.getAvion().getAsientos())
 			System.out.println(asiento);
-		Pasajero pasajero = new Pasajero(15, 10001, "pepito");
 		List<Equipaje> equipaje = new ArrayList<>();
+		Pasajero pasajero = new Pasajero("Pepito",897915, 15,"M" );
+
 		equipaje.add(new Equipaje(12.4, pasajero));
 		pasajero.setEquipajes(equipaje);
 		vuelo.agregarPasajero(pasajero, 10);
@@ -145,25 +146,28 @@ public class Administrador {
 				vueloElegido = vuelo;
 
 		System.out.println("\nFormulario de datos personales");
-		System.out.print("Inserte su nombre: ");
-		entradas.next();
+
+		System.out.print("Inserte su nombre: \n");
+		entradas.nextLine();
 		String nombre = entradas.nextLine();
 		System.out.print("Inserte su documento de identidad: ");
 		int documento = entradas.nextInt();
 		System.out.print("Inserte su edad: ");
 		int edad = entradas.nextInt();
-		Pasajero nuevoPasajero = new Pasajero(edad, documento, nombre);
+		System.out.println("Inserte su genero: ");
+		entradas.nextLine();
+		String sexo = entradas.nextLine();
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
 		int nroEquipajes = entradas.nextInt();
 		List<Equipaje> equipajes = new ArrayList<>();
+		Pasajero nuevoPasajero = new Pasajero(nombre,documento,edad, sexo);
+
 		for (int i = 1; i <= nroEquipajes; i++) {
 			System.out.print("Inserte el peso del equipaje " + i + ": ");
 			double peso = entradas.nextDouble();
 			equipajes.add(new Equipaje(peso, nuevoPasajero));
 		}
-
 		nuevoPasajero.setEquipajes(equipajes);
-
 		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
 		for (Asiento asiento : vueloElegido.getAvion().getAsientos()) {
 			if (!asiento.isOcupado())
@@ -173,7 +177,8 @@ public class Administrador {
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
 		vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
-		System.out.println(vueloElegido.tiquete(nuevoPasajero.getNombre(),nroAsiento));
+		System.out.println(vueloElegido.tiquete(nuevoPasajero));
+
 	}
 
 	public static void interfazFinanzas() {
@@ -243,4 +248,34 @@ public class Administrador {
 			}
 		} while (option != 3);
 	}
+
+    public void Modificaciones() {
+        Scanner entrada = new Scanner(System.in);
+        System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
+
+        int option;
+        do {
+            System.out.println("\nIngrese el numero de la opcion a elegir:");
+            System.out.print("""
+					1. Cambiar asiento.
+					2. Cancelar vuelo.
+					3. Eliminar avión.
+					4. Volver.
+					""");
+
+            option = entrada.nextInt();
+            switch (option) {
+                case 1:
+					break;//cambiarAsiento();
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        } while (option != 4);
+    }
+
+	//public int cambiarAsiento(){
+
+	//}
 }
