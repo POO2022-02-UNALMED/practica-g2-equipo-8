@@ -153,6 +153,7 @@ public class Administrador {
 		System.out.print("Inserte su edad: ");
 		int edad = entradas.nextInt();
 		System.out.print("Inserte su sexo: ");
+		entradas.next();
 		String sexo = entradas.nextLine();
 		Pasajero nuevoPasajero = new Pasajero(edad, documento, nombre, sexo);
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
