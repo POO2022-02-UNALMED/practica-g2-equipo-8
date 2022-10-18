@@ -8,9 +8,10 @@ public class Pasajero extends Persona {
     private Vuelo vuelo;
     private List<Equipaje> equipajes;
 
-    public Pasajero(String nombre, int cedula,int edad, String sexo) {
-        super(nombre,cedula,edad,sexo);
+    public Pasajero(int edad, int cedula, String nombre, String sexo) {
+        super(nombre, cedula, edad, sexo);
     }
+
     public Asiento getAsiento() {
         return asiento;
     }
@@ -32,5 +33,10 @@ public class Pasajero extends Persona {
 
     public void setEquipajes(List<Equipaje> equipajes) {
         this.equipajes = equipajes;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: "+nombre+" Edad: " + edad + " Asiento: " + this.asiento.toString();
     }
 }

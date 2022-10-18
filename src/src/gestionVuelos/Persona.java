@@ -1,10 +1,17 @@
 package gestionVuelos;
 
-public class Persona {
-	private String nombre;
-	private final int cedula;
-	private int edad;
-	private String sexo;
+public abstract class Persona {
+	protected String nombre;
+	protected final int cedula;
+	protected int edad;
+	protected String sexo;
+
+	public Persona(String nombre, int cedula, int edad, String sexo) {
+		this.nombre = nombre;
+		this.cedula = cedula;
+		this.edad = edad;
+		this.sexo = sexo;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -34,11 +41,5 @@ public class Persona {
 		return cedula;
 	}
 
-	public Persona(String nombre, int cedula, int edad, String sexo) {
-
-		this.nombre = nombre;
-		this.cedula = cedula;
-		this.edad = edad;
-		this.sexo = sexo;
-	}
+	public abstract String toString();
 }

@@ -22,12 +22,12 @@ public class Empleado extends Persona {
 	@Override
 	public String toString() {
 		if (this.vuelo == null) {
-			return "Nombre: " + this.getNombre() + ".\nCedula: " + this.getCedula() + "\nEdad: " + this.getEdad()
-					+ "\nSexo: " + this.getSexo() + ".\nCargo: " + this.cargo + ".\nSueldo: " + this.sueldo
+			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad
+					+ "\nSexo: " + sexo + ".\nCargo: " + cargo + ".\nSueldo: " + sueldo
 					+ "$.\nVuelo: Este empleado aún no tiene un vuelo asignado.";
 		} else {
-			return "Nombre: " + this.getNombre() + ".\nCedula: " + this.getCedula() + "\nEdad: " + this.getEdad()
-					+ "\nSexo: " + this.getSexo() + ".\nCargo: " + this.cargo + ".\nSueldo: " + this.sueldo
+			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad
+					+ "\nSexo: " + sexo + ".\nCargo: " + cargo + ".\nSueldo: " + sueldo
 					+ "$.\nVuelo: " + vuelo.toString();
 		}
 	}
