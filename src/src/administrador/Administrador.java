@@ -23,7 +23,7 @@ public class Administrador {
 		System.out.println(vuelo);
 		for (Asiento asiento : vuelo.getAvion().getAsientos())
 			System.out.println(asiento);
-		Pasajero pasajero = new Pasajero(15, 10001, "pepito");
+		Pasajero pasajero = new Pasajero(15, 10001, "pepito", "M");
 		List<Equipaje> equipaje = new ArrayList<>();
 		equipaje.add(new Equipaje(12.4, pasajero));
 		pasajero.setEquipajes(equipaje);
@@ -52,7 +52,7 @@ public class Administrador {
 		System.out.println("\nIngrese el numero de la opcion a elegir:");
 		System.out.print("1. Reserva de vuelo.\n" + "2. Ver informacion del vuelo.\n" + "3. Gestionar empleados.\n"
 				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n"
-				+ "0. Pulse 0 en cualquier men� para finalizar el programa.\n");
+				+ "0. Pulse 0 en cualquier menu para finalizar el programa.\n");
 		option = entrada.nextInt();
 		switch (option) {
 		case 1:
@@ -72,14 +72,14 @@ public class Administrador {
 			salirDelSistema();
 			break;
 		default:
-			System.out.println("Opci�n incorrecta, vuelva a intentarlo.");
+			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 			opcionesPrincipales(entrada);
 		}
 	}
 
 	public static void gestionarEmpleadosInterfaz() {
 		mostrarEmpleados();
-		System.out.println("Introduzca la cedula para ver m�s opciones:");
+		System.out.println("Introduzca la cedula para ver mas opciones:");
 		Scanner entrada = new Scanner(System.in);
 		int cedula = entrada.nextInt();
 		if (cedula == 0) {
@@ -91,11 +91,11 @@ public class Administrador {
 				salirDelSistema();
 				break;
 			}
-			System.out.println("Esta cedula no est� asignada a ning�n empleado, vuelva a intentarlo.");
+			System.out.println("Esta cedula no esta asignada a ningun empleado, vuelva a intentarlo.");
 		}
 		Empleado empleadoActual = Empleado.buscarEmpleado(cedula);
 		System.out.println(empleadoActual);
-		System.out.println("Seleccione la acci�n que quiere realizar:\n1. Cambiar cargo.");
+		System.out.println("Seleccione la accion que quiere realizar:\n1. Cambiar cargo.");
 	}
 
 	public static void cambiarCargo() {
@@ -152,7 +152,9 @@ public class Administrador {
 		int documento = entradas.nextInt();
 		System.out.print("Inserte su edad: ");
 		int edad = entradas.nextInt();
-		Pasajero nuevoPasajero = new Pasajero(edad, documento, nombre);
+		System.out.print("Inserte su sexo: ");
+		String sexo = entradas.nextLine();
+		Pasajero nuevoPasajero = new Pasajero(edad, documento, nombre, sexo);
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
 		int nroEquipajes = entradas.nextInt();
 		List<Equipaje> equipajes = new ArrayList<>();
