@@ -52,7 +52,7 @@ public class Administrador {
 		System.out.println("\nIngrese el numero de la opcion a elegir:");
 		System.out.print("1. Reserva de vuelo.\n" + "2. Ver informacion del vuelo.\n" + "3. Gestionar empleados.\n"
 				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n"
-				+ "0. Pulse 0 en cualquier menú para finalizar el programa.\n");
+				+ "0. Pulse 0 en cualquier menï¿½ para finalizar el programa.\n");
 		option = entrada.nextInt();
 		switch (option) {
 		case 1:
@@ -72,14 +72,14 @@ public class Administrador {
 			salirDelSistema();
 			break;
 		default:
-			System.out.println("Opción incorrecta, vuelva a intentarlo.");
+			System.out.println("Opciï¿½n incorrecta, vuelva a intentarlo.");
 			opcionesPrincipales(entrada);
 		}
 	}
 
 	public static void gestionarEmpleadosInterfaz() {
 		mostrarEmpleados();
-		System.out.println("Introduzca la cedula para ver más opciones:");
+		System.out.println("Introduzca la cedula para ver mï¿½s opciones:");
 		Scanner entrada = new Scanner(System.in);
 		int cedula = entrada.nextInt();
 		if (cedula == 0) {
@@ -91,11 +91,11 @@ public class Administrador {
 				salirDelSistema();
 				break;
 			}
-			System.out.println("Esta cedula no está asignada a ningún empleado, vuelva a intentarlo.");
+			System.out.println("Esta cedula no estï¿½ asignada a ningï¿½n empleado, vuelva a intentarlo.");
 		}
 		Empleado empleadoActual = Empleado.buscarEmpleado(cedula);
 		System.out.println(empleadoActual);
-		System.out.println("Seleccione la acción que quiere realizar:\n1. Cambiar cargo.");
+		System.out.println("Seleccione la acciï¿½n que quiere realizar:\n1. Cambiar cargo.");
 	}
 
 	public static void cambiarCargo() {
@@ -173,6 +173,7 @@ public class Administrador {
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
 		vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
+		System.out.println(vueloElegido.tiquete(nuevoPasajero.getNombre(),nroAsiento));
 	}
 
 	public static void interfazFinanzas() {
