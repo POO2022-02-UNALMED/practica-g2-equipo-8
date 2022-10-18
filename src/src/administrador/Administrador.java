@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import basedatos.Serializador;
 import gestionVuelos.Aeropuerto;
 import gestionVuelos.Asiento;
 import gestionVuelos.Avion;
+import gestionVuelos.Empleado;
 import gestionVuelos.Equipaje;
 import gestionVuelos.Pasajero;
 import gestionVuelos.Vuelo;
@@ -18,7 +18,7 @@ public class Administrador {
 		// Pruebas
 
 		Aeropuerto aeropuerto = new Aeropuerto();
-		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Medellin", "Bogota", 1000, "10A");
+		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Bogota", 1000, "10A");
 		System.out.println(vuelo);
 		for (Asiento asiento : vuelo.getAvion().getAsientos())
 			System.out.println(asiento);
@@ -29,44 +29,84 @@ public class Administrador {
 		vuelo.agregarPasajero(pasajero, 10);
 		System.out.println(equipaje);
 
-		Aeropuerto.setDinero((float) Math.pow(10,7));
-		Empleado e1 = new Empleado("Juan Carlos" ,1200000, 10023031, "Piloto");
-		Empleado e2 = new Empleado("Felipe" ,900000, 4553031, "control de pista");
-		Empleado e3 = new Empleado("Andrea" ,600000, 67489, "azafata");
-		//Pruebas
+		Aeropuerto.setDinero((float) Math.pow(10, 7));
+		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, "Piloto");
+		Empleado e2 = new Empleado("Felipe", 900000, 4553031, "control de pista");
+		Empleado e3 = new Empleado("Andrea", 600000, 1, "azafata");
+
+		e3.setVuelo(vuelo);
+
+		// Pruebas
 
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
 
-		int option;
-		do {
-			System.out.println("\nIngrese el numero de la opcion a elegir:");
-			System.out.print("1. Reserva de vuelo.\n" + "2. Ver informacion del vuelo.\n" + "3. Asignar empleados.\n"
-					+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n" + "6. Finalizar programa.\n");
-			option = entrada.nextInt();
-			switch (option) {
-			case 1:
-				reservaDeVuelo();
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				interfazFinanzas();
-				break;
-			case 5:
-				break;
-			case 6:
-				salirDelSistema(aeropuerto);
-				break;
-			}
-		} while (option != 6);
+		opcionesPrincipales(entrada);
 	}
 
-	public static void salirDelSistema(Aeropuerto aeropuerto) {
+	public static void opcionesPrincipales(Scanner entrada) {
+		int option = 0;
+
+		System.out.println("\nIngrese el numero de la opcion a elegir:");
+		System.out.print("1. Reserva de vuelo.\n" + "2. Ver informacion del vuelo.\n" + "3. Gestionar empleados.\n"
+				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n"
+				+ "0. Pulse 0 en cualquier menú para finalizar el programa.\n");
+		option = entrada.nextInt();
+		switch (option) {
+		case 1:
+			reservaDeVuelo();
+			break;
+		case 2:
+			break;
+		case 3:
+			gestionarEmpleadosInterfaz();
+			break;
+		case 4:
+			interfazFinanzas();
+			break;
+		case 5:
+			break;
+		case 0:
+			salirDelSistema();
+			break;
+		default:
+			System.out.println("Opción incorrecta, vuelva a intentarlo.");
+			opcionesPrincipales(entrada);
+		}
+	}
+
+	public static void gestionarEmpleadosInterfaz() {
+		mostrarEmpleados();
+		System.out.println("Introduzca la cedula para ver más opciones:");
+		Scanner entrada = new Scanner(System.in);
+		int cedula = entrada.nextInt();
+		if (cedula == 0) {
+			salirDelSistema();
+		}
+		while (Empleado.buscarEmpleado(cedula) == null) {
+			cedula = entrada.nextInt();
+			if (cedula == 0) {
+				salirDelSistema();
+				break;
+			}
+			System.out.println("Esta cedula no está asignada a ningún empleado, vuelva a intentarlo.");
+		}
+		Empleado empleadoActual = Empleado.buscarEmpleado(cedula);
+		System.out.println(empleadoActual);
+	}
+
+	public static void mostrarEmpleados() {
+		System.out.println("Estos son los empleados del aeropuerto:\n");
+		System.out.println("Cedula         Nombre");
+		for (Empleado empleado : Aeropuerto.getEmpleados()) {
+			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
+					+ empleado.getNombre());
+		}
+	}
+
+	public static void salirDelSistema() {
 		System.out.println("Vuelva pronto");
-		Serializador.serializarAeropuertos(aeropuerto);
+		// Serializador.serializarAeropuertos(aeropuerto);
 		System.exit(0);
 	}
 
@@ -146,10 +186,14 @@ public class Administrador {
 
 			option = entrada.nextInt();
 			switch (option) {
-				case 1: pagarNominaInterfaz();
-				case 2: break;
-				case 3: break;
-				case 4: break;
+			case 1:
+				pagarNominaInterfaz();
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
 			}
 		} while (option != 5);
 	}
@@ -177,7 +221,8 @@ public class Administrador {
 			} else if (option == 2) {
 				System.out.println("\nListado de empleados");
 				for (int i = 0; i < lempleados.size(); i++) {
-					System.out.println((i+1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
+					System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
+							+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
 				}
 				System.out.println("Selecciona el numero del empleado a pagar:");
 				option2 = entrada.nextInt();
@@ -185,7 +230,7 @@ public class Administrador {
 				if (option2 < 1 || option2 > lempleados.size() + 1) {
 					System.out.println("Error: numero incorrecto");
 				} else {
-					lempleados.get(option2-1).pagarNomina();
+					lempleados.get(option2 - 1).pagarNomina();
 				}
 			}
 		} while (option != 3);
