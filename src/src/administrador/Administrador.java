@@ -68,6 +68,7 @@ public class Administrador {
 			interfazFinanzas();
 			break;
 		case 5:
+			Modificaciones();
 			break;
 		case 0:
 			salirDelSistema();
@@ -178,7 +179,25 @@ public class Administrador {
 		int nroAsiento = entradas.nextInt();
 		vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
 		System.out.println(vueloElegido.tiquete(nuevoPasajero));
+		cambiarVuelo(vuelosDisp);
 
+		int option;
+		do {
+			System.out.println("\nIngrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Volver.
+					2. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					opcionesPrincipales(entradas);
+				case 2:
+					salirDelSistema();
+					break;
+			}
+		} while (option != 3);
 	}
 
 	public static void interfazFinanzas() {
@@ -249,7 +268,7 @@ public class Administrador {
 		} while (option != 3);
 	}
 
-    public void Modificaciones() {
+    public static void Modificaciones() {
         Scanner entrada = new Scanner(System.in);
         System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
 
@@ -259,23 +278,93 @@ public class Administrador {
             System.out.print("""
 					1. Cambiar asiento.
 					2. Cancelar vuelo.
-					3. Eliminar avión.
+					3. Eliminar avion.
 					4. Volver.
+					5. Finalizar.
 					""");
 
             option = entrada.nextInt();
             switch (option) {
                 case 1:
-					break;//cambiarAsiento();
+					cambiarAsiento();
                 case 2:
                     break;
                 case 3:
                     break;
+				case 4:
+					opcionesPrincipales(entrada);
+					break;
+				case 5:
+					salirDelSistema();
+					break;
             }
-        } while (option != 4);
+        } while (option != 6);
     }
 
-	//public int cambiarAsiento(){
 
-	//}
+	private static void cambiarAsiento(){
+		Scanner entradas = new Scanner(System.in);
+		System.out.println("Ingrese su documento de identidad.");
+		int documento = entradas.nextInt();
+		System.out.println(documento);
+		if(buscarPasajero(documento) == false){
+			System.out.println(Vuelo.getPasajeros());
+			System.out.println(buscarPasajero(documento));
+			System.out.println(Vuelo.getPasajeros());
+			System.out.println("El usuario no se encuentra registrado.");
+		}
+		else{
+			reservaDeVuelo();
+		}
+
+		//System.out.println("Ingrese el ID del vuelo: ");
+		//int id = entradas.nextInt();
+
+		/*
+		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
+		for(Asiento asiento : Avion.getAsientos()){
+			if(!asiento.isOcupado()){
+				System.out.println(asiento);
+			}
+		}
+
+		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
+		int nroAsiento = entradas.nextInt();
+		obtenerVuelo(documento, id);
+		obtenerVuelo(documento, id).agregarPasajero(, nroAsiento);
+		System.out.println(vueloElegido.tiquete(nuevoPasajero));
+
+		 */
+
+		}
+
+	public static boolean buscarPasajero(int documento){
+		boolean encontrado = false;
+		for(int i = 0; i < Vuelo.getPasajeros().size(); i++){
+			if(Vuelo.getPasajeros().get(i).getCedula() == documento){
+				encontrado = true;
+			}
+			else {encontrado = false;}
+			System.out.println("i " + documento + " " + Vuelo.getPasajeros().get(i).getCedula());
+		}
+		return encontrado;
+	}
+
+	public static void cambiarVuelo(List<Vuelo> vuelos){
+		Vuelo vuelo = null;
+		for(int i = 0; i < vuelos.size(); i++){
+			vuelo = vuelos.get(i);
+		}
+	}
+
+	public static Vuelo obtenerVuelo(int documento, int id){
+		Vuelo encontrado = null;
+		for(int i = 0; i < Vuelo.getPasajeros().size(); i++){
+			if(Vuelo.getPasajeros().get(i).getVuelo().getId() == id) {
+				encontrado = Vuelo.getPasajeros().get(i).getVuelo();
+			}
+		}
+		return encontrado;
+	}
+
 }

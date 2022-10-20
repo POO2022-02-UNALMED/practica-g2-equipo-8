@@ -7,7 +7,7 @@ public class Avion {
     private int id;
     private String modelo;
     private int pesoMaximo;
-    private List<Asiento> asientos = new ArrayList<>();
+    private static List<Asiento> asientos = new ArrayList<>();
     private int valor;
 
     public Avion(String modelo, int pesoMaximo, int valor) {
@@ -57,7 +57,7 @@ public class Avion {
         this.pesoMaximo = pesoMaximo;
     }
 
-    public List<Asiento> getAsientos() {
+    public static List<Asiento> getAsientos() {
         return asientos;
     }
 

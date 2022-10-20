@@ -8,7 +8,7 @@ public class Pasajero extends Persona {
     private Vuelo vuelo;
     private List<Equipaje> equipajes;
 
-    public Pasajero(String nombre,int edad, int cedula,  String sexo) {
+    public Pasajero(String nombre,int cedula, int edad,  String sexo) {
         super(nombre, cedula, edad, sexo);
     }
 

@@ -38,7 +38,7 @@ public abstract class Persona {
 	}
 
 	public int getCedula() {
-		return cedula;
+		return this.cedula;
 	}
 
 	public abstract String toString();

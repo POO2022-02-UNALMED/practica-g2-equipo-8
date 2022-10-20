@@ -7,7 +7,7 @@ import java.util.List;
 public class Vuelo {
 	private Avion avion;
 	private List<Empleado> empleados = new ArrayList<>();
-	private List<Pasajero> pasajeros = new ArrayList<>();
+	private static List<Pasajero> pasajeros = new ArrayList<>();
 	private Date fecha;
 	private final static String origen = "Medellin";
 	private String destino;
@@ -103,7 +103,7 @@ public class Vuelo {
 		this.empleados = empleados;
 	}
 
-	public List<Pasajero> getPasajeros() {
+	public static List<Pasajero> getPasajeros() {
 		return pasajeros;
 	}
 
