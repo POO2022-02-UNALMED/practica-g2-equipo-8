@@ -1,6 +1,7 @@
 package gestionVuelos;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Empleado extends Persona {
 
@@ -24,7 +25,7 @@ public class Empleado extends Persona {
 		if (this.vuelo == null) {
 			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad
 					+ "\nSexo: " + sexo + ".\nCargo: " + cargo + ".\nSueldo: " + sueldo
-					+ "$.\nVuelo: Este empleado aún no tiene un vuelo asignado.";
+					+ "$.\nVuelo: Este empleado aï¿½n no tiene un vuelo asignado.";
 		} else {
 			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad
 					+ "\nSexo: " + sexo + ".\nCargo: " + cargo + ".\nSueldo: " + sueldo
@@ -91,5 +92,33 @@ public class Empleado extends Persona {
 			Aeropuerto.setDinero(nuevosaldo);
 			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
 		}
+	}
+
+	public static Empleado nuevoEmpleado() {
+		String nombret;
+		int cedulat;
+		Cargos cargot;
+		int edadt;
+		String sexot;
+		int sueldot;
+
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("---NUEVO EMPLEADO---");
+		System.out.print("Por favor inserte el nombre del empleado: ");
+		nombret = entrada.nextLine();
+		System.out.print("Por favor elija el cargo del empleado:\n");
+		cargot = Cargos.elegirCargo();
+		System.out.print("Por favor inserte el sexo del empleado, (M) para hombres y (F) para mujeres: ");
+		sexot = entrada.nextLine();
+		System.out.print("Por favor inserte la cedula del empleado: ");
+		cedulat = entrada.nextInt();
+		System.out.print("Por favor inserte la edad del empleado: ");
+		edadt = entrada.nextInt();
+		System.out.print("Por favor inserte el sueldo del empleado: \n(Inserte 0 si desea asignarle el precio base): ");
+		sueldot = entrada.nextInt();
+
+		if (sueldot == 0) {sueldot = cargot.getSueldoBase();}
+		System.out.println("Se ha agragado al empleado " + nombret);
+		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot);
 	}
 }

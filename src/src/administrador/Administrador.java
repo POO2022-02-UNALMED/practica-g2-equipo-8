@@ -114,7 +114,7 @@ public class Administrador {
 
 	public static void cambiarCargo(Empleado empleadoActual) {
 		System.out.println("El cargo de " + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
-		System.out.println("¿A qué cargo quieres asignale? Los cargos disponibles son: ");
+		System.out.println("ï¿½A quï¿½ cargo quieres asignale? Los cargos disponibles son: ");
 		for (Cargos cargo : Cargos.values()) {
 			System.out.println(cargo.getId() + ". " + cargo.getCargo());
 		}
@@ -239,9 +239,9 @@ public class Administrador {
 			System.out.println("\nIngrese el numero de la opcion a elegir:");
 			System.out.print("""
 					1. Pagar Nomina de empleados.
-					2. Ver historial de transacciones.
-					3. Otorgar un aumento o disminución de sueldo a un empleado.
-					4. Modificar el presupuesto.
+					2. ver historial de transacciones.
+					3. Otorgar un aumento o disminuciÃ³n de sueldo a un empleado.
+					4. Contratar nuevo empleado.
 					5. Volver.
 					""");
 
@@ -254,7 +254,7 @@ public class Administrador {
 			case 3:
 				break;
 			case 4:
-				break;
+				Empleado.nuevoEmpleado();
 			}
 		} while (option != 5);
 	}
