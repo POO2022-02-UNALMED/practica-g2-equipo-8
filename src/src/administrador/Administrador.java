@@ -19,16 +19,17 @@ public class Administrador {
 		// Pruebas
 
 		Aeropuerto aeropuerto = new Aeropuerto();
-		Vuelo vuelo = new Vuelo(new Avion("X", 100, 1000), new Date(), "Bogota", 1000, "10A");
-		System.out.println(vuelo);
-		for (Asiento asiento : vuelo.getAvion().getAsientos())
+		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), new Date(), "Bogota", 1000, "10A");
+		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), new Date(), "Miami", 1500, "1B");
+		System.out.println(vuelo1);
+		for (Asiento asiento : vuelo1.getAvion().getAsientos())
 			System.out.println(asiento);
 		List<Equipaje> equipaje = new ArrayList<>();
 		Pasajero pasajero = new Pasajero("Pepito", 897915, 15, "M");
 
 		equipaje.add(new Equipaje(12.4, pasajero));
 		pasajero.setEquipajes(equipaje);
-		vuelo.agregarPasajero(pasajero, 10);
+		vuelo1.agregarPasajero(pasajero, 10);
 		System.out.println(equipaje);
 
 		Aeropuerto.setDinero((float) Math.pow(10, 7));
@@ -37,17 +38,18 @@ public class Administrador {
 		Empleado e3 = new Empleado("Andrea", 600000, 456174, Cargos.AZAFATA, 31, "F");
 		Empleado e4 = new Empleado("Sara", 1, Cargos.COPILOTO, 38, "F");
 
-		e4.setVuelo(vuelo);
+		e4.setVuelo(vuelo1);
 
 		// Pruebas
 
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
 
-		opcionesPrincipales(entrada);
+		opcionesPrincipales();
 	}
 
-	public static void opcionesPrincipales(Scanner entrada) {
+	public static void opcionesPrincipales() {
+		Scanner entrada = new Scanner(System.in);
 		int option = 0;
 
 		System.out.println("\nIngrese el numero de la opcion a elegir:");
@@ -75,12 +77,12 @@ public class Administrador {
 			break;
 		default:
 			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
-			opcionesPrincipales(entrada);
+			opcionesPrincipales();
 		}
 	}
 
 	public static void gestionarEmpleadosInterfaz() {
-		mostrarEmpleados();
+		Empleado.mostrarEmpleados();
 		System.out.println("Introduzca la cedula para ver mas opciones:");
 		Scanner entrada = new Scanner(System.in);
 		int cedula = entrada.nextInt();
@@ -97,49 +99,82 @@ public class Administrador {
 		}
 		Empleado empleadoActual = Empleado.buscarEmpleado(cedula);
 		System.out.println(empleadoActual);
+		opcionesEmpleado(empleadoActual);
+	}
+
+	private static void opcionesEmpleado(Empleado empleadoActual) {
+		Scanner entrada = new Scanner(System.in);
+
 		System.out.println(
-				"Seleccione la accion que quiere realizar:\n1. Cambiar cargo.\n2. Cambiar sueldo.\n3. Despedir");
+				"Seleccione la accion que quiere realizar:\n1. Cambiar cargo.\n2. Cambiar sueldo.\n3. Asignar vuelo.\n4. Despedir.");
 		int option = entrada.nextInt();
 		switch (option) {
 		case 1:
 			cambiarCargo(empleadoActual);
 			break;
 		case 2:
+			cambiarSueldo(empleadoActual);
 			break;
 		case 3:
-			Aeropuerto.despedirEmpleado(empleadoActual);
+			asignarVuelo(empleadoActual);
 			break;
+		case 4:
+			Aeropuerto.despedirEmpleado(empleadoActual);
+			System.out.println(empleadoActual);
+			break;
+		default:
+			System.out.println("Opcion erronea, vuelva a intentarlo.");
+			opcionesEmpleado(empleadoActual);
+		}
+	}
+
+	public static void cambiarSueldo(Empleado empleado) {
+		System.out.println("El sueldo actual de " + empleado.getNombre() + " es " + empleado.getSueldo());
+		System.out.println(
+				"Ingrese el valor a aumentar o disminuir, en caso de disminuir coloca que un - antes del valor: ");
+		Scanner entrada = new Scanner(System.in);
+		int valor = entrada.nextInt();
+		empleado.setSueldo(empleado.getSueldo() + valor);
+		System.out.println("El nuevo saldo de " + empleado.getNombre() + " es " + empleado.getSueldo());
+	}
+
+	public static void asignarVuelo(Empleado empleado) {
+
+		if (empleado.getVuelo() == null) {
+			System.out.println("Este empleado no tiene vuelo asignado");
+		} else {
+			System.out.println("El vuelo de este empleado es:\n" + empleado.getVuelo());
+		}
+		System.out.println("Seleccione el ID del vuelo al que quiere asignar al empleado: ");
+
+		for (Vuelo vuelo : Aeropuerto.getVuelos()) {
+			if (vuelo != empleado.getVuelo()) {
+				System.out.println(vuelo);
+			}
+		}
+		Scanner entrada = new Scanner(System.in);
+		int idVuelo = entrada.nextInt();
+		if (Vuelo.encontrarVuelo(idVuelo) == null) {
+			System.out.println("ID invalido, vuelva a intentarlo.\n");
+			asignarVuelo(empleado);
+		} else {
+			empleado.setVuelo(Vuelo.encontrarVuelo(idVuelo));
+			System.out.println("Ahora el vuelo del empleado es:\n" + empleado.getVuelo());
 		}
 	}
 
 	public static void cambiarCargo(Empleado empleadoActual) {
-		System.out.println("El cargo de " + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
-		System.out.println("ï¿½A quï¿½ cargo quieres asignale? Los cargos disponibles son: ");
-		for (Cargos cargo : Cargos.values()) {
-			System.out.println(cargo.getId() + ". " + cargo.getCargo());
-		}
-		Scanner entrada = new Scanner(System.in);
-		int option = entrada.nextInt();
-		if (option <= Cargos.values().length) {
-			for (Cargos cargo : Cargos.values()) {
-				if (cargo.getId() == option) {
-					empleadoActual.setCargo(cargo);
-					break;
-				}
-			}
-		} else {
-			System.out.println("Valor erroneo, vuelva a intentarlo.");
-			cambiarCargo(empleadoActual);
-		}
-	}
+		System.out.println("El cargo actual de" + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
+		System.out.println("¿A que cargo quieres asignale? Los cargos disponibles son: ");
 
-	public static void mostrarEmpleados() {
-		System.out.println("Estos son los empleados del aeropuerto:\n");
-		System.out.println("Cedula         Nombre");
-		for (Empleado empleado : Aeropuerto.getEmpleados()) {
-			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
-					+ empleado.getNombre());
+		Cargos c = Cargos.elegirCargo();
+		if (c.getCargo().equals(empleadoActual.getCargo())) {
+			System.out.println(empleadoActual.getNombre() + " ya era " + empleadoActual.getCargo());
+		} else {
+			empleadoActual.setCargo(c);
+			System.out.println("Ahora el cargo de " + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
 		}
+		opcionesPrincipales();
 	}
 
 	public static void salirDelSistema() {
@@ -221,7 +256,7 @@ public class Administrador {
 			option = entradas.nextInt();
 			switch (option) {
 			case 1:
-				opcionesPrincipales(entradas);
+				opcionesPrincipales();
 			case 2:
 				salirDelSistema();
 				break;
@@ -330,7 +365,7 @@ public class Administrador {
 			case 3:
 				break;
 			case 4:
-				opcionesPrincipales(entrada);
+				opcionesPrincipales();
 				break;
 			case 5:
 				salirDelSistema();

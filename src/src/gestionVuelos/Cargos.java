@@ -8,16 +8,8 @@ public enum Cargos {
 
 	private String cargo;
 	private int sueldoBase;
-	private final int id;
-
-	private static final class StaticFields {
-		private static int nextId = 0;
-
-	}
 
 	Cargos(String cargo, int sueldoBase) {
-		StaticFields.nextId++;
-		this.id = StaticFields.nextId;
 		this.cargo = cargo;
 		this.sueldoBase = sueldoBase;
 	}
@@ -30,15 +22,18 @@ public enum Cargos {
 		return sueldoBase;
 	}
 
-	public int getId() {
-		return id;
 	public static Cargos elegirCargo() {
 		for (int i = 0; i < Cargos.values().length; i++) {
-			System.out.println((i+1) + " " + Cargos.values()[i].cargo);
+			System.out.println((i + 1) + ". " + Cargos.values()[i].cargo);
 		}
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("Ingrese el indice del cargo a elegir: ");
 		int indice = entrada.nextInt();
-		return Cargos.values()[indice - 1];
+		if (indice <= Cargos.values().length) {
+			return Cargos.values()[indice - 1];
+		} else {
+			System.out.println("Valor erroneo, vuelva a intentarlo.");
+			return elegirCargo();
+		}
 	}
 }

@@ -23,13 +23,20 @@ public class Empleado extends Persona {
 	@Override
 	public String toString() {
 		if (this.vuelo == null) {
-			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad
-					+ "\nSexo: " + sexo + ".\nCargo: " + cargo + ".\nSueldo: " + sueldo
-					+ "$.\nVuelo: Este empleado a�n no tiene un vuelo asignado.";
+			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad + "\nSexo: " + sexo + ".\nCargo: "
+					+ cargo + ".\nSueldo: " + sueldo + "$.\nVuelo: Este empleado aun no tiene un vuelo asignado.";
 		} else {
-			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad
-					+ "\nSexo: " + sexo + ".\nCargo: " + cargo + ".\nSueldo: " + sueldo
-					+ "$.\nVuelo: " + vuelo.toString();
+			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad + "\nSexo: " + sexo + ".\nCargo: "
+					+ cargo + ".\nSueldo: " + sueldo + "$.\nVuelo: " + vuelo.toString();
+		}
+	}
+
+	public static void mostrarEmpleados() {
+		System.out.println("Estos son los empleados del aeropuerto:\n");
+		System.out.println("Cedula         Nombre");
+		for (Empleado empleado : Aeropuerto.getEmpleados()) {
+			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
+					+ empleado.getNombre());
 		}
 	}
 
@@ -117,7 +124,9 @@ public class Empleado extends Persona {
 		System.out.print("Por favor inserte el sueldo del empleado: \n(Inserte 0 si desea asignarle el precio base): ");
 		sueldot = entrada.nextInt();
 
-		if (sueldot == 0) {sueldot = cargot.getSueldoBase();}
+		if (sueldot == 0) {
+			sueldot = cargot.getSueldoBase();
+		}
 		System.out.println("Se ha agragado al empleado " + nombret);
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot);
 	}

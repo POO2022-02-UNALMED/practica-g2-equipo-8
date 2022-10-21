@@ -159,4 +159,11 @@ public class Vuelo {
 	public int getId() {
 		return id;
 	}
+
+	public static Vuelo encontrarVuelo(int id) {
+		if (id - 1 <= Aeropuerto.getVuelos().size()) {
+			return Aeropuerto.getVuelos().get(id - 1);
+		}
+		return null;
+	}
 }
