@@ -32,6 +32,8 @@ public enum Cargos {
 
 	public int getId() {
 		return id;
+	}
+
 	public static Cargos elegirCargo() {
 		for (int i = 0; i < Cargos.values().length; i++) {
 			System.out.println((i+1) + " " + Cargos.values()[i].cargo);

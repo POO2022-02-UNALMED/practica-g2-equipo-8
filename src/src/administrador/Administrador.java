@@ -252,6 +252,7 @@ public class Administrador {
 			case 2:
 				break;
 			case 3:
+				Empleado.cambiarSueldo();
 				break;
 			case 4:
 				Empleado.nuevoEmpleado();
@@ -268,7 +269,7 @@ public class Administrador {
 		int option;
 		int option2;
 		do {
-			System.out.println("\n¿Desea pagarle a todos los empleados?");
+			System.out.println("\nDesea pagarle a todos los empleados?");
 			System.out.print("""
 					1. Pagar a todos los empleados
 					2. Elegir empleados
