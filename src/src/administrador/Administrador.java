@@ -240,7 +240,7 @@ public class Administrador {
 			System.out.print("""
 					1. Pagar Nomina de empleados.
 					2. ver historial de transacciones.
-					3. Otorgar un aumento o disminución de sueldo a un empleado.
+					3. Otorgar un aumento o disminucion de sueldo a un empleado.
 					4. Contratar nuevo empleado.
 					5. Volver.
 					""");

@@ -2,6 +2,7 @@ package gestionVuelos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Avion {
 	private int id;
@@ -70,5 +71,24 @@ public class Avion {
 
 	public void setValor(int valor) {
 		this.valor = valor;
+	}
+
+	public static Avion comprarAvion() {
+		String modelot;
+		int pesoMaximot;
+		int valort;
+
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("---COMPRAR NUEVO AVION---");
+		System.out.print("Por favor inserte el modelo del Avion: ");
+		modelot = entrada.nextLine();
+		System.out.print("Por favor inserte el peso maximo del Avion: ");
+		pesoMaximot = entrada.nextInt();
+		System.out.print("Por favor inserte el valor a pagar por el Avion: ");
+		valort = entrada.nextInt();
+
+		//transaccion
+		Aeropuerto.retirarDinero(valort);
+		return new Avion(modelot, pesoMaximot, valort);
 	}
 }
