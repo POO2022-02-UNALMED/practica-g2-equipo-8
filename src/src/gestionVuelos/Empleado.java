@@ -130,4 +130,27 @@ public class Empleado extends Persona {
 		System.out.println("Se ha agragado al empleado " + nombret);
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot);
 	}
+
+	public static void cambiarSueldo(){
+		Scanner entrada = new Scanner(System.in);
+		List<Empleado> lempleados = Aeropuerto.getEmpleados();
+
+		System.out.println("\nListado de empleados");
+		for (int i = 0; i < lempleados.size(); i++) {
+			System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
+					+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
+		}
+		System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
+		int option = entrada.nextInt();
+
+		System.out.println("Empleado seleccionado: ");
+		System.out.println(lempleados.get(option - 1).getCargo() + ": "
+				+ lempleados.get(option - 1).getNombre() + ", sueldo = " + lempleados.get(option - 1).getSueldo());
+
+		System.out.println("\nIngresa el nuevo sueldo: ");
+		int option2 = entrada.nextInt();
+
+		lempleados.get(option-1).setSueldo(option2);
+		System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: " + lempleados.get(option - 1).getSueldo());
+	}
 }

@@ -24,6 +24,9 @@ public class Aeropuerto implements Serializable {
 	public static void ingresarDinero(int pago) {
 		Aeropuerto.dinero += pago;
 	}
+	public static void retirarDinero(int pago) {
+		Aeropuerto.dinero -= pago;
+	}
 
 	public static float getDinero() {
 		return dinero;

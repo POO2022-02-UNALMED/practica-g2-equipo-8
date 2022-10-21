@@ -275,7 +275,7 @@ public class Administrador {
 			System.out.print("""
 					1. Pagar Nomina de empleados.
 					2. ver historial de transacciones.
-					3. Otorgar un aumento o disminución de sueldo a un empleado.
+					3. Otorgar un aumento o disminucion de sueldo a un empleado.
 					4. Contratar nuevo empleado.
 					5. Volver.
 					""");
@@ -287,6 +287,7 @@ public class Administrador {
 			case 2:
 				break;
 			case 3:
+				Empleado.cambiarSueldo();
 				break;
 			case 4:
 				Empleado.nuevoEmpleado();
@@ -303,7 +304,7 @@ public class Administrador {
 		int option;
 		int option2;
 		do {
-			System.out.println("\n¿Desea pagarle a todos los empleados?");
+			System.out.println("\nDesea pagarle a todos los empleados?");
 			System.out.print("""
 					1. Pagar a todos los empleados
 					2. Elegir empleados
