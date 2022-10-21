@@ -212,7 +212,7 @@ public class Administrador {
 					1. Pagar Nomina de empleados.
 					2. ver historial de transacciones.
 					3. Otorgar un aumento o disminución de sueldo a un empleado.
-					4. Modificar el presupuesto.
+					4. Contratar nuevo empleado.
 					5. Volver.
 					""");
 
@@ -225,7 +225,7 @@ public class Administrador {
 			case 3:
 				break;
 			case 4:
-				break;
+				Empleado.nuevoEmpleado();
 			}
 		} while (option != 5);
 	}
