@@ -12,6 +12,7 @@ public class Aeropuerto implements Serializable {
 	private static String nombre;
 	private static List<Vuelo> vuelos = new ArrayList<>();
 	private static List<Empleado> empleados = new ArrayList<>();
+	private static List<Pasajero> pasajeros = new ArrayList<>();
 	private static List<String> salas = new ArrayList<>();
 	private static List<Avion> aviones = new ArrayList<>();
 	private static float dinero;
@@ -84,11 +85,24 @@ public class Aeropuerto implements Serializable {
 		Aeropuerto.aviones = aviones;
 	}
 
+	public static List<Pasajero> getPasajeros() {
+		return pasajeros;
+	}
+
+	public static void setPasajeros(List<Pasajero> pasajeros) {
+		Aeropuerto.pasajeros = pasajeros;
+	}
+
 	public static String getNombre() {
 		return nombre;
 	}
 
 	public static void setNombre(String nombre) {
 		Aeropuerto.nombre = nombre;
+	}
+
+	public static void despedirEmpleado(Empleado empleado) {
+		empleado.getVuelo().getEmpleados().remove(empleado);
+		empleados.remove(empleados.indexOf(empleado));
 	}
 }

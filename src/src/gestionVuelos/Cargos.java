@@ -6,8 +6,16 @@ public enum Cargos {
 
 	private String cargo;
 	private int sueldoBase;
+	private final int id;
+
+	private static final class StaticFields {
+		private static int nextId = 0;
+
+	}
 
 	Cargos(String cargo, int sueldoBase) {
+		StaticFields.nextId++;
+		this.id = StaticFields.nextId;
 		this.cargo = cargo;
 		this.sueldoBase = sueldoBase;
 	}
@@ -20,4 +28,7 @@ public enum Cargos {
 		return sueldoBase;
 	}
 
+	public int getId() {
+		return id;
+	}
 }

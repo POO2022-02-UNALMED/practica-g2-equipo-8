@@ -7,7 +7,7 @@ import java.util.List;
 public class Vuelo {
 	private Avion avion;
 	private List<Empleado> empleados = new ArrayList<>();
-	private static List<Pasajero> pasajeros = new ArrayList<>();
+	private List<Pasajero> pasajeros = new ArrayList<>();
 	private Date fecha;
 	private final static String origen = "Medellin";
 	private String destino;
@@ -70,20 +70,13 @@ public class Vuelo {
 		return infoVuelo;
 	}
 
-	public String tiquete(Pasajero pasajero){
-		String tique =
-					"------------------------------------\n" +
-					"      Tiquete No." + this.id + "\n" +
-					"------------------------------------\n" +
-					"Nombre Pasajero: " + pasajero.getNombre() + "\n" +
-					"Fecha: " + fecha + "\n" +
-					"Vuelo: " + getId() + "\n" +
-					"Clase: " + pasajero.getAsiento().getClase() + "\n" +
-					"Num Silla: " + pasajero.getAsiento().getNumero() + "\n" +
-					"Origen: " + origen + "\n" +
-					"Destino: " + getDestino() + "\n" +
-					"Precio Total: " + getCosto() + "\n" +
-					"------------------------------------\n";
+	public String tiquete(Pasajero pasajero) {
+		String tique = "------------------------------------\n" + "      Tiquete No." + this.id + "\n"
+				+ "------------------------------------\n" + "Nombre Pasajero: " + pasajero.getNombre() + "\n"
+				+ "Fecha: " + fecha + "\n" + "Vuelo: " + getId() + "\n" + "Clase: " + pasajero.getAsiento().getClase()
+				+ "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n" + "Origen: " + origen + "\n"
+				+ "Destino: " + getDestino() + "\n" + "Precio Total: " + getCosto() + "\n"
+				+ "------------------------------------\n";
 		return tique;
 	}
 
@@ -103,7 +96,7 @@ public class Vuelo {
 		this.empleados = empleados;
 	}
 
-	public static List<Pasajero> getPasajeros() {
+	public List<Pasajero> getPasajeros() {
 		return pasajeros;
 	}
 

@@ -24,7 +24,7 @@ public class Administrador {
 		for (Asiento asiento : vuelo.getAvion().getAsientos())
 			System.out.println(asiento);
 		List<Equipaje> equipaje = new ArrayList<>();
-		Pasajero pasajero = new Pasajero("Pepito",897915, 15,"M" );
+		Pasajero pasajero = new Pasajero("Pepito", 897915, 15, "M");
 
 		equipaje.add(new Equipaje(12.4, pasajero));
 		pasajero.setEquipajes(equipaje);
@@ -97,11 +97,40 @@ public class Administrador {
 		}
 		Empleado empleadoActual = Empleado.buscarEmpleado(cedula);
 		System.out.println(empleadoActual);
-		System.out.println("Seleccione la accion que quiere realizar:\n1. Cambiar cargo.");
+		System.out.println(
+				"Seleccione la accion que quiere realizar:\n1. Cambiar cargo.\n2. Cambiar sueldo.\n3. Despedir");
+		int option = entrada.nextInt();
+		switch (option) {
+		case 1:
+			cambiarCargo(empleadoActual);
+			break;
+		case 2:
+			break;
+		case 3:
+			Aeropuerto.despedirEmpleado(empleadoActual);
+			break;
+		}
 	}
 
-	public static void cambiarCargo() {
-
+	public static void cambiarCargo(Empleado empleadoActual) {
+		System.out.println("El cargo de " + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
+		System.out.println("¿A qué cargo quieres asignale? Los cargos disponibles son: ");
+		for (Cargos cargo : Cargos.values()) {
+			System.out.println(cargo.getId() + ". " + cargo.getCargo());
+		}
+		Scanner entrada = new Scanner(System.in);
+		int option = entrada.nextInt();
+		if (option <= Cargos.values().length) {
+			for (Cargos cargo : Cargos.values()) {
+				if (cargo.getId() == option) {
+					empleadoActual.setCargo(cargo);
+					break;
+				}
+			}
+		} else {
+			System.out.println("Valor erroneo, vuelva a intentarlo.");
+			cambiarCargo(empleadoActual);
+		}
 	}
 
 	public static void mostrarEmpleados() {
@@ -161,7 +190,7 @@ public class Administrador {
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
 		int nroEquipajes = entradas.nextInt();
 		List<Equipaje> equipajes = new ArrayList<>();
-		Pasajero nuevoPasajero = new Pasajero(nombre,documento,edad, sexo);
+		Pasajero nuevoPasajero = new Pasajero(nombre, documento, edad, sexo);
 
 		for (int i = 1; i <= nroEquipajes; i++) {
 			System.out.print("Inserte el peso del equipaje " + i + ": ");
@@ -191,11 +220,11 @@ public class Administrador {
 
 			option = entradas.nextInt();
 			switch (option) {
-				case 1:
-					opcionesPrincipales(entradas);
-				case 2:
-					salirDelSistema();
-					break;
+			case 1:
+				opcionesPrincipales(entradas);
+			case 2:
+				salirDelSistema();
+				break;
 			}
 		} while (option != 3);
 	}
@@ -210,8 +239,8 @@ public class Administrador {
 			System.out.println("\nIngrese el numero de la opcion a elegir:");
 			System.out.print("""
 					1. Pagar Nomina de empleados.
-					2. ver historial de transacciones.
-					3. Otorgar un aumento o disminuciÃ³n de sueldo a un empleado.
+					2. Ver historial de transacciones.
+					3. Otorgar un aumento o disminución de sueldo a un empleado.
 					4. Modificar el presupuesto.
 					5. Volver.
 					""");
@@ -268,14 +297,23 @@ public class Administrador {
 		} while (option != 3);
 	}
 
-    public static void Modificaciones() {
-        Scanner entrada = new Scanner(System.in);
-        System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
+	public static void mostrarPasajeros() {
+		System.out.println("Estos son los pasajeros del aeropuerto:\n");
+		System.out.println("Cedula         Nombre");
+		for (Pasajero pasajero : Aeropuerto.getPasajeros()) {
+			System.out.println(pasajero.getCedula() + " ".repeat(15 - Integer.toString(pasajero.getCedula()).length())
+					+ pasajero.getNombre());
+		}
+	}
 
-        int option;
-        do {
-            System.out.println("\nIngrese el numero de la opcion a elegir:");
-            System.out.print("""
+	public static void Modificaciones() {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
+
+		int option;
+		do {
+			System.out.println("\nIngrese el numero de la opcion a elegir:");
+			System.out.print("""
 					1. Cambiar asiento.
 					2. Cancelar vuelo.
 					3. Eliminar avion.
@@ -283,88 +321,74 @@ public class Administrador {
 					5. Finalizar.
 					""");
 
-            option = entrada.nextInt();
-            switch (option) {
-                case 1:
-					cambiarAsiento();
-                case 2:
-                    break;
-                case 3:
-                    break;
-				case 4:
-					opcionesPrincipales(entrada);
-					break;
-				case 5:
-					salirDelSistema();
-					break;
-            }
-        } while (option != 6);
-    }
+			option = entrada.nextInt();
+			switch (option) {
+			case 1:
+				cambiarAsiento();
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				opcionesPrincipales(entrada);
+				break;
+			case 5:
+				salirDelSistema();
+				break;
+			}
+		} while (option != 6);
+	}
 
-
-	private static void cambiarAsiento(){
+	private static void cambiarAsiento() {
+		mostrarPasajeros();
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Ingrese su documento de identidad.");
 		int documento = entradas.nextInt();
 		System.out.println(documento);
-		if(buscarPasajero(documento) == false){
-			System.out.println(Vuelo.getPasajeros());
-			System.out.println(buscarPasajero(documento));
-			System.out.println(Vuelo.getPasajeros());
-			System.out.println("El usuario no se encuentra registrado.");
+		Pasajero pasajero = Pasajero.buscarPasajero(documento);
+		if (documento == 0) {
+
 		}
-		else{
+		if (pasajero == null) {
+			System.out.println("El usuario no se encuentra registrado.\n");
+			cambiarAsiento();
+		} else {
 			reservaDeVuelo();
 		}
 
-		//System.out.println("Ingrese el ID del vuelo: ");
-		//int id = entradas.nextInt();
+		// System.out.println("Ingrese el ID del vuelo: ");
+		// int id = entradas.nextInt();
 
 		/*
-		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
-		for(Asiento asiento : Avion.getAsientos()){
-			if(!asiento.isOcupado()){
-				System.out.println(asiento);
-			}
-		}
-
-		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
-		int nroAsiento = entradas.nextInt();
-		obtenerVuelo(documento, id);
-		obtenerVuelo(documento, id).agregarPasajero(, nroAsiento);
-		System.out.println(vueloElegido.tiquete(nuevoPasajero));
-
+		 * System.out.
+		 * println("\nLos asientos disponibles en el vuelo son los siguientes: ");
+		 * for(Asiento asiento : Avion.getAsientos()){ if(!asiento.isOcupado()){
+		 * System.out.println(asiento); } }
+		 * 
+		 * System.out.print("\nIngrese el numero de asiento de su preferencia: "); int
+		 * nroAsiento = entradas.nextInt(); obtenerVuelo(documento, id);
+		 * obtenerVuelo(documento, id).agregarPasajero(, nroAsiento);
+		 * System.out.println(vueloElegido.tiquete(nuevoPasajero));
+		 * 
 		 */
 
-		}
-
-	public static boolean buscarPasajero(int documento){
-		boolean encontrado = false;
-		for(int i = 0; i < Vuelo.getPasajeros().size(); i++){
-			if(Vuelo.getPasajeros().get(i).getCedula() == documento){
-				encontrado = true;
-			}
-			else {encontrado = false;}
-			System.out.println("i " + documento + " " + Vuelo.getPasajeros().get(i).getCedula());
-		}
-		return encontrado;
 	}
 
-	public static void cambiarVuelo(List<Vuelo> vuelos){
+	public static void cambiarVuelo(List<Vuelo> vuelos) {
 		Vuelo vuelo = null;
-		for(int i = 0; i < vuelos.size(); i++){
+		for (int i = 0; i < vuelos.size(); i++) {
 			vuelo = vuelos.get(i);
 		}
 	}
 
-	public static Vuelo obtenerVuelo(int documento, int id){
-		Vuelo encontrado = null;
-		for(int i = 0; i < Vuelo.getPasajeros().size(); i++){
-			if(Vuelo.getPasajeros().get(i).getVuelo().getId() == id) {
-				encontrado = Vuelo.getPasajeros().get(i).getVuelo();
-			}
-		}
-		return encontrado;
-	}
+//	public static Vuelo obtenerVuelo(int documento, int id) {
+//		Vuelo encontrado = null;
+//		for (int i = 0; i < Vuelo.getPasajeros().size(); i++) {
+//			if (Vuelo.getPasajeros().get(i).getVuelo().getId() == id) {
+//				encontrado = Vuelo.getPasajeros().get(i).getVuelo();
+//			}
+//		}
+//		return encontrado;
+//	}
 
 }
