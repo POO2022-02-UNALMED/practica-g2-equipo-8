@@ -15,6 +15,8 @@ public class Aeropuerto implements Serializable {
 	private static List<Pasajero> pasajeros = new ArrayList<>();
 	private static List<String> salas = new ArrayList<>();
 	private static List<Avion> aviones = new ArrayList<>();
+	private static List<String> transaccionesKeys = new ArrayList<>();
+	private static List<Integer> transaccionesValues = new ArrayList<>();
 	private static float dinero;
 
 	public Aeropuerto() {
@@ -107,5 +109,21 @@ public class Aeropuerto implements Serializable {
 	public static void despedirEmpleado(Empleado empleado) {
 		empleado.getVuelo().getEmpleados().remove(empleado);
 		empleados.remove(empleados.indexOf(empleado));
+	}
+
+	public static void transaccion(String concepto, int valor){
+		transaccionesKeys.add(concepto);
+		transaccionesValues.add(valor);
+
+		ingresarDinero(valor);
+	}
+
+	public static void transacciones(){
+		int acumulador = 0;
+		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {
+			System.out.println((i + 1) + ":  " + transaccionesKeys.get(i) + " --- " + transaccionesValues.get(i));
+			acumulador += transaccionesValues.get(i);
+		}
+		System.out.println("rendimiento total : --- " + acumulador);
 	}
 }

@@ -165,7 +165,7 @@ public class Administrador {
 
 	public static void cambiarCargo(Empleado empleadoActual) {
 		System.out.println("El cargo actual de" + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
-		System.out.println("¿A que cargo quieres asignale? Los cargos disponibles son: ");
+		System.out.println("ï¿½A que cargo quieres asignarle? Los cargos disponibles son: ");
 
 		Cargos c = Cargos.elegirCargo();
 		if (c.getCargo().equals(empleadoActual.getCargo())) {
@@ -284,15 +284,21 @@ public class Administrador {
 			switch (option) {
 			case 1:
 				pagarNominaInterfaz();
+				break;
 			case 2:
+				Aeropuerto.transacciones();
 				break;
 			case 3:
 				Empleado.cambiarSueldo();
 				break;
 			case 4:
 				Empleado.nuevoEmpleado();
+				case 5:
+					break;
+				default:
+					System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 			}
-		} while (option != 5);
+		} while (option != 5 && option != 0);
 	}
 
 	public static void pagarNominaInterfaz() {
@@ -324,7 +330,7 @@ public class Administrador {
 				System.out.println("Selecciona el numero del empleado a pagar:");
 				option2 = entrada.nextInt();
 
-				if (option2 < 1 || option2 > lempleados.size() + 1) {
+				if (option2 < 1 || option2 > lempleados.size()) {
 					System.out.println("Error: numero incorrecto");
 				} else {
 					lempleados.get(option2 - 1).pagarNomina();

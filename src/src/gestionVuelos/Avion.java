@@ -87,8 +87,8 @@ public class Avion {
 		System.out.print("Por favor inserte el valor a pagar por el Avion: ");
 		valort = entrada.nextInt();
 
-		//transaccion
-		Aeropuerto.retirarDinero(valort);
+		Aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
+		//Aeropuerto.retirarDinero(valort);
 		return new Avion(modelot, pesoMaximot, valort);
 	}
 }
