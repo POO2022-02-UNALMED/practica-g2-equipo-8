@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pasajero extends Persona {
-	private Asiento asiento;
+	private static Asiento asiento;
 	private Vuelo vuelo;
 	private List<Equipaje> equipajes = new ArrayList<>();
 
@@ -13,7 +13,7 @@ public class Pasajero extends Persona {
 		Aeropuerto.getPasajeros().add(this);
 	}
 
-	public Asiento getAsiento() {
+	public static Asiento getAsiento() {
 		return asiento;
 	}
 

@@ -241,9 +241,14 @@ public class Administrador {
 
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
-		vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
-		System.out.println(vueloElegido.tiquete(nuevoPasajero));
-		cambiarVuelo(vuelosDisp);
+		//vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
+		if(vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
+			System.out.println(vueloElegido.tiquete(nuevoPasajero));
+		}
+		else {
+			vueloElegido.getPasajeros().remove(nuevoPasajero);
+			Aeropuerto.getPasajeros().remove(nuevoPasajero);
+		}
 
 		int option;
 		do {
@@ -386,7 +391,6 @@ public class Administrador {
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Ingrese su documento de identidad.");
 		int documento = entradas.nextInt();
-		System.out.println(documento);
 		Pasajero pasajero = Pasajero.buscarPasajero(documento);
 		if (documento == 0) {
 
@@ -395,24 +399,57 @@ public class Administrador {
 			System.out.println("El usuario no se encuentra registrado.\n");
 			cambiarAsiento();
 		} else {
-			reservaDeVuelo();
+			Pasajero.getAsiento().setOcupado(false);  //Se habilita el asiento que tenía el pasajero
+			reservaDeVuelo2(pasajero);
+		}
+	}
+
+	public static void reservaDeVuelo2(Pasajero pasajero) {
+		System.out.println(pasajero.getAsiento());
+		Scanner entradas = new Scanner(System.in);
+
+		System.out.println("\nFormulario de datos personales");
+
+		System.out.print("Inserte su documento de identidad: ");
+		int documento = entradas.nextInt();
+		if(documento == pasajero.getCedula()){
+
+		}
+		else{
+			System.out.println("Los datos no coinciden");
+			reservaDeVuelo2(pasajero);
 		}
 
-		// System.out.println("Ingrese el ID del vuelo: ");
-		// int id = entradas.nextInt();
+		Pasajero nuevoPasajero = new Pasajero(pasajero.getNombre(), documento, pasajero.getEdad(), pasajero.getSexo());
 
-		/*
-		 * System.out.
-		 * println("\nLos asientos disponibles en el vuelo son los siguientes: ");
-		 * for(Asiento asiento : Avion.getAsientos()){ if(!asiento.isOcupado()){
-		 * System.out.println(asiento); } }
-		 * 
-		 * System.out.print("\nIngrese el numero de asiento de su preferencia: "); int
-		 * nroAsiento = entradas.nextInt(); obtenerVuelo(documento, id);
-		 * obtenerVuelo(documento, id).agregarPasajero(, nroAsiento);
-		 * System.out.println(vueloElegido.tiquete(nuevoPasajero));
-		 * 
-		 */
+		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
+		for (Asiento asiento : pasajero.getVuelo().getAvion().getAsientos()) {
+			if (!asiento.isOcupado())
+				System.out.println(asiento);
+		}
+
+		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
+		int nroAsiento = entradas.nextInt();
+		pasajero.getVuelo().agregarPasajero(nuevoPasajero, nroAsiento);
+		System.out.println(pasajero.getVuelo().tiquete(nuevoPasajero));
+
+		int option;
+		do {
+			System.out.println("\nIngrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Volver.
+					2. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					opcionesPrincipales();
+				case 2:
+					salirDelSistema();
+					break;
+			}
+		} while (option != 3);
 
 	}
 
@@ -422,15 +459,5 @@ public class Administrador {
 			vuelo = vuelos.get(i);
 		}
 	}
-
-//	public static Vuelo obtenerVuelo(int documento, int id) {
-//		Vuelo encontrado = null;
-//		for (int i = 0; i < Vuelo.getPasajeros().size(); i++) {
-//			if (Vuelo.getPasajeros().get(i).getVuelo().getId() == id) {
-//				encontrado = Vuelo.getPasajeros().get(i).getVuelo();
-//			}
-//		}
-//		return encontrado;
-//	}
 
 }

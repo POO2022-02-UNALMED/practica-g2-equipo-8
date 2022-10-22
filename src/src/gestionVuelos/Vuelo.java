@@ -29,7 +29,7 @@ public class Vuelo {
 		Vuelo.globalID++;
 	}
 
-	public void agregarPasajero(Pasajero pasajero, int nroAsiento) {
+	public boolean agregarPasajero(Pasajero pasajero, int nroAsiento) {
 
 		double pesoEquipajePasajero = 0;
 		for (Equipaje equipaje : pasajero.getEquipajes())
@@ -43,18 +43,19 @@ public class Vuelo {
 			pasajero.setAsiento(asientoElegido);
 			pasajero.setVuelo(this);
 			asientoElegido.setOcupado(true);
-			if (asientoElegido.getClase().equals("primera clase"))
+			if (asientoElegido.getClase().equals("Primera clase"))
 				Aeropuerto.ingresarDinero(3 * costo);
-			else if (asientoElegido.getClase().equals("ejecutiva"))
+			else if (asientoElegido.getClase().equals("Ejecutiva"))
 				Aeropuerto.ingresarDinero(2 * costo);
 			else
 				Aeropuerto.ingresarDinero(costo);
-			System.out.println("Ha sido registrado exitosamente.");
+			return true;
 		} else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
-			System.out.println(
-					"No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
+			System.out.println("\n" + "No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
+			return false;
 		} else {
-			System.out.println("Ha elegido un puesto no disponible, por favor elija otro.");
+			System.out.println("\n" + "Ha elegido un puesto no disponible, por favor elija otro.");
+			return false;
 		}
 	}
 
@@ -71,12 +72,19 @@ public class Vuelo {
 	}
 
 	public String tiquete(Pasajero pasajero) {
-		String tique = "------------------------------------\n" + "      Tiquete No." + this.id + "\n"
-				+ "------------------------------------\n" + "Nombre Pasajero: " + pasajero.getNombre() + "\n"
-				+ "Fecha: " + fecha + "\n" + "Vuelo: " + getId() + "\n" + "Clase: " + pasajero.getAsiento().getClase()
-				+ "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n" + "Origen: " + origen + "\n"
-				+ "Destino: " + getDestino() + "\n" + "Precio Total: " + getCosto() + "\n"
-				+ "------------------------------------\n";
+		String tique = "\n" + "Ha sido registrado exitosamente" + "\n" + "\n" +
+				"------------------------------------\n" +
+				"          Tiquete No." + this.id + "\n" +
+				"------------------------------------\n" +
+				"Nombre Pasajero: " + pasajero.getNombre() + "\n" +
+				"Fecha: " + fecha + "\n" +
+				"Vuelo: " + getId() + "\n" +
+				"Clase: " + pasajero.getAsiento().getClase() + "\n" +
+				"Num Silla: " + pasajero.getAsiento().getNumero() + "\n" +
+				"Origen: " + origen + "\n" +
+				"Destino: " + getDestino() + "\n" +
+				"Precio Total: " + getCosto() + "\n" +
+				"------------------------------------\n";
 		return tique;
 	}
 

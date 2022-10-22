@@ -21,9 +21,9 @@ public class Avion {
 
 	public void genAsientos(int min, int max) {
 		List<String> tipoAsiento = new ArrayList<>();
-		tipoAsiento.add("turista");
-		tipoAsiento.add("ejecutiva");
-		tipoAsiento.add("primera clase");
+		tipoAsiento.add("Turista");
+		tipoAsiento.add("Ejecutiva");
+		tipoAsiento.add("Primera clase");
 
 		int cant = (int) (min + Math.random() * (max - min));
 
