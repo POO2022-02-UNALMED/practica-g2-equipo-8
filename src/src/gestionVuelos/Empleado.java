@@ -12,16 +12,18 @@ public class Empleado extends Persona {
 	private int sueldo;
 	private String cargo;
 	private Vuelo vuelo;
+	private int experiencia;
 
-	public Empleado(String nombre, int sueldo, int cedula, Cargos cargo, int edad, String sexo) {
+	public Empleado(String nombre, int sueldo, int cedula, Cargos cargo, int edad, String sexo, int experiencia) {
 		super(nombre, cedula, edad, sexo);
 		this.sueldo = sueldo;
 		this.cargo = cargo.getCargo();
+		this.experiencia = experiencia;
 		aeropuerto.agregarEmpleado(this);
 	}
 
 	public Empleado(String nombre, int cedula, Cargos cargo, int edad, String sexo) {
-		this(nombre, cargo.getSueldoBase(), cedula, cargo, edad, sexo);
+		this(nombre, cargo.getSueldoBase(), cedula, cargo, edad, sexo, 0);
 	}
 
 	@Override
@@ -76,6 +78,14 @@ public class Empleado extends Persona {
 	public void setVuelo(Vuelo vuelo) {
 		this.vuelo = vuelo;
 		this.vuelo.getEmpleados().add(this);
+	}
+
+	public void setExperiencia(int experiencia) {
+		this.experiencia = experiencia;
+	}
+
+	public int getExperiencia() {
+		return experiencia;
 	}
 
 	public void pagarNomina() {
@@ -134,7 +144,7 @@ public class Empleado extends Persona {
 			sueldot = cargot.getSueldoBase();
 		}
 		System.out.println("Se ha agragado al empleado " + nombret);
-		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot);
+		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
 	}
 
 	public static void cambiarSueldo() {

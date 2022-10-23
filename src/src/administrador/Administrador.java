@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-
 import basedatos.Serializador;
 import gestionVuelos.Aeropuerto;
 import gestionVuelos.Asiento;
@@ -22,7 +21,7 @@ public class Administrador {
 
 		Aeropuerto aeropuerto = new Aeropuerto();
 		inicializarStatics(aeropuerto);
-		// inicializadorObjetos(aeropuerto);
+		inicializadorObjetos(aeropuerto);
 
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
@@ -45,9 +44,9 @@ public class Administrador {
 		System.out.println(equipaje);
 
 		aeropuerto.setDinero((float) Math.pow(10, 7));
-		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, Cargos.PILOTO, 45, "M");
-		Empleado e2 = new Empleado("Felipe", 900000, 4553031, Cargos.COPILOTO, 37, "M");
-		Empleado e3 = new Empleado("Andrea", 600000, 456174, Cargos.AZAFATA, 31, "F");
+		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, Cargos.PILOTO, 45, "M", 10);
+		Empleado e2 = new Empleado("Felipe", 900000, 4553031, Cargos.COPILOTO, 37, "M", 4);
+		Empleado e3 = new Empleado("Andrea", 456174, Cargos.AZAFATA, 31, "F");
 		Empleado e4 = new Empleado("Sara", 1, Cargos.COPILOTO, 38, "F");
 
 		e4.setVuelo(vuelo1);
@@ -66,7 +65,7 @@ public class Administrador {
 		int option = 0;
 
 		System.out.println("\nIngrese el numero de la opcion a elegir:");
-		System.out.print("1. Reserva de vuelo.\n" + "2. Ver informacion del vuelo.\n" + "3. Gestionar empleados.\n"
+		System.out.print("1. Reserva de vuelo.\n" + "2. Programar nuevos vuelos.\n" + "3. Gestionar empleados.\n"
 				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n"
 				+ "0. Pulse para finalizar el programa.\n");
 		option = entrada.nextInt();
@@ -123,15 +122,31 @@ public class Administrador {
 			System.out.print("Ingrese la sala de embarque del vuelo: ");
 			entrada.nextLine();
 			String salaEmb = entrada.nextLine();
+			System.out.print("El vuelo es internacional? (y/n): ");
+			String internacional = entrada.nextLine();
 
 			for(Avion avion: aeropuerto.getAviones()){
 				if(avion.getId() == id) {
 					Vuelo vueloNuevo = new Vuelo(avion, fechaVuelo, destino, costo, salaEmb);
-					aeropuerto.getVuelos().add(vueloNuevo);
 				}
 			}
 
-			System.out.print("El vuelo ha sido creado exitosamente.\n");
+			System.out.println("El vuelo ha sido creado exitosamente.\n");
+			System.out.println("Se recomiendan los siguiente empleados segun las caracteristicas del vuelo: ");
+
+			if(internacional.equals("y")){
+				for(Empleado empleado: aeropuerto.getEmpleados()){
+					if(empleado.getExperiencia() >= 5) System.out.println(empleado);
+				}
+			} else{
+				System.out.println("Cualquier empleado puede cumplir las expectativas de calidad.");
+			}
+			System.out.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n" +
+					"Ingrese 1 para ir a la gestion de empleado o 0 para regresar al menu principal:");
+			int des = entrada.nextInt();
+
+			if(des == 1) gestionarEmpleadosInterfaz(aeropuerto);
+			else opcionesPrincipales(aeropuerto);
 
 		} catch (Exception e){
 			System.out.println("\nHa ocurrido un error, intentelo nuevamente.");
@@ -305,9 +320,10 @@ public class Administrador {
 
 		if (!vuelosDisp.isEmpty())
 			for (Vuelo vuelo : vuelosDisp)
-				System.out.println(vuelo);
+				System.out.print(vuelo);
 		else {
 			System.out.println("Lo sentimos, no hay vuelos disponibles desde ese origen para el destino indicado");
+			opcionesPrincipales(aeropuerto);
 			return;
 		}
 		System.out.print("Inserte el ID del vuelo de su preferencia: ");
@@ -320,14 +336,14 @@ public class Administrador {
 
 		System.out.println("\nFormulario de datos personales");
 
-		System.out.print("Inserte su nombre: \n");
+		System.out.print("Inserte su nombre: ");
 		entradas.nextLine();
 		String nombre = entradas.nextLine();
 		System.out.print("Inserte su documento de identidad: ");
 		int documento = entradas.nextInt();
 		System.out.print("Inserte su edad: ");
 		int edad = entradas.nextInt();
-		System.out.println("Inserte su genero: ");
+		System.out.print("Inserte su genero: ");
 		entradas.nextLine();
 		String sexo = entradas.nextLine();
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");

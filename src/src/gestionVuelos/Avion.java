@@ -11,6 +11,7 @@ public class Avion implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private static int globalID = 1;
 	private String modelo;
 	private int pesoMaximo;
 	private List<Asiento> asientos = new ArrayList<>();
@@ -21,6 +22,8 @@ public class Avion implements Serializable {
 		this.modelo = modelo;
 		this.pesoMaximo = pesoMaximo;
 		this.valor = valor;
+		this.id = globalID;
+		globalID++;
 		this.genAsientos(10, 15);
 		aeropuerto.agregarAvion(this);
 	}
