@@ -5,21 +5,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import basedatos.Serializador;
-import gestionVuelos.Aeropuerto;
-import gestionVuelos.Asiento;
-import gestionVuelos.Avion;
-import gestionVuelos.Cargos;
-import gestionVuelos.Empleado;
-import gestionVuelos.Equipaje;
-import gestionVuelos.Pasajero;
-import gestionVuelos.Vuelo;
+import gestionVuelos.*;
 
 public class Administrador {
+	public static Aeropuerto aeropuerto = new Aeropuerto();
 	public static void main(String[] args) {
-		// Pruebas
 
-		Aeropuerto aeropuerto = new Aeropuerto();
+		// Pruebas
 		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), new Date(), "Bogota", 1000, "10A");
 		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), new Date(), "Miami", 1500, "1B");
 		System.out.println(vuelo1);
@@ -33,7 +25,7 @@ public class Administrador {
 		vuelo1.agregarPasajero(pasajero, 10);
 		System.out.println(equipaje);
 
-		Aeropuerto.setDinero((float) Math.pow(10, 7));
+		aeropuerto.setDinero((float) Math.pow(10, 7));
 		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, Cargos.PILOTO, 45, "M");
 		Empleado e2 = new Empleado("Felipe", 900000, 4553031, Cargos.COPILOTO, 37, "M");
 		Empleado e3 = new Empleado("Andrea", 600000, 456174, Cargos.AZAFATA, 31, "F");
@@ -45,7 +37,6 @@ public class Administrador {
 
 		// Pruebas
 
-		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
 
 		opcionesPrincipales();
@@ -122,7 +113,7 @@ public class Administrador {
 			asignarVuelo(empleadoActual);
 			break;
 		case 4:
-			Aeropuerto.despedirEmpleado(empleadoActual);
+			aeropuerto.despedirEmpleado(empleadoActual);
 			System.out.println(empleadoActual);
 			break;
 		default:
@@ -150,7 +141,7 @@ public class Administrador {
 		}
 		System.out.println("Seleccione el ID del vuelo al que quiere asignar al empleado: ");
 
-		for (Vuelo vuelo : Aeropuerto.getVuelos()) {
+		for (Vuelo vuelo : aeropuerto.getVuelos()) {
 			if (vuelo != empleado.getVuelo()) {
 				System.out.println(vuelo);
 			}
@@ -168,7 +159,7 @@ public class Administrador {
 
 	public static void cambiarCargo(Empleado empleadoActual) {
 		System.out.println("El cargo actual de" + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
-		System.out.println("�A que cargo quieres asignarle? Los cargos disponibles son: ");
+		System.out.println("A que cargo quieres asignarle? Los cargos disponibles son: ");
 
 		Cargos c = Cargos.elegirCargo();
 		if (c.getCargo().equals(empleadoActual.getCargo())) {
@@ -182,7 +173,7 @@ public class Administrador {
 
 	public static void salirDelSistema() {
 		System.out.println("Vuelva pronto");
-		// Serializador.serializarAeropuertos(aeropuerto);
+		// Serializador.serializaraeropuertos(aeropuerto);
 		System.exit(0);
 	}
 
@@ -192,7 +183,7 @@ public class Administrador {
 		String entradaDestino = entradas.nextLine();
 
 		List<Vuelo> vuelosDisp = new ArrayList<>();
-		for (Vuelo vuelo : Aeropuerto.getVuelos()) {
+		for (Vuelo vuelo : aeropuerto.getVuelos()) {
 			if (vuelo.getDestino().equals(entradaDestino) && !vuelo.isEnVuelo()) {
 				vuelosDisp.add(vuelo);
 			}
@@ -203,7 +194,7 @@ public class Administrador {
 				System.out.println(vuelo);
 		else {
 			System.out.println("Lo sentimos, no hay vuelos disponibles desde ese origen para el destino indicado");
-			return;
+			opcionesPrincipales();
 		}
 		System.out.print("Inserte el ID del vuelo de su preferencia: ");
 		int IDvuelo = entradas.nextInt();
@@ -215,14 +206,14 @@ public class Administrador {
 
 		System.out.println("\nFormulario de datos personales");
 
-		System.out.print("Inserte su nombre: \n");
+		System.out.print("Inserte su nombre: ");
 		entradas.nextLine();
 		String nombre = entradas.nextLine();
 		System.out.print("Inserte su documento de identidad: ");
 		int documento = entradas.nextInt();
 		System.out.print("Inserte su edad: ");
 		int edad = entradas.nextInt();
-		System.out.println("Inserte su genero: ");
+		System.out.print("Inserte su genero: ");
 		entradas.nextLine();
 		String sexo = entradas.nextLine();
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
@@ -249,7 +240,7 @@ public class Administrador {
 			System.out.println(vueloElegido.tiquete(nuevoPasajero));
 		} else {
 			vueloElegido.getPasajeros().remove(nuevoPasajero);
-			Aeropuerto.getPasajeros().remove(nuevoPasajero);
+			aeropuerto.getPasajeros().remove(nuevoPasajero);
 		}
 
 		int option;
@@ -274,7 +265,7 @@ public class Administrador {
 	public static void interfazFinanzas() {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Finanzas --");
-		System.out.println("Saldo actual = " + Aeropuerto.getDinero());
+		System.out.println("Saldo actual = " + aeropuerto.getDinero());
 
 		int option;
 		do {
@@ -293,7 +284,7 @@ public class Administrador {
 				pagarNominaInterfaz();
 				break;
 			case 2:
-				Aeropuerto.transacciones();
+				aeropuerto.transacciones();
 				break;
 			case 3:
 				Empleado.cambiarSueldo();
@@ -310,7 +301,7 @@ public class Administrador {
 
 	public static void pagarNominaInterfaz() {
 		int dineroapagar = 0;
-		List<Empleado> lempleados = Aeropuerto.getEmpleados();
+		List<Empleado> lempleados = aeropuerto.getEmpleados();
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de pago de nomina --");
 
@@ -327,7 +318,7 @@ public class Administrador {
 			option = entrada.nextInt();
 
 			if (option == 1) {
-				Empleado.pagarNomina(Aeropuerto.getEmpleados());
+				Empleado.pagarNomina(aeropuerto.getEmpleados());
 			} else if (option == 2) {
 				System.out.println("\nListado de empleados");
 				for (int i = 0; i < lempleados.size(); i++) {
@@ -349,9 +340,25 @@ public class Administrador {
 	public static void mostrarPasajeros() {
 		System.out.println("Estos son los pasajeros del aeropuerto:\n");
 		System.out.println("Cedula         Nombre");
-		for (Pasajero pasajero : Aeropuerto.getPasajeros()) {
+		for (Pasajero pasajero : aeropuerto.getPasajeros()) {
 			System.out.println(pasajero.getCedula() + " ".repeat(15 - Integer.toString(pasajero.getCedula()).length())
 					+ pasajero.getNombre());
+		}
+	}
+
+	public static void mostrarVuelos(){
+		System.out.println("El aeropuerto dispone de los siguientes vuelos: \n");
+		System.out.println("ID             Destino");
+		for(Vuelo vuelo : aeropuerto.getVuelos()){
+			System.out.println(vuelo.getId() + " ".repeat(15 - Integer.toString(vuelo.getId()).length()) + vuelo.getDestino());
+		}
+	}
+
+	public static void mostrarAviones(){
+		System.out.println("El aeropuerto dispone de los siguientes aviones: \n");
+		System.out.println("ID             Modelo");
+		for(Avion avion : aeropuerto.getAviones()){
+			System.out.println(avion.getId() + " ".repeat(15 - Integer.toString(avion.getId()).length()) + avion.getModelo());
 		}
 	}
 
@@ -374,9 +381,12 @@ public class Administrador {
 			switch (option) {
 			case 1:
 				cambiarAsiento();
+				break;
 			case 2:
+				cancelarVuelo();
 				break;
 			case 3:
+				eliminarAvion();
 				break;
 			case 4:
 				opcionesPrincipales();
@@ -387,6 +397,8 @@ public class Administrador {
 			}
 		} while (option != 6);
 	}
+
+
 
 	private static void cambiarAsiento() {
 		mostrarPasajeros();
@@ -407,7 +419,6 @@ public class Administrador {
 	}
 
 	public static void reservaDeVuelo2(Pasajero pasajero) {
-		System.out.println(pasajero.getAsiento());
 		Scanner entradas = new Scanner(System.in);
 
 		System.out.println("\nFormulario de datos personales");
@@ -454,11 +465,121 @@ public class Administrador {
 
 	}
 
-	public static void cambiarVuelo(List<Vuelo> vuelos) {
-		Vuelo vuelo = null;
-		for (int i = 0; i < vuelos.size(); i++) {
-			vuelo = vuelos.get(i);
+	private static void cancelarVuelo() {
+		mostrarVuelos();
+		Scanner entradas = new Scanner(System.in);
+
+		System.out.println("Por favor ingrese el ID del vuelo que desea cancelar: ");
+		int id = entradas.nextInt();
+
+		for(int i = 0 ; i < aeropuerto.getVuelos().size(); i ++){
+			if(id == aeropuerto.getVuelos().get(i).getId()){
+
+				for(int j = 0; j < aeropuerto.getPasajeros().size(); j ++){
+					if(aeropuerto.getPasajeros().get(j).getVuelo() == aeropuerto.getVuelos().get(i)){
+						aeropuerto.getPasajeros().remove(aeropuerto.getPasajeros().get(j));
+					}
+				}
+				aeropuerto.getVuelos().remove(aeropuerto.getVuelos().get(i));
+			}
 		}
+
+
+		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
+		mostrarVuelos();
+
 	}
+
+	private static void cancelarVuelo(Vuelo vuelo) {
+		for(int i = 0 ; i < aeropuerto.getVuelos().size(); i ++){
+			if(vuelo.getId() == aeropuerto.getVuelos().get(i).getId()){
+
+				for(int j = 0; j < aeropuerto.getPasajeros().size(); j ++){
+					if(aeropuerto.getPasajeros().get(j).getVuelo() == aeropuerto.getVuelos().get(i)){
+						aeropuerto.getPasajeros().remove(aeropuerto.getPasajeros().get(j));
+					}
+				}
+				aeropuerto.getVuelos().remove(aeropuerto.getVuelos().get(i));
+			}
+		}
+
+
+		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
+		mostrarVuelos();
+
+	}
+
+	private static void eliminarAvion(){
+		mostrarAviones();
+		Scanner entradas = new Scanner(System.in);
+
+		System.out.println("Por favor ingrese el ID del avion que desea cancelar: ");
+		int id = entradas.nextInt();
+		Vuelo v = null;
+		Avion a = null;
+
+		for(int i = 0 ; i < aeropuerto.getAviones().size(); i ++){
+			if(id == aeropuerto.getAviones().get(i).getId()){
+				a = aeropuerto.getAviones().get(i);
+				System.out.println("a" + aeropuerto.getAviones().get(i).getModelo());
+				aeropuerto.getAviones().remove(aeropuerto.getAviones().get(i));
+			}
+			for(int j = 0; j < aeropuerto.getVuelos().size(); j++){
+				if(a != null){
+					if(a.getId() == aeropuerto.getVuelos().get(j).getAvion().getId()) {
+						v = aeropuerto.getVuelos().get(j);
+						System.out.println("v" + aeropuerto.getVuelos().get(j));
+					}
+				}
+			}
+
+		}
+		int option;
+		do {System.out.println("Desea agregar un avion al vuelo " + v);
+			System.out.println("Ingrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Si.
+					2. No.
+					3. Volver.
+					4. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					agregarAvion(a, v);
+					break;
+				case 2:
+					cancelarVuelo(v);
+					break;
+				case 3:
+					opcionesPrincipales();
+					break;
+				case 4:
+					salirDelSistema();
+					break;
+			}
+		} while (option != 5);
+
+		System.out.println("\nLa lista de aviones ha sido actualizada.\n");
+		mostrarAviones();
+	}
+
+	private static void agregarAvion(Avion avion, Vuelo vuelo) {
+		Scanner entradas = new Scanner(System.in);
+		System.out.println("Por favor ingrese el modelo del avion: ");
+		String modelo = entradas.nextLine();
+
+		System.out.println("Por favor ingrese el peso maximo del avion: ");
+		int peso = entradas.nextInt();
+
+		System.out.println("Por favor ingrese el precio del avion: ");
+		int valor = entradas.nextInt();
+
+		Avion av = new Avion(modelo,peso, valor);
+		vuelo.setAvion(av);
+		mostrarAviones();
+	}
+
 
 }

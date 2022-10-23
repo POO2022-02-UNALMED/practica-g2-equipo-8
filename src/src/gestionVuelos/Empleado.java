@@ -1,5 +1,7 @@
 package gestionVuelos;
 
+import administrador.Administrador;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +15,7 @@ public class Empleado extends Persona {
 		super(nombre, cedula, edad, sexo);
 		this.sueldo = sueldo;
 		this.cargo = cargo.getCargo();
-		Aeropuerto.agregarEmpleado(this);
+		Administrador.aeropuerto.agregarEmpleado(this);
 	}
 
 	public Empleado(String nombre, int cedula, Cargos cargo, int edad, String sexo) {
@@ -34,14 +36,14 @@ public class Empleado extends Persona {
 	public static void mostrarEmpleados() {
 		System.out.println("Estos son los empleados del aeropuerto:\n");
 		System.out.println("Cedula         Nombre");
-		for (Empleado empleado : Aeropuerto.getEmpleados()) {
+		for (Empleado empleado : Administrador.aeropuerto.getEmpleados()) {
 			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
 					+ empleado.getNombre());
 		}
 	}
 
 	public static Empleado buscarEmpleado(int cedula) {
-		for (Empleado empleado : Aeropuerto.getEmpleados()) {
+		for (Empleado empleado : Administrador.aeropuerto.getEmpleados()) {
 			if (empleado.getCedula() == cedula) {
 				return empleado;
 			}
@@ -76,14 +78,14 @@ public class Empleado extends Persona {
 
 	public void pagarNomina() {
 		int dineroapagar = this.getSueldo();
-		float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
+		float nuevosaldo = Administrador.aeropuerto.getDinero() - dineroapagar;
 
 		if (nuevosaldo < 0) {
 			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
 		} else {
-			//Aeropuerto.setDinero(nuevosaldo);
-			Aeropuerto.transaccion("Nomina " + this.getNombre(), dineroapagar * (-1));
-			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
+			//Administrador.aeropuerto.setDinero(nuevosaldo);
+			Administrador.aeropuerto.transaccion("Nomina " + this.getNombre(), dineroapagar * (-1));
+			System.out.println("Transaccion realizada, nuevo saldo = " + Administrador.aeropuerto.getDinero());
 		}
 	}
 
@@ -92,14 +94,14 @@ public class Empleado extends Persona {
 		for (Empleado empleado : empleados) {
 			dineroapagar += empleado.getSueldo();
 		}
-		float nuevosaldo = Aeropuerto.getDinero() - dineroapagar;
+		float nuevosaldo = Administrador.aeropuerto.getDinero() - dineroapagar;
 
 		if (nuevosaldo < 0) {
 			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
 		} else {
-			Aeropuerto.transaccion("Nomina General", dineroapagar * (-1));
-			//Aeropuerto.setDinero(nuevosaldo);
-			System.out.println("Transaccion realizada, nuevo saldo = " + Aeropuerto.getDinero());
+			Administrador.aeropuerto.transaccion("Nomina General", dineroapagar * (-1));
+			//Administrador.aeropuerto.setDinero(nuevosaldo);
+			System.out.println("Transaccion realizada, nuevo saldo = " + Administrador.aeropuerto.getDinero());
 		}
 	}
 
@@ -135,7 +137,7 @@ public class Empleado extends Persona {
 
 	public static void cambiarSueldo(){
 		Scanner entrada = new Scanner(System.in);
-		List<Empleado> lempleados = Aeropuerto.getEmpleados();
+		List<Empleado> lempleados = Administrador.aeropuerto.getEmpleados();
 
 		System.out.println("\nListado de empleados");
 		for (int i = 0; i < lempleados.size(); i++) {

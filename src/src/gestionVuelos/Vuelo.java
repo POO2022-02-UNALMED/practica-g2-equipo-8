@@ -1,5 +1,7 @@
 package gestionVuelos;
 
+import administrador.Administrador;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Vuelo {
 	private int costo;
 	private String salaEmbarque;
 	private double pesoActual;
-	private static int globalID = 1;
+	static int globalID = 1;
 	private final int id;
 
 	public Vuelo(Avion avion, Date fecha, String destino, int costo, String salaEmbarque) {
@@ -24,7 +26,7 @@ public class Vuelo {
 		this.destino = destino;
 		this.costo = costo;
 		this.salaEmbarque = salaEmbarque;
-		Aeropuerto.agregarVuelo(this);
+		Administrador.aeropuerto.agregarVuelo(this);
 		this.id = globalID;
 		Vuelo.globalID++;
 	}
@@ -44,11 +46,11 @@ public class Vuelo {
 			pasajero.setVuelo(this);
 			asientoElegido.setOcupado(true);
 			if (asientoElegido.getClase().equals("Primera clase"))
-				Aeropuerto.ingresarDinero(3 * costo);
+				Administrador.aeropuerto.ingresarDinero(3 * costo);
 			else if (asientoElegido.getClase().equals("Ejecutiva"))
-				Aeropuerto.ingresarDinero(2 * costo);
+				Administrador.aeropuerto.ingresarDinero(2 * costo);
 			else
-				Aeropuerto.ingresarDinero(costo);
+				Administrador.aeropuerto.ingresarDinero(costo);
 			return true;
 		} else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
 			System.out.println("\n" + "No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
@@ -79,6 +81,7 @@ public class Vuelo {
 				"Nombre Pasajero: " + pasajero.getNombre() + "\n" +
 				"Fecha: " + fecha + "\n" +
 				"Vuelo: " + getId() + "\n" +
+				"Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" +
 				"Clase: " + pasajero.getAsiento().getClase() + "\n" +
 				"Num Silla: " + pasajero.getAsiento().getNumero() + "\n" +
 				"Origen: " + origen + "\n" +
@@ -169,8 +172,8 @@ public class Vuelo {
 	}
 
 	public static Vuelo encontrarVuelo(int id) {
-		if (id - 1 <= Aeropuerto.getVuelos().size()) {
-			return Aeropuerto.getVuelos().get(id - 1);
+		if (id - 1 <= Administrador.aeropuerto.getVuelos().size()) {
+			return Administrador.aeropuerto.getVuelos().get(id - 1);
 		}
 		return null;
 	}

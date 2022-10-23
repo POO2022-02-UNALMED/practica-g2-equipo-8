@@ -8,117 +8,117 @@ public class Aeropuerto implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private static String nombre;
-	private static List<Vuelo> vuelos = new ArrayList<>();
-	private static List<Empleado> empleados = new ArrayList<>();
-	private static List<Pasajero> pasajeros = new ArrayList<>();
-	private static List<String> salas = new ArrayList<>();
-	private static List<Avion> aviones = new ArrayList<>();
-	private static List<String> transaccionesKeys = new ArrayList<>();
-	private static List<Integer> transaccionesValues = new ArrayList<>();
-	private static float dinero;
+	private final long serialVersionUID = 1L;
+	private String nombre;
+	private List<Vuelo> vuelos = new ArrayList<>();
+	private List<Empleado> empleados = new ArrayList<>();
+	private List<Pasajero> pasajeros = new ArrayList<>();
+	private List<String> salas = new ArrayList<>();
+	private List<Avion> aviones = new ArrayList<>();
+	private List<String> transaccionesKeys = new ArrayList<>();
+	private List<Integer> transaccionesValues = new ArrayList<>();
+	private float dinero;
 
 	public Aeropuerto() {
-		// Deserializador.deserializarAeropuerto(this);
+		// Deserializador.deserializarthis(this);
 	}
 
-	public static void ingresarDinero(int pago) {
-		Aeropuerto.dinero += pago;
+	public void ingresarDinero(int pago) {
+		this.dinero += pago;
 	}
-	public static void retirarDinero(int pago) {
-		Aeropuerto.dinero -= pago;
+	public void retirarDinero(int pago) {
+		this.dinero -= pago;
 	}
 
-	public static float getDinero() {
+	public float getDinero() {
 		return dinero;
 	}
 
-	public static void setDinero(float dinero) {
-		Aeropuerto.dinero = dinero;
+	public void setDinero(float dinero) {
+		this.dinero = dinero;
 	}
 
 	public Aeropuerto(String nombre) {
 		this.nombre = nombre;
 	}
 
-	public static void agregarVuelo(Vuelo vuelo) {
-		Aeropuerto.vuelos.add(vuelo);
+	public void agregarVuelo(Vuelo vuelo) {
+		this.vuelos.add(vuelo);
 	}
 
-	public static void agregarEmpleado(Empleado empleado) {
-		Aeropuerto.empleados.add(empleado);
+	public void agregarEmpleado(Empleado empleado) {
+		this.empleados.add(empleado);
 	}
 
-	public static void agregarSalas(String sala) {
-		Aeropuerto.salas.add(sala);
+	public void agregarSalas(String sala) {
+		this.salas.add(sala);
 	}
 
-	public static void agregarAvion(Avion avion) {
-		Aeropuerto.aviones.add(avion);
+	public void agregarAvion(Avion avion) {
+		this.aviones.add(avion);
 	}
 
-	public static List<Vuelo> getVuelos() {
+	public List<Vuelo> getVuelos() {
 		return vuelos;
 	}
 
-	public static void setVuelos(List<Vuelo> vuelos) {
-		Aeropuerto.vuelos = vuelos;
+	public void setVuelos(List<Vuelo> vuelos) {
+		this.vuelos = vuelos;
 	}
 
-	public static List<Empleado> getEmpleados() {
+	public List<Empleado> getEmpleados() {
 		return empleados;
 	}
 
-	public static void setEmpleados(List<Empleado> empleados) {
-		Aeropuerto.empleados = empleados;
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
 	}
 
-	public static List<String> getSalas() {
+	public List<String> getSalas() {
 		return salas;
 	}
 
-	public static void setSalas(List<String> salas) {
-		Aeropuerto.salas = salas;
+	public void setSalas(List<String> salas) {
+		this.salas = salas;
 	}
 
-	public static List<Avion> getAviones() {
+	public List<Avion> getAviones() {
 		return aviones;
 	}
 
-	public static void setAviones(List<Avion> aviones) {
-		Aeropuerto.aviones = aviones;
+	public void setAviones(List<Avion> aviones) {
+		this.aviones = aviones;
 	}
 
-	public static List<Pasajero> getPasajeros() {
+	public List<Pasajero> getPasajeros() {
 		return pasajeros;
 	}
 
-	public static void setPasajeros(List<Pasajero> pasajeros) {
-		Aeropuerto.pasajeros = pasajeros;
+	public void setPasajeros(List<Pasajero> pasajeros) {
+		this.pasajeros = pasajeros;
 	}
 
-	public static String getNombre() {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public static void setNombre(String nombre) {
-		Aeropuerto.nombre = nombre;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public static void despedirEmpleado(Empleado empleado) {
+	public void despedirEmpleado(Empleado empleado) {
 		empleado.getVuelo().getEmpleados().remove(empleado);
 		empleados.remove(empleados.indexOf(empleado));
 	}
 
-	public static void transaccion(String concepto, int valor){
+	public void transaccion(String concepto, int valor){
 		transaccionesKeys.add(concepto);
 		transaccionesValues.add(valor);
 
 		ingresarDinero(valor);
 	}
 
-	public static void transacciones(){
+	public void transacciones(){
 		int acumulador = 0;
 		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {
 			System.out.println((i + 1) + ":  " + transaccionesKeys.get(i) + " --- " + transaccionesValues.get(i));

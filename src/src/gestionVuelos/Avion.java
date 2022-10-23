@@ -1,22 +1,27 @@
 package gestionVuelos;
 
+import administrador.Administrador;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Avion {
-	private int id;
 	private String modelo;
 	private int pesoMaximo;
 	private List<Asiento> asientos = new ArrayList<>();
 	private int valor;
+	static int globalID = 1;
+	private final int id;
 
 	public Avion(String modelo, int pesoMaximo, int valor) {
 		this.modelo = modelo;
 		this.pesoMaximo = pesoMaximo;
 		this.valor = valor;
 		this.genAsientos(10, 15);
-		Aeropuerto.agregarAvion(this);
+		Administrador.aeropuerto.agregarAvion(this);
+		this.id = globalID;
+		Avion.globalID ++;
 	}
 
 	public void genAsientos(int min, int max) {
@@ -35,10 +40,6 @@ public class Avion {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getModelo() {
@@ -87,7 +88,7 @@ public class Avion {
 		System.out.print("Por favor inserte el valor a pagar por el Avion: ");
 		valort = entrada.nextInt();
 
-		Aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
+		Administrador.aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
 		//Aeropuerto.retirarDinero(valort);
 		return new Avion(modelot, pesoMaximot, valort);
 	}
