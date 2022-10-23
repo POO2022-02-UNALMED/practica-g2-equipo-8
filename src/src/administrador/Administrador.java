@@ -67,7 +67,7 @@ public class Administrador {
 		System.out.println("\nIngrese el numero de la opcion a elegir:");
 		System.out.print("1. Reserva de vuelo.\n" + "2. Ver informacion del vuelo.\n" + "3. Gestionar empleados.\n"
 				+ "4. Administrar finanzas.\n" + "5. Administrar vuelos y aviones.\n\n"
-				+ "0. Pulse 0 en cualquier menu para finalizar el programa.\n");
+				+ "0. Pulse para finalizar el programa.\n");
 		option = entrada.nextInt();
 		switch (option) {
 		case 1:
@@ -96,15 +96,16 @@ public class Administrador {
 	public static void gestionarEmpleadosInterfaz(Aeropuerto aeropuerto) {
 		Empleado.mostrarEmpleados();
 		System.out.println("Introduzca la cedula para ver mas opciones:");
+		System.out.println("0. Volver");
 		Scanner entrada = new Scanner(System.in);
 		int cedula = entrada.nextInt();
 		if (cedula == 0) {
-			salirDelSistema(aeropuerto);
+			opcionesPrincipales(aeropuerto);
 		}
 		while (Empleado.buscarEmpleado(cedula) == null) {
 			cedula = entrada.nextInt();
 			if (cedula == 0) {
-				salirDelSistema(aeropuerto);
+				opcionesPrincipales(aeropuerto);
 				break;
 			}
 			System.out.println("Esta cedula no esta asignada a ningun empleado, vuelva a intentarlo.");
@@ -118,14 +119,17 @@ public class Administrador {
 		Scanner entrada = new Scanner(System.in);
 
 		System.out.println(
-				"Seleccione la accion que quiere realizar:\n1. Cambiar cargo.\n2. Cambiar sueldo.\n3. Asignar vuelo.\n4. Despedir.");
+				"Seleccione la accion que quiere realizar:\n0. Volver.\n1. Cambiar cargo.\n2. Cambiar sueldo.\n3. Asignar vuelo.\n4. Despedir.");
 		int option = entrada.nextInt();
 		switch (option) {
+		case 0:
+			gestionarEmpleadosInterfaz(aeropuerto);
+			break;
 		case 1:
 			cambiarCargo(empleadoActual, aeropuerto);
 			break;
 		case 2:
-			cambiarSueldo(empleadoActual);
+			cambiarSueldo(empleadoActual, aeropuerto);
 			break;
 		case 3:
 			asignarVuelo(empleadoActual, aeropuerto);
@@ -140,14 +144,22 @@ public class Administrador {
 		}
 	}
 
-	public static void cambiarSueldo(Empleado empleado) {
+	public static void cambiarSueldo(Empleado empleado, Aeropuerto aeropuerto) {
 		System.out.println("El sueldo actual de " + empleado.getNombre() + " es " + empleado.getSueldo());
 		System.out.println(
 				"Ingrese el valor a aumentar o disminuir, en caso de disminuir coloca que un - antes del valor: ");
+		System.out.println("0. Volver.");
 		Scanner entrada = new Scanner(System.in);
 		int valor = entrada.nextInt();
+		if (valor == 0) {
+			opcionesEmpleado(empleado, aeropuerto);
+		} else if (valor < 0 && Math.abs(valor) >= empleado.getSueldo()) {
+			System.out.println("Reduccion de sueldo invalida, intente nuevamente.");
+			cambiarSueldo(empleado, aeropuerto);
+		}
 		empleado.setSueldo(empleado.getSueldo() + valor);
 		System.out.println("El nuevo saldo de " + empleado.getNombre() + " es " + empleado.getSueldo());
+		opcionesPrincipales(aeropuerto);
 	}
 
 	public static void asignarVuelo(Empleado empleado, Aeropuerto aeropuerto) {
@@ -164,27 +176,65 @@ public class Administrador {
 				System.out.println(vuelo);
 			}
 		}
+		System.out.println("0. Volver.");
 		Scanner entrada = new Scanner(System.in);
 		int idVuelo = entrada.nextInt();
+		if (idVuelo == 0) {
+			opcionesEmpleado(empleado, aeropuerto);
+		}
 		if (Vuelo.encontrarVuelo(idVuelo) == null) {
 			System.out.println("ID invalido, vuelva a intentarlo.\n");
 			asignarVuelo(empleado, aeropuerto);
 		} else {
 			empleado.setVuelo(Vuelo.encontrarVuelo(idVuelo));
 			System.out.println("Ahora el vuelo del empleado es:\n" + empleado.getVuelo());
+			opcionesPrincipales(aeropuerto);
 		}
 	}
 
-	public static void cambiarCargo(Empleado empleadoActual, Aeropuerto aeropuerto) {
-		System.out.println("El cargo actual de" + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
-		System.out.println("ï¿½A que cargo quieres asignarle? Los cargos disponibles son: ");
+	public static void cambiarCargo(Empleado empleado, Aeropuerto aeropuerto) {
 
-		Cargos c = Cargos.elegirCargo();
-		if (c.getCargo().equals(empleadoActual.getCargo())) {
-			System.out.println(empleadoActual.getNombre() + " ya era " + empleadoActual.getCargo());
+		System.out.println("El cargo actual de " + empleado.getNombre() + " es " + empleado.getCargo());
+		System.out.println("¿A que cargo quieres asignarle? Los cargos disponibles son: ");
+
+		for (int i = 0; i < Cargos.values().length; i++) {
+			System.out.println((i + 1) + ". " + Cargos.values()[i].getCargo());
+		}
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("Ingrese el indice del cargo a elegir: ");
+		int indice = entrada.nextInt();
+		if (indice == 0) {
+			opcionesEmpleado(empleado, aeropuerto);
+		}
+		if (indice <= Cargos.values().length) {
+			if (Cargos.values()[indice - 1].getCargo().equals(empleado.getCargo())) {
+				System.out.println(empleado.getNombre() + " ya era " + empleado.getCargo());
+			} else {
+				empleado.setCargo(Cargos.values()[indice - 1]);
+				System.out.println("Ahora el cargo de " + empleado.getNombre() + " es " + empleado.getCargo());
+				System.out.println("¿Desea cambiar el saldo de " + empleado.getNombre() + "?\n1. Si.\n2. No\n");
+				int opcion = entrada.nextInt();
+				switch (opcion) {
+				case 1: {
+					cambiarSueldo(empleado, aeropuerto);
+					break;
+
+				}
+				case 2: {
+					System.out.println("Saliendo al menu principal.");
+					opcionesPrincipales(aeropuerto);
+					break;
+				}
+				default:
+					System.out.println("Opcion erronea, saliendo al menu principal.");
+					opcionesPrincipales(aeropuerto);
+					break;
+				}
+			}
+
 		} else {
-			empleadoActual.setCargo(c);
-			System.out.println("Ahora el cargo de " + empleadoActual.getNombre() + " es " + empleadoActual.getCargo());
+			System.out.println("Valor erroneo, vuelva a intentarlo.");
+			cambiarCargo(empleado, aeropuerto);
 		}
 		opcionesPrincipales(aeropuerto);
 	}
