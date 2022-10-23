@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Avion implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -100,5 +100,10 @@ public class Avion implements Serializable {
 
 	public static void setAeropuerto(Aeropuerto aeropuerto) {
 		Avion.aeropuerto = aeropuerto;
+	}
+
+	@Override
+	public String toString() {
+		return "ID avion: " + id + " - Modelo: " + modelo + " - Cantidad de asientos: " + asientos.size() + " - Peso maximo: " + pesoMaximo;
 	}
 }

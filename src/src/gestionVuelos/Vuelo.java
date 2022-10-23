@@ -1,6 +1,7 @@
 package gestionVuelos;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Vuelo implements Serializable {
 	private Avion avion;
 	private List<Empleado> empleados = new ArrayList<>();
 	private List<Pasajero> pasajeros = new ArrayList<>();
-	private Date fecha;
+	private LocalDateTime fecha;
 	private final static String origen = "Medellin";
 	private String destino;
 	private boolean enVuelo;
@@ -24,7 +25,7 @@ public class Vuelo implements Serializable {
 	private final int id;
 	private static Aeropuerto aeropuerto;
 
-	public Vuelo(Avion avion, Date fecha, String destino, int costo, String salaEmbarque) {
+	public Vuelo(Avion avion, LocalDateTime fecha, String destino, int costo, String salaEmbarque) {
 		this.avion = avion;
 		this.fecha = fecha;
 		this.destino = destino;
@@ -112,11 +113,11 @@ public class Vuelo implements Serializable {
 		this.pasajeros = pasajeros;
 	}
 
-	public Date getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 

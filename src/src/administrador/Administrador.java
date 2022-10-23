@@ -1,7 +1,8 @@
 package administrador;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,8 +31,8 @@ public class Administrador {
 	}
 
 	public static void inicializadorObjetos(Aeropuerto aeropuerto) {
-		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), new Date(), "Bogota", 1000, "10A");
-		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), new Date(), "Miami", 1500, "1B");
+		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "10A");
+		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), LocalDateTime.now(), "Miami", 1500, "1B");
 		System.out.println(vuelo1);
 		for (Asiento asiento : vuelo1.getAvion().getAsientos())
 			System.out.println(asiento);
@@ -74,6 +75,7 @@ public class Administrador {
 			reservaDeVuelo(aeropuerto);
 			break;
 		case 2:
+			programarVuelos(aeropuerto);
 			break;
 		case 3:
 			gestionarEmpleadosInterfaz(aeropuerto);
@@ -90,6 +92,50 @@ public class Administrador {
 		default:
 			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 			opcionesPrincipales(aeropuerto);
+		}
+	}
+
+	public static void programarVuelos(Aeropuerto aeropuerto){
+		Scanner entrada = new Scanner(System.in);
+		try {
+			for (Avion avion : aeropuerto.getAviones()) System.out.println(avion);
+			System.out.print("\nIngrese el ID del avion designado para el vuelo: ");
+			int id = entrada.nextInt();
+			System.out.print("Ingrese la fecha y hora del vuelo (en formato DD/MM/AAAA HH:MM:SS): ");
+			entrada.nextLine();
+			String str = entrada.nextLine();
+
+			LocalDateTime fechaVuelo = LocalDateTime.parse(str, DateTimeFormatter.ofPattern("d/M/yyyy H:m:s") );
+
+			for(Vuelo vuelo: aeropuerto.getVuelos()){
+				if(vuelo.getAvion().getId() == id && vuelo.getFecha().getDayOfMonth() == fechaVuelo.getDayOfMonth()
+						&& vuelo.getFecha().getYear() == fechaVuelo.getYear() && vuelo.getFecha().getMonth() == fechaVuelo.getMonth()){
+					System.out.println("El avion ya ha sido programado en un vuelo en esa fecha, intente en otra.");
+					programarVuelos(aeropuerto);
+					return;
+				}
+			}
+
+			System.out.print("Ingrese el destino del vuelo: ");
+			String destino = entrada.nextLine();
+			System.out.print("Ingrese el costo por pasajero del vuelo: ");
+			int costo = entrada.nextInt();
+			System.out.print("Ingrese la sala de embarque del vuelo: ");
+			entrada.nextLine();
+			String salaEmb = entrada.nextLine();
+
+			for(Avion avion: aeropuerto.getAviones()){
+				if(avion.getId() == id) {
+					Vuelo vueloNuevo = new Vuelo(avion, fechaVuelo, destino, costo, salaEmb);
+					aeropuerto.getVuelos().add(vueloNuevo);
+				}
+			}
+
+			System.out.print("El vuelo ha sido creado exitosamente.\n");
+
+		} catch (Exception e){
+			System.out.println("\nHa ocurrido un error, intentelo nuevamente.");
+			programarVuelos(aeropuerto);
 		}
 	}
 
@@ -460,7 +506,7 @@ public class Administrador {
 			System.out.println("El usuario no se encuentra registrado.\n");
 			cambiarAsiento(aeropuerto);
 		} else {
-			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenía el pasajero
+			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
 			reservaDeVuelo2(pasajero, aeropuerto);
 		}
 	}
