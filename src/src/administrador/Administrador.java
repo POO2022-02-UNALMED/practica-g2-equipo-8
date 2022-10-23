@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import basedatos.Serializador;
 import gestionVuelos.Aeropuerto;
 import gestionVuelos.Asiento;
 import gestionVuelos.Avion;
@@ -39,6 +40,8 @@ public class Administrador {
 		Empleado e4 = new Empleado("Sara", 1, Cargos.COPILOTO, 38, "F");
 
 		e4.setVuelo(vuelo1);
+
+		Serializador.serializar(aeropuerto, "aeropuerto");
 
 		// Pruebas
 
@@ -241,11 +244,10 @@ public class Administrador {
 
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
-		//vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
-		if(vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
+		// vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
+		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
 			System.out.println(vueloElegido.tiquete(nuevoPasajero));
-		}
-		else {
+		} else {
 			vueloElegido.getPasajeros().remove(nuevoPasajero);
 			Aeropuerto.getPasajeros().remove(nuevoPasajero);
 		}
@@ -298,10 +300,10 @@ public class Administrador {
 				break;
 			case 4:
 				Empleado.nuevoEmpleado();
-				case 5:
-					break;
-				default:
-					System.out.println("Opcion incorrecta, vuelva a intentarlo.");
+			case 5:
+				break;
+			default:
+				System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 			}
 		} while (option != 5 && option != 0);
 	}
@@ -399,7 +401,7 @@ public class Administrador {
 			System.out.println("El usuario no se encuentra registrado.\n");
 			cambiarAsiento();
 		} else {
-			Pasajero.getAsiento().setOcupado(false);  //Se habilita el asiento que tenía el pasajero
+			Pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenía el pasajero
 			reservaDeVuelo2(pasajero);
 		}
 	}
@@ -412,10 +414,9 @@ public class Administrador {
 
 		System.out.print("Inserte su documento de identidad: ");
 		int documento = entradas.nextInt();
-		if(documento == pasajero.getCedula()){
+		if (documento == pasajero.getCedula()) {
 
-		}
-		else{
+		} else {
 			System.out.println("Los datos no coinciden");
 			reservaDeVuelo2(pasajero);
 		}
@@ -443,11 +444,11 @@ public class Administrador {
 
 			option = entradas.nextInt();
 			switch (option) {
-				case 1:
-					opcionesPrincipales();
-				case 2:
-					salirDelSistema();
-					break;
+			case 1:
+				opcionesPrincipales();
+			case 2:
+				salirDelSistema();
+				break;
 			}
 		} while (option != 3);
 

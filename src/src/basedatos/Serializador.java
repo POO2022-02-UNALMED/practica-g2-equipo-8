@@ -1,59 +1,33 @@
 package basedatos;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 
 import gestionVuelos.Aeropuerto;
 
 public class Serializador {
-	private static File rutaTempFile = new File("//src//basedatos//temp");
-
-	public static void main(String[] args) {
-		System.out.println(rutaTempFile.listFiles());
+	public static <E> void serializar(Aeropuerto aeropuerto, String archivo) {
 		FileOutputStream fos;
-		ObjectOutputStream oos;
-		File[] docs = rutaTempFile.listFiles();
-		PrintWriter pw;
-
-		for (File file : docs) {
-			System.out.println(file);
-			try {
-				pw = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		try {
+			String ruta = System.getProperty("user.dir") + "\\src\\basedatos\\temp\\aeropuerto.txt";
+			fos = new FileOutputStream(ruta);
+			ObjectOutputStream outputStream = new ObjectOutputStream(fos);
+			outputStream.writeObject(aeropuerto);
+			System.out.println("Se ha guardado correctamente el objeto en el archivo: " + archivo);
+			outputStream.close();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
-	public static void serializarAeropuertos(Aeropuerto aeropuerto) {
-		FileOutputStream fos;
-		ObjectOutputStream oos;
-		File[] docs = rutaTempFile.listFiles();
-		PrintWriter pw;
-
-		for (File file : docs) {
-			try {
-				pw = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		for (File file : docs) {
-			if (file.getAbsolutePath().contains("aeropuertos")) {
-				try {
-					fos = new FileOutputStream(file);
-					oos = new ObjectOutputStream(fos);
-					oos.writeObject(aeropuerto);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+	public static void serializar() {
+		serializar(new Aeropuerto(), "aeropuertos");
 	}
+
 }
