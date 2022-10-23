@@ -1,5 +1,7 @@
 package gestionVuelos;
 
+import administrador.Administrador;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +19,7 @@ public class Avion {
 		this.pesoMaximo = pesoMaximo;
 		this.valor = valor;
 		this.genAsientos(10, 15);
-		Aeropuerto.agregarAvion(this);
+		Administrador.aeropuerto.agregarAvion(this);
 		this.id = globalID;
 		Avion.globalID ++;
 	}
@@ -86,7 +88,7 @@ public class Avion {
 		System.out.print("Por favor inserte el valor a pagar por el Avion: ");
 		valort = entrada.nextInt();
 
-		Aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
+		Administrador.aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
 		//Aeropuerto.retirarDinero(valort);
 		return new Avion(modelot, pesoMaximot, valort);
 	}

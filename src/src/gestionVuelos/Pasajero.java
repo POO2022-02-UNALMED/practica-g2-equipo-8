@@ -1,5 +1,7 @@
 package gestionVuelos;
 
+import administrador.Administrador;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class Pasajero extends Persona {
 
 	public Pasajero(String nombre, int cedula, int edad, String sexo) {
 		super(nombre, cedula, edad, sexo);
-		Aeropuerto.getPasajeros().add(this);
+		Administrador.aeropuerto.getPasajeros().add(this);
 	}
 
 	public static Asiento getAsiento() {
@@ -43,7 +45,7 @@ public class Pasajero extends Persona {
 	}
 
 	public static Pasajero buscarPasajero(int cedula) {
-		for (Pasajero pasajero : Aeropuerto.getPasajeros()) {
+		for (Pasajero pasajero : Administrador.aeropuerto.getPasajeros()) {
 			if (pasajero.getCedula() == cedula) {
 				return pasajero;
 			}
