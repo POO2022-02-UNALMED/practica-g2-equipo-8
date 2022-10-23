@@ -85,7 +85,7 @@ public class Administrador {
 			Modificaciones(aeropuerto);
 			break;
 		case 0:
-			salirDelSistema();
+			salirDelSistema(aeropuerto);
 			break;
 		default:
 			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
@@ -99,12 +99,12 @@ public class Administrador {
 		Scanner entrada = new Scanner(System.in);
 		int cedula = entrada.nextInt();
 		if (cedula == 0) {
-			salirDelSistema();
+			salirDelSistema(aeropuerto);
 		}
 		while (Empleado.buscarEmpleado(cedula) == null) {
 			cedula = entrada.nextInt();
 			if (cedula == 0) {
-				salirDelSistema();
+				salirDelSistema(aeropuerto);
 				break;
 			}
 			System.out.println("Esta cedula no esta asignada a ningun empleado, vuelva a intentarlo.");
@@ -189,9 +189,9 @@ public class Administrador {
 		opcionesPrincipales(aeropuerto);
 	}
 
-	public static void salirDelSistema() {
+	public static void salirDelSistema(Aeropuerto aeropuerto) {
 		System.out.println("Vuelva pronto");
-		// Serializador.serializarAeropuertos(aeropuerto);
+		Serializador.serializar(aeropuerto);
 		System.exit(0);
 	}
 
@@ -274,7 +274,7 @@ public class Administrador {
 			case 1:
 				opcionesPrincipales(aeropuerto);
 			case 2:
-				salirDelSistema();
+				salirDelSistema(aeropuerto);
 				break;
 			}
 		} while (option != 3);
@@ -391,7 +391,7 @@ public class Administrador {
 				opcionesPrincipales(aeropuerto);
 				break;
 			case 5:
-				salirDelSistema();
+				salirDelSistema(aeropuerto);
 				break;
 			}
 		} while (option != 6);
@@ -456,7 +456,7 @@ public class Administrador {
 			case 1:
 				opcionesPrincipales(aeropuerto);
 			case 2:
-				salirDelSistema();
+				salirDelSistema(aeropuerto);
 				break;
 			}
 		} while (option != 3);
