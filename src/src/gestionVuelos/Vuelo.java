@@ -3,7 +3,6 @@ package gestionVuelos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Vuelo implements Serializable {
@@ -83,9 +82,10 @@ public class Vuelo implements Serializable {
 		String tique = "\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
 				+ "          Tiquete No." + this.id + "\n" + "------------------------------------\n"
 				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + fecha + "\n" + "Vuelo: " + getId()
-				+ "\n" + "Clase: " + pasajero.getAsiento().getClase() + "\n" + "Num Silla: "
-				+ pasajero.getAsiento().getNumero() + "\n" + "Origen: " + origen + "\n" + "Destino: " + getDestino()
-				+ "\n" + "Precio Total: " + getCosto() + "\n" + "------------------------------------\n";
+				+ "\n" + "Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
+				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n"
+				+ "Origen: " + origen + "\n" + "Destino: " + getDestino() + "\n" + "Precio Total: " + getCosto() + "\n"
+				+ "------------------------------------\n";
 		return tique;
 	}
 

@@ -1,10 +1,11 @@
 package administrador;
 
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 import basedatos.Serializador;
 import gestionVuelos.Aeropuerto;
 import gestionVuelos.Asiento;
@@ -94,21 +95,23 @@ public class Administrador {
 		}
 	}
 
-	public static void programarVuelos(Aeropuerto aeropuerto){
+	public static void programarVuelos(Aeropuerto aeropuerto) {
 		Scanner entrada = new Scanner(System.in);
 		try {
-			for (Avion avion : aeropuerto.getAviones()) System.out.println(avion);
+			for (Avion avion : aeropuerto.getAviones())
+				System.out.println(avion);
 			System.out.print("\nIngrese el ID del avion designado para el vuelo: ");
 			int id = entrada.nextInt();
 			System.out.print("Ingrese la fecha y hora del vuelo (en formato DD/MM/AAAA HH:MM:SS): ");
 			entrada.nextLine();
 			String str = entrada.nextLine();
 
-			LocalDateTime fechaVuelo = LocalDateTime.parse(str, DateTimeFormatter.ofPattern("d/M/yyyy H:m:s") );
+			LocalDateTime fechaVuelo = LocalDateTime.parse(str, DateTimeFormatter.ofPattern("d/M/yyyy H:m:s"));
 
-			for(Vuelo vuelo: aeropuerto.getVuelos()){
-				if(vuelo.getAvion().getId() == id && vuelo.getFecha().getDayOfMonth() == fechaVuelo.getDayOfMonth()
-						&& vuelo.getFecha().getYear() == fechaVuelo.getYear() && vuelo.getFecha().getMonth() == fechaVuelo.getMonth()){
+			for (Vuelo vuelo : aeropuerto.getVuelos()) {
+				if (vuelo.getAvion().getId() == id && vuelo.getFecha().getDayOfMonth() == fechaVuelo.getDayOfMonth()
+						&& vuelo.getFecha().getYear() == fechaVuelo.getYear()
+						&& vuelo.getFecha().getMonth() == fechaVuelo.getMonth()) {
 					System.out.println("El avion ya ha sido programado en un vuelo en esa fecha, intente en otra.");
 					programarVuelos(aeropuerto);
 					return;
@@ -125,8 +128,8 @@ public class Administrador {
 			System.out.print("El vuelo es internacional? (y/n): ");
 			String internacional = entrada.nextLine();
 
-			for(Avion avion: aeropuerto.getAviones()){
-				if(avion.getId() == id) {
+			for (Avion avion : aeropuerto.getAviones()) {
+				if (avion.getId() == id) {
 					Vuelo vueloNuevo = new Vuelo(avion, fechaVuelo, destino, costo, salaEmb);
 				}
 			}
@@ -134,21 +137,25 @@ public class Administrador {
 			System.out.println("El vuelo ha sido creado exitosamente.\n");
 			System.out.println("Se recomiendan los siguiente empleados segun las caracteristicas del vuelo: ");
 
-			if(internacional.equals("y")){
-				for(Empleado empleado: aeropuerto.getEmpleados()){
-					if(empleado.getExperiencia() >= 5) System.out.println(empleado);
+			if (internacional.equals("y")) {
+				for (Empleado empleado : aeropuerto.getEmpleados()) {
+					if (empleado.getExperiencia() >= 5)
+						System.out.println(empleado);
 				}
-			} else{
+			} else {
 				System.out.println("Cualquier empleado puede cumplir las expectativas de calidad.");
 			}
-			System.out.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n" +
-					"Ingrese 1 para ir a la gestion de empleado o 0 para regresar al menu principal:");
+			System.out
+					.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
+							+ "Ingrese 1 para ir a la gestion de empleado o 0 para regresar al menu principal:");
 			int des = entrada.nextInt();
 
-			if(des == 1) gestionarEmpleadosInterfaz(aeropuerto);
-			else opcionesPrincipales(aeropuerto);
+			if (des == 1)
+				gestionarEmpleadosInterfaz(aeropuerto);
+			else
+				opcionesPrincipales(aeropuerto);
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			System.out.println("\nHa ocurrido un error, intentelo nuevamente.");
 			programarVuelos(aeropuerto);
 		}
@@ -256,7 +263,7 @@ public class Administrador {
 	public static void cambiarCargo(Empleado empleado, Aeropuerto aeropuerto) {
 
 		System.out.println("El cargo actual de " + empleado.getNombre() + " es " + empleado.getCargo());
-		System.out.println("¿A que cargo quieres asignarle? Los cargos disponibles son: ");
+		System.out.println("ï¿½A que cargo quieres asignarle? Los cargos disponibles son: ");
 
 		for (int i = 0; i < Cargos.values().length; i++) {
 			System.out.println((i + 1) + ". " + Cargos.values()[i].getCargo());
@@ -273,7 +280,7 @@ public class Administrador {
 			} else {
 				empleado.setCargo(Cargos.values()[indice - 1]);
 				System.out.println("Ahora el cargo de " + empleado.getNombre() + " es " + empleado.getCargo());
-				System.out.println("¿Desea cambiar el saldo de " + empleado.getNombre() + "?\n1. Si.\n2. No\n");
+				System.out.println("ï¿½Desea cambiar el saldo de " + empleado.getNombre() + "?\n1. Si.\n2. No\n");
 				int opcion = entrada.nextInt();
 				switch (opcion) {
 				case 1: {
@@ -324,7 +331,6 @@ public class Administrador {
 		else {
 			System.out.println("Lo sentimos, no hay vuelos disponibles desde ese origen para el destino indicado");
 			opcionesPrincipales(aeropuerto);
-			return;
 		}
 		System.out.print("Inserte el ID del vuelo de su preferencia: ");
 		int IDvuelo = entradas.nextInt();
@@ -476,6 +482,24 @@ public class Administrador {
 		}
 	}
 
+	public static void mostrarVuelos(Aeropuerto aeropuerto) {
+		System.out.println("El aeropuerto dispone de los siguientes vuelos: \n");
+		System.out.println("ID             Destino");
+		for (Vuelo vuelo : aeropuerto.getVuelos()) {
+			System.out.println(
+					vuelo.getId() + " ".repeat(15 - Integer.toString(vuelo.getId()).length()) + vuelo.getDestino());
+		}
+	}
+
+	public static void mostrarAviones(Aeropuerto aeropuerto) {
+		System.out.println("El aeropuerto dispone de los siguientes aviones: \n");
+		System.out.println("ID             Modelo");
+		for (Avion avion : aeropuerto.getAviones()) {
+			System.out.println(
+					avion.getId() + " ".repeat(15 - Integer.toString(avion.getId()).length()) + avion.getModelo());
+		}
+	}
+
 	public static void Modificaciones(Aeropuerto aeropuerto) {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
@@ -495,9 +519,12 @@ public class Administrador {
 			switch (option) {
 			case 1:
 				cambiarAsiento(aeropuerto);
+				break;
 			case 2:
+				cancelarVuelo(aeropuerto);
 				break;
 			case 3:
+				eliminarAvion(aeropuerto);
 				break;
 			case 4:
 				opcionesPrincipales(aeropuerto);
@@ -580,6 +607,121 @@ public class Administrador {
 		for (int i = 0; i < vuelos.size(); i++) {
 			vuelo = vuelos.get(i);
 		}
+	}
+
+	private static void cancelarVuelo(Aeropuerto aeropuerto) {
+		mostrarVuelos(aeropuerto);
+		Scanner entradas = new Scanner(System.in);
+
+		System.out.println("Por favor ingrese el ID del vuelo que desea cancelar: ");
+		int id = entradas.nextInt();
+
+		for (int i = 0; i < aeropuerto.getVuelos().size(); i++) {
+			if (id == aeropuerto.getVuelos().get(i).getId()) {
+
+				for (int j = 0; j < aeropuerto.getPasajeros().size(); j++) {
+					if (aeropuerto.getPasajeros().get(j).getVuelo() == aeropuerto.getVuelos().get(i)) {
+						aeropuerto.getPasajeros().remove(aeropuerto.getPasajeros().get(j));
+					}
+				}
+				aeropuerto.getVuelos().remove(aeropuerto.getVuelos().get(i));
+			}
+		}
+
+		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
+		mostrarVuelos(aeropuerto);
+
+	}
+
+	private static void cancelarVuelo(Vuelo vuelo, Aeropuerto aeropuerto) {
+		for (int i = 0; i < aeropuerto.getVuelos().size(); i++) {
+			if (vuelo.getId() == aeropuerto.getVuelos().get(i).getId()) {
+
+				for (int j = 0; j < aeropuerto.getPasajeros().size(); j++) {
+					if (aeropuerto.getPasajeros().get(j).getVuelo() == aeropuerto.getVuelos().get(i)) {
+						aeropuerto.getPasajeros().remove(aeropuerto.getPasajeros().get(j));
+					}
+				}
+				aeropuerto.getVuelos().remove(aeropuerto.getVuelos().get(i));
+			}
+		}
+
+		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
+		mostrarVuelos(aeropuerto);
+
+	}
+
+	private static void eliminarAvion(Aeropuerto aeropuerto) {
+		mostrarAviones(aeropuerto);
+		Scanner entradas = new Scanner(System.in);
+
+		System.out.println("Por favor ingrese el ID del avion que desea cancelar: ");
+		int id = entradas.nextInt();
+		Vuelo v = null;
+		Avion a = null;
+
+		for (int i = 0; i < aeropuerto.getAviones().size(); i++) {
+			if (id == aeropuerto.getAviones().get(i).getId()) {
+				a = aeropuerto.getAviones().get(i);
+				System.out.println("a" + aeropuerto.getAviones().get(i).getModelo());
+				aeropuerto.getAviones().remove(aeropuerto.getAviones().get(i));
+			}
+			for (int j = 0; j < aeropuerto.getVuelos().size(); j++) {
+				if (a != null) {
+					if (a.getId() == aeropuerto.getVuelos().get(j).getAvion().getId()) {
+						v = aeropuerto.getVuelos().get(j);
+						System.out.println("v" + aeropuerto.getVuelos().get(j));
+					}
+				}
+			}
+
+		}
+		int option;
+		do {
+			System.out.println("Desea agregar un avion al vuelo " + v);
+			System.out.println("Ingrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Si.
+					2. No.
+					3. Volver.
+					4. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+			case 1:
+				agregarAvion(a, v, aeropuerto);
+				break;
+			case 2:
+				cancelarVuelo(v, aeropuerto);
+				break;
+			case 3:
+				opcionesPrincipales(aeropuerto);
+				break;
+			case 4:
+				salirDelSistema(aeropuerto);
+				break;
+			}
+		} while (option != 5);
+
+		System.out.println("\nLa lista de aviones ha sido actualizada.\n");
+		mostrarAviones(aeropuerto);
+	}
+
+	private static void agregarAvion(Avion avion, Vuelo vuelo, Aeropuerto aeropuerto) {
+		Scanner entradas = new Scanner(System.in);
+		System.out.println("Por favor ingrese el modelo del avion: ");
+		String modelo = entradas.nextLine();
+
+		System.out.println("Por favor ingrese el peso maximo del avion: ");
+		int peso = entradas.nextInt();
+
+		System.out.println("Por favor ingrese el precio del avion: ");
+		int valor = entradas.nextInt();
+
+		Avion av = new Avion(modelo, peso, valor);
+		vuelo.setAvion(av);
+		mostrarAviones(aeropuerto);
 	}
 
 }
