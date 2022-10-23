@@ -1,12 +1,15 @@
 package gestionVuelos;
 
-import administrador.Administrador;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Vuelo {
+public class Vuelo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Avion avion;
 	private List<Empleado> empleados = new ArrayList<>();
 	private List<Pasajero> pasajeros = new ArrayList<>();
@@ -17,8 +20,9 @@ public class Vuelo {
 	private int costo;
 	private String salaEmbarque;
 	private double pesoActual;
-	static int globalID = 1;
+	private static int globalID = 1;
 	private final int id;
+	private static Aeropuerto aeropuerto;
 
 	public Vuelo(Avion avion, Date fecha, String destino, int costo, String salaEmbarque) {
 		this.avion = avion;
@@ -26,7 +30,7 @@ public class Vuelo {
 		this.destino = destino;
 		this.costo = costo;
 		this.salaEmbarque = salaEmbarque;
-		Administrador.aeropuerto.agregarVuelo(this);
+		aeropuerto.agregarVuelo(this);
 		this.id = globalID;
 		Vuelo.globalID++;
 	}
@@ -46,14 +50,15 @@ public class Vuelo {
 			pasajero.setVuelo(this);
 			asientoElegido.setOcupado(true);
 			if (asientoElegido.getClase().equals("Primera clase"))
-				Administrador.aeropuerto.ingresarDinero(3 * costo);
+				aeropuerto.ingresarDinero(3 * costo);
 			else if (asientoElegido.getClase().equals("Ejecutiva"))
-				Administrador.aeropuerto.ingresarDinero(2 * costo);
+				aeropuerto.ingresarDinero(2 * costo);
 			else
-				Administrador.aeropuerto.ingresarDinero(costo);
+				aeropuerto.ingresarDinero(costo);
 			return true;
 		} else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
-			System.out.println("\n" + "No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
+			System.out.println("\n"
+					+ "No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
 			return false;
 		} else {
 			System.out.println("\n" + "Ha elegido un puesto no disponible, por favor elija otro.");
@@ -74,20 +79,12 @@ public class Vuelo {
 	}
 
 	public String tiquete(Pasajero pasajero) {
-		String tique = "\n" + "Ha sido registrado exitosamente" + "\n" + "\n" +
-				"------------------------------------\n" +
-				"          Tiquete No." + this.id + "\n" +
-				"------------------------------------\n" +
-				"Nombre Pasajero: " + pasajero.getNombre() + "\n" +
-				"Fecha: " + fecha + "\n" +
-				"Vuelo: " + getId() + "\n" +
-				"Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" +
-				"Clase: " + pasajero.getAsiento().getClase() + "\n" +
-				"Num Silla: " + pasajero.getAsiento().getNumero() + "\n" +
-				"Origen: " + origen + "\n" +
-				"Destino: " + getDestino() + "\n" +
-				"Precio Total: " + getCosto() + "\n" +
-				"------------------------------------\n";
+		String tique = "\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
+				+ "          Tiquete No." + this.id + "\n" + "------------------------------------\n"
+				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + fecha + "\n" + "Vuelo: " + getId()
+				+ "\n" + "Clase: " + pasajero.getAsiento().getClase() + "\n" + "Num Silla: "
+				+ pasajero.getAsiento().getNumero() + "\n" + "Origen: " + origen + "\n" + "Destino: " + getDestino()
+				+ "\n" + "Precio Total: " + getCosto() + "\n" + "------------------------------------\n";
 		return tique;
 	}
 
@@ -171,9 +168,13 @@ public class Vuelo {
 		return id;
 	}
 
+	public static void setAeropuerto(Aeropuerto aeropuerto) {
+		Vuelo.aeropuerto = aeropuerto;
+	}
+
 	public static Vuelo encontrarVuelo(int id) {
-		if (id - 1 <= Administrador.aeropuerto.getVuelos().size()) {
-			return Administrador.aeropuerto.getVuelos().get(id - 1);
+		if (id - 1 <= aeropuerto.getVuelos().size()) {
+			return aeropuerto.getVuelos().get(id - 1);
 		}
 		return null;
 	}

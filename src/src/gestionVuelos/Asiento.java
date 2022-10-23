@@ -1,50 +1,56 @@
 package gestionVuelos;
 
-public class Asiento {
-    private char fila;
-    private int numero;
-    private boolean ocupado;
-    private String clase;
+import java.io.Serializable;
 
-    public Asiento(int numero, String clase) {
-        this.numero = numero;
-        this.clase = clase;
-    }
+public class Asiento implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private char fila;
+	private int numero;
+	private boolean ocupado;
+	private String clase;
 
-    @Override
-    public String toString(){
-        return "Fila: "+fila+" - numero: "+numero+" - clase: "+clase;
-    }
+	public Asiento(int numero, String clase) {
+		this.numero = numero;
+		this.clase = clase;
+	}
 
-    public char getFila() {
-        return fila;
-    }
+	@Override
+	public String toString() {
+		return "Fila: " + fila + " - numero: " + numero + " - clase: " + clase;
+	}
 
-    public void setFila(char fila) {
-        this.fila = fila;
-    }
+	public char getFila() {
+		return fila;
+	}
 
-    public int getNumero() {
-        return numero;
-    }
+	public void setFila(char fila) {
+		this.fila = fila;
+	}
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
+	public int getNumero() {
+		return numero;
+	}
 
-    public boolean isOcupado() {
-        return ocupado;
-    }
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
 
-    public void setOcupado(boolean ocupado) {
-        this.ocupado = ocupado;
-    }
+	public boolean isOcupado() {
+		return ocupado;
+	}
 
-    public String getClase() {
-        return clase;
-    }
+	public void setOcupado(boolean ocupado) {
+		this.ocupado = ocupado;
+	}
 
-    public void setClase(String clase) {
-        this.clase = clase;
-    }
+	public String getClase() {
+		return clase;
+	}
+
+	public void setClase(String clase) {
+		this.clase = clase;
+	}
 }

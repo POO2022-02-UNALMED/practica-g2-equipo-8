@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import basedatos.Deserializador;
+
 public class Aeropuerto implements Serializable {
 	/**
 	 * 
 	 */
-	private final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private List<Vuelo> vuelos = new ArrayList<>();
 	private List<Empleado> empleados = new ArrayList<>();
@@ -20,14 +22,15 @@ public class Aeropuerto implements Serializable {
 	private float dinero;
 
 	public Aeropuerto() {
-		// Deserializador.deserializarthis(this);
+		Deserializador.deserializar(this);
 	}
 
 	public void ingresarDinero(int pago) {
-		this.dinero += pago;
+		dinero += pago;
 	}
+
 	public void retirarDinero(int pago) {
-		this.dinero -= pago;
+		dinero -= pago;
 	}
 
 	public float getDinero() {
@@ -111,14 +114,14 @@ public class Aeropuerto implements Serializable {
 		empleados.remove(empleados.indexOf(empleado));
 	}
 
-	public void transaccion(String concepto, int valor){
+	public void transaccion(String concepto, int valor) {
 		transaccionesKeys.add(concepto);
 		transaccionesValues.add(valor);
 
 		ingresarDinero(valor);
 	}
 
-	public void transacciones(){
+	public void transacciones() {
 		int acumulador = 0;
 		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {
 			System.out.println((i + 1) + ":  " + transaccionesKeys.get(i) + " --- " + transaccionesValues.get(i));

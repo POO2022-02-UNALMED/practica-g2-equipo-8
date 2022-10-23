@@ -1,27 +1,28 @@
 package gestionVuelos;
 
-import administrador.Administrador;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Avion {
+public class Avion implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int id;
 	private String modelo;
 	private int pesoMaximo;
 	private List<Asiento> asientos = new ArrayList<>();
 	private int valor;
-	static int globalID = 1;
-	private final int id;
+	private static Aeropuerto aeropuerto;
 
 	public Avion(String modelo, int pesoMaximo, int valor) {
 		this.modelo = modelo;
 		this.pesoMaximo = pesoMaximo;
 		this.valor = valor;
 		this.genAsientos(10, 15);
-		Administrador.aeropuerto.agregarAvion(this);
-		this.id = globalID;
-		Avion.globalID ++;
+		aeropuerto.agregarAvion(this);
 	}
 
 	public void genAsientos(int min, int max) {
@@ -40,6 +41,10 @@ public class Avion {
 
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getModelo() {
@@ -88,8 +93,12 @@ public class Avion {
 		System.out.print("Por favor inserte el valor a pagar por el Avion: ");
 		valort = entrada.nextInt();
 
-		Administrador.aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
-		//Aeropuerto.retirarDinero(valort);
+		aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
+		// Aeropuerto.retirarDinero(valort);
 		return new Avion(modelot, pesoMaximot, valort);
+	}
+
+	public static void setAeropuerto(Aeropuerto aeropuerto) {
+		Avion.aeropuerto = aeropuerto;
 	}
 }

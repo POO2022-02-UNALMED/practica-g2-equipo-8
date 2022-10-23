@@ -1,6 +1,5 @@
 package basedatos;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,30 +8,34 @@ import java.io.ObjectInputStream;
 import gestionVuelos.Aeropuerto;
 
 public class Deserializador {
-	private static File rutaTempFile = new File("src\\basedatos\\temp");
+	public static <E> void deserializar(Aeropuerto aeropuerto) {
+		FileInputStream fin;
 
-	public static void deserializarAeropuerto(Aeropuerto aeropuerto) {
-		File[] docs = rutaTempFile.listFiles();
-		FileInputStream fis;
-		ObjectInputStream ois;
+		try {
+			String ruta = System.getProperty("user.dir") + "\\src\\basedatos\\temp\\aeropuerto.txt";
+			fin = new FileInputStream(ruta);
+			ObjectInputStream oos = new ObjectInputStream(fin);
+			Aeropuerto e = (Aeropuerto) oos.readObject();
 
-		for (File file : docs) {
-			if (file.getAbsolutePath().contains("aeropuertos")) {
-				try {
-					fis = new FileInputStream(file);
-					ois = new ObjectInputStream(fis);
+			aeropuerto.setAviones(e.getAviones());
+			aeropuerto.setDinero(e.getDinero());
+			aeropuerto.setEmpleados(e.getEmpleados());
+			aeropuerto.setNombre(e.getNombre());
+			aeropuerto.setPasajeros(e.getPasajeros());
+			aeropuerto.setSalas(e.getSalas());
+			aeropuerto.setVuelos(e.getVuelos());
 
-					Aeropuerto aux = (Aeropuerto) ois.readObject();
+			oos.close();
+			fin.close();
 
-					//aeropuerto.copiarAeropuerto(aux);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 }

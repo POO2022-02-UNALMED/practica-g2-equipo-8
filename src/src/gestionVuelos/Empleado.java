@@ -1,12 +1,14 @@
 package gestionVuelos;
 
-import administrador.Administrador;
-
 import java.util.List;
 import java.util.Scanner;
 
 public class Empleado extends Persona {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int sueldo;
 	private String cargo;
 	private Vuelo vuelo;
@@ -15,7 +17,7 @@ public class Empleado extends Persona {
 		super(nombre, cedula, edad, sexo);
 		this.sueldo = sueldo;
 		this.cargo = cargo.getCargo();
-		Administrador.aeropuerto.agregarEmpleado(this);
+		aeropuerto.agregarEmpleado(this);
 	}
 
 	public Empleado(String nombre, int cedula, Cargos cargo, int edad, String sexo) {
@@ -36,14 +38,14 @@ public class Empleado extends Persona {
 	public static void mostrarEmpleados() {
 		System.out.println("Estos son los empleados del aeropuerto:\n");
 		System.out.println("Cedula         Nombre");
-		for (Empleado empleado : Administrador.aeropuerto.getEmpleados()) {
+		for (Empleado empleado : aeropuerto.getEmpleados()) {
 			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
 					+ empleado.getNombre());
 		}
 	}
 
 	public static Empleado buscarEmpleado(int cedula) {
-		for (Empleado empleado : Administrador.aeropuerto.getEmpleados()) {
+		for (Empleado empleado : aeropuerto.getEmpleados()) {
 			if (empleado.getCedula() == cedula) {
 				return empleado;
 			}
@@ -78,14 +80,14 @@ public class Empleado extends Persona {
 
 	public void pagarNomina() {
 		int dineroapagar = this.getSueldo();
-		float nuevosaldo = Administrador.aeropuerto.getDinero() - dineroapagar;
+		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
 
 		if (nuevosaldo < 0) {
 			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
 		} else {
-			//Administrador.aeropuerto.setDinero(nuevosaldo);
-			Administrador.aeropuerto.transaccion("Nomina " + this.getNombre(), dineroapagar * (-1));
-			System.out.println("Transaccion realizada, nuevo saldo = " + Administrador.aeropuerto.getDinero());
+			// Aeropuerto.setDinero(nuevosaldo);
+			aeropuerto.transaccion("Nomina " + this.getNombre(), dineroapagar * (-1));
+			System.out.println("Transaccion realizada, nuevo saldo = " + aeropuerto.getDinero());
 		}
 	}
 
@@ -94,14 +96,14 @@ public class Empleado extends Persona {
 		for (Empleado empleado : empleados) {
 			dineroapagar += empleado.getSueldo();
 		}
-		float nuevosaldo = Administrador.aeropuerto.getDinero() - dineroapagar;
+		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
 
 		if (nuevosaldo < 0) {
 			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
 		} else {
-			Administrador.aeropuerto.transaccion("Nomina General", dineroapagar * (-1));
-			//Administrador.aeropuerto.setDinero(nuevosaldo);
-			System.out.println("Transaccion realizada, nuevo saldo = " + Administrador.aeropuerto.getDinero());
+			aeropuerto.transaccion("Nomina General", dineroapagar * (-1));
+			// Aeropuerto.setDinero(nuevosaldo);
+			System.out.println("Transaccion realizada, nuevo saldo = " + aeropuerto.getDinero());
 		}
 	}
 
@@ -135,26 +137,27 @@ public class Empleado extends Persona {
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot);
 	}
 
-	public static void cambiarSueldo(){
+	public static void cambiarSueldo() {
 		Scanner entrada = new Scanner(System.in);
-		List<Empleado> lempleados = Administrador.aeropuerto.getEmpleados();
+		List<Empleado> lempleados = aeropuerto.getEmpleados();
 
 		System.out.println("\nListado de empleados");
 		for (int i = 0; i < lempleados.size(); i++) {
-			System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
-					+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
+			System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
+					+ ", sueldo = " + lempleados.get(i).getSueldo());
 		}
 		System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
 		int option = entrada.nextInt();
 
 		System.out.println("Empleado seleccionado: ");
-		System.out.println(lempleados.get(option - 1).getCargo() + ": "
-				+ lempleados.get(option - 1).getNombre() + ", sueldo = " + lempleados.get(option - 1).getSueldo());
+		System.out.println(lempleados.get(option - 1).getCargo() + ": " + lempleados.get(option - 1).getNombre()
+				+ ", sueldo = " + lempleados.get(option - 1).getSueldo());
 
 		System.out.println("\nIngresa el nuevo sueldo: ");
 		int option2 = entrada.nextInt();
 
-		lempleados.get(option-1).setSueldo(option2);
-		System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: " + lempleados.get(option - 1).getSueldo());
+		lempleados.get(option - 1).setSueldo(option2);
+		System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
+				+ lempleados.get(option - 1).getSueldo());
 	}
 }

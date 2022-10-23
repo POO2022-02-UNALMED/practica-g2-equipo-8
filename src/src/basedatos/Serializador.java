@@ -8,14 +8,14 @@ import java.io.ObjectOutputStream;
 import gestionVuelos.Aeropuerto;
 
 public class Serializador {
-	public static <E> void serializar(Aeropuerto aeropuerto, String archivo) {
+	public static <E> void serializar(Aeropuerto aeropuerto) {
 		FileOutputStream fos;
 		try {
 			String ruta = System.getProperty("user.dir") + "\\src\\basedatos\\temp\\aeropuerto.txt";
 			fos = new FileOutputStream(ruta);
 			ObjectOutputStream outputStream = new ObjectOutputStream(fos);
 			outputStream.writeObject(aeropuerto);
-			System.out.println("Se ha guardado correctamente el objeto en el archivo: " + archivo);
+			System.out.println("Se ha guardado correctamente el objeto en el archivo: aeropuerto");
 			outputStream.close();
 			fos.close();
 		} catch (FileNotFoundException e) {
@@ -25,9 +25,4 @@ public class Serializador {
 			e.printStackTrace();
 		}
 	}
-
-	public static void serializar() {
-		serializar(new Aeropuerto(), "aeropuertos");
-	}
-
 }

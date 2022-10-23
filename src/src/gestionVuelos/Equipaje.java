@@ -1,36 +1,42 @@
 package gestionVuelos;
 
-public class Equipaje {
-    private int id;
-    private double peso;
-    private Pasajero propietario;
+import java.io.Serializable;
 
-    public Equipaje(double peso, Pasajero propietario) {
-        this.peso = peso;
-        this.propietario = propietario;
-    }
+public class Equipaje implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int id;
+	private double peso;
+	private Pasajero propietario;
 
-    public int getId() {
-        return id;
-    }
+	public Equipaje(double peso, Pasajero propietario) {
+		this.peso = peso;
+		this.propietario = propietario;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public double getPeso() {
-        return peso;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setPeso(double peso) {
-        this.peso = peso;
-    }
+	public double getPeso() {
+		return peso;
+	}
 
-    public Pasajero getPropietario() {
-        return propietario;
-    }
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
 
-    public void setPropietario(Pasajero propietario) {
-        this.propietario = propietario;
-    }
+	public Pasajero getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(Pasajero propietario) {
+		this.propietario = propietario;
+	}
 }
