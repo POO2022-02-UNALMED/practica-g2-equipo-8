@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Avion {
-	private int id;
 	private String modelo;
 	private int pesoMaximo;
 	private List<Asiento> asientos = new ArrayList<>();
 	private int valor;
+	static int globalID = 1;
+	private final int id;
 
 	public Avion(String modelo, int pesoMaximo, int valor) {
 		this.modelo = modelo;
@@ -17,6 +18,8 @@ public class Avion {
 		this.valor = valor;
 		this.genAsientos(10, 15);
 		Aeropuerto.agregarAvion(this);
+		this.id = globalID;
+		Avion.globalID ++;
 	}
 
 	public void genAsientos(int min, int max) {
@@ -35,10 +38,6 @@ public class Avion {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getModelo() {

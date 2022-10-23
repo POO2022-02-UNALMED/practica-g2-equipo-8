@@ -15,7 +15,7 @@ public class Vuelo {
 	private int costo;
 	private String salaEmbarque;
 	private double pesoActual;
-	private static int globalID = 1;
+	static int globalID = 1;
 	private final int id;
 
 	public Vuelo(Avion avion, Date fecha, String destino, int costo, String salaEmbarque) {
@@ -79,6 +79,7 @@ public class Vuelo {
 				"Nombre Pasajero: " + pasajero.getNombre() + "\n" +
 				"Fecha: " + fecha + "\n" +
 				"Vuelo: " + getId() + "\n" +
+				"Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" +
 				"Clase: " + pasajero.getAsiento().getClase() + "\n" +
 				"Num Silla: " + pasajero.getAsiento().getNumero() + "\n" +
 				"Origen: " + origen + "\n" +
