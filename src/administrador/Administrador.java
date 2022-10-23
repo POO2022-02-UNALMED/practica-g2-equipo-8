@@ -22,7 +22,7 @@ public class Administrador {
 
 		Aeropuerto aeropuerto = new Aeropuerto();
 		inicializarStatics(aeropuerto);
-		inicializadorObjetos(aeropuerto);
+		// inicializadorObjetos(aeropuerto);
 
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
