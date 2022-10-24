@@ -31,7 +31,7 @@ public class Administrador {
 
 		inicializarStatics();
 		// inicializadorObjetos();
-
+		System.out.println(AEROPUERTO.getVuelos());
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
 
@@ -445,7 +445,8 @@ public class Administrador {
 		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
 			System.out.println(vueloElegido.tiquete(nuevoPasajero)); // Imprime el tiquete
 		} else {
-			vueloElegido.getPasajeros().remove(nuevoPasajero);  //Por si no se hace efectiva la reserva dado el peso del equipaje
+			vueloElegido.getPasajeros().remove(nuevoPasajero); // Por si no se hace efectiva la reserva dado el peso del
+																// equipaje
 			AEROPUERTO.getPasajeros().remove(nuevoPasajero);
 		}
 
@@ -486,35 +487,35 @@ public class Administrador {
 				2. ver historial de transacciones.
 				3. Contratar nuevo empleado.
 				4. Modificar el dinero del aeropuerto
-				5. Colver.
+				5. Volver.
 				0. Cerrar.
 				""");
 
 		option = entrada.nextInt();
 		switch (option) {
-			case 1:
-				pagarNominaInterfaz();
-				break;
-			case 2:
-				System.out.println(AEROPUERTO.transacciones());
-				interfazFinanzas();
-				break;
-			case 3:
-				nuevoEmpleado();
-				interfazFinanzas();
-				break;
-			case 4:
-				modificarDinero();
-				interfazFinanzas();
-				break;
-			case 5:
-				opcionesPrincipales();
-				break;
-			case 0:
-				salirDelSistema();
-				break;
-			default:
-				System.out.println("Opcion incorrecta, vuelva a intentarlo.");
+		case 1:
+			pagarNominaInterfaz();
+			break;
+		case 2:
+			System.out.println(AEROPUERTO.transacciones());
+			interfazFinanzas();
+			break;
+		case 3:
+			nuevoEmpleado();
+			interfazFinanzas();
+			break;
+		case 4:
+			modificarDinero();
+			interfazFinanzas();
+			break;
+		case 5:
+			opcionesPrincipales();
+			break;
+		case 0:
+			salirDelSistema();
+			break;
+		default:
+			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 		}
 	}
 
@@ -591,7 +592,7 @@ public class Administrador {
 		}
 	}
 
-	//metodo para ingresar o retirar dinero al aeropuerto
+	// metodo para ingresar o retirar dinero al aeropuerto
 	public static void modificarDinero() {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de transacciones externas --");
@@ -599,7 +600,7 @@ public class Administrador {
 		System.out.println("1. Ingresar\n2. Retirar\n0. Volver");
 		int option = entrada.nextInt();
 
-		if (option == 0){
+		if (option == 0) {
 			interfazFinanzas();
 			return;
 		} else if (option != 1 && option != 2) {
@@ -615,20 +616,19 @@ public class Administrador {
 		entrada.nextLine();
 		String cocepto = entrada.nextLine();
 
-
 		switch (option) {
-			case 1:
-				AEROPUERTO.transaccion(cocepto, monto);
-				System.out.println("Se ha ingresado exitosamente el monto de " + monto);
-				break;
-			case 2:
-				if (AEROPUERTO.getDinero() - monto >= 0) {
-					AEROPUERTO.transaccion(cocepto, monto * (-1));
-					System.out.println("Se ha retirado exitosamente el monto de " + monto);
-				} else {
-					System.out.println("Fondos insuficientes, no se ha podido realizar la transaccion");
-				}
-				break;
+		case 1:
+			AEROPUERTO.transaccion(cocepto, monto);
+			System.out.println("Se ha ingresado exitosamente el monto de " + monto);
+			break;
+		case 2:
+			if (AEROPUERTO.getDinero() - monto >= 0) {
+				AEROPUERTO.transaccion(cocepto, monto * (-1));
+				System.out.println("Se ha retirado exitosamente el monto de " + monto);
+			} else {
+				System.out.println("Fondos insuficientes, no se ha podido realizar la transaccion");
+			}
+			break;
 		}
 		System.out.println("Nuevo saldo = " + AEROPUERTO.getDinero());
 	}
@@ -903,18 +903,21 @@ public class Administrador {
 	}
 
 	/*
-	 * Metodo cancelarVuelo
-	 * Es invocado desde el metodo Modificaciones. Se pide el ID del vuelo con el fin de revisar que el vuelo correspondiente
-	 * se eliminen los pasajeros correspondientes.
-	 * Se mostrara los vuelos disponibles actualizados
+	 * Metodo cancelarVuelo Es invocado desde el metodo Modificaciones. Se pide el
+	 * ID del vuelo con el fin de revisar que el vuelo correspondiente se eliminen
+	 * los pasajeros correspondientes. Se mostrara los vuelos disponibles
+	 * actualizados
 	 */
 	private static void cancelarVuelo() {
 		mostrarVuelos();
 		Scanner entradas = new Scanner(System.in);
 
-		System.out.println("Por favor ingrese el ID del vuelo que desea cancelar: ");
+		System.out.println("Por favor ingrese el ID del vuelo que desea cancelar:\n0. Volver a modificaciones.\n");
 		int id = entradas.nextInt();
 
+		if (id == 0) {
+			Modificaciones();
+		}
 		Vuelo vueloCancelado = Vuelo.encontrarVuelo(id);
 
 		for (Pasajero pasajero : vueloCancelado.getPasajeros()) {
@@ -948,9 +951,10 @@ public class Administrador {
 	}
 
 	/*
-	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un objeto de tipo vuelo.
-	 * Es invocado por el metodo eliminarAvion. Este metodo está pensando para que cuando se elimine
-	 * el avion se pueda eliminar el vuelo el cual tenia asignado dicho avion
+	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un
+	 * objeto de tipo vuelo. Es invocado por el metodo eliminarAvion. Este metodo
+	 * está pensando para que cuando se elimine el avion se pueda eliminar el vuelo
+	 * el cual tenia asignado dicho avion
 	 */
 	private static void cancelarVuelo(Vuelo vuelo) {
 		Scanner entradas = new Scanner(System.in);
