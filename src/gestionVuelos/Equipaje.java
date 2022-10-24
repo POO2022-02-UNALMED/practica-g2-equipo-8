@@ -2,6 +2,8 @@ package gestionVuelos;
 
 import java.io.Serializable;
 
+import gestionHumana.Pasajero;
+
 public class Equipaje implements Serializable {
 	/**
 	 * 

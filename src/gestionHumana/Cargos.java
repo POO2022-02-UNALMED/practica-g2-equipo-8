@@ -1,4 +1,4 @@
-package gestionVuelos;
+package gestionHumana;
 
 import java.util.Scanner;
 

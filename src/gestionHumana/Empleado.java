@@ -1,7 +1,10 @@
-package gestionVuelos;
+package gestionHumana;
 
 import java.util.List;
 import java.util.Scanner;
+
+import gestionVuelos.Aeropuerto;
+import gestionVuelos.Vuelo;
 
 public class Empleado extends Persona {
 

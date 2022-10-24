@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import basedatos.Deserializador;
+import gestionHumana.Empleado;
+import gestionHumana.Pasajero;
 
 public class Aeropuerto implements Serializable, zonasEmbarque {
 	/**
@@ -101,10 +103,11 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 		empleados.remove(empleados.indexOf(empleado));
 	}
 
-	/*metodo para realizar una transaccion
-	primer argumento es un String con el concepto (breve descripcion) de la transaccion
-	segundo argumento es el valor de la transaccion (si es retiro de dinero debe ser negativo)
-	el metodo retira el dinero correspondiente del aeropuerto y añade la transaccion a la lista
+	/*
+	 * metodo para realizar una transaccion primer argumento es un String con el
+	 * concepto (breve descripcion) de la transaccion segundo argumento es el valor
+	 * de la transaccion (si es retiro de dinero debe ser negativo) el metodo retira
+	 * el dinero correspondiente del aeropuerto y añade la transaccion a la lista
 	 */
 	public void transaccion(String concepto, int valor) {
 		transaccionesKeys.add(concepto);
@@ -113,13 +116,14 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 		ingresarDinero(valor);
 	}
 
-	//Metodo para desplegar el historial de transacciones al usuario
+	// Metodo para desplegar el historial de transacciones al usuario
 	public String transacciones() {
 		int acumulador = 0;
 		StringBuilder historial = new StringBuilder();
 
 		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {
-			historial.append(i + 1).append(":  ").append(transaccionesKeys.get(i)).append(" --- ").append(transaccionesValues.get(i)).append("\n");
+			historial.append(i + 1).append(":  ").append(transaccionesKeys.get(i)).append(" --- ")
+					.append(transaccionesValues.get(i)).append("\n");
 			acumulador += transaccionesValues.get(i);
 		}
 		historial.append("rendimiento total : --- ").append(acumulador);

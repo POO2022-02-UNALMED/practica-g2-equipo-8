@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import gestionHumana.Empleado;
+import gestionHumana.Pasajero;
+
 public class Vuelo implements Serializable{
 	/**
 	 * 

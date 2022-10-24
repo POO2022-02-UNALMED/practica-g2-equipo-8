@@ -7,7 +7,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import basedatos.Serializador;
-import gestionVuelos.*;
+import gestionHumana.Cargos;
+import gestionHumana.Empleado;
+import gestionHumana.Pasajero;
+import gestionHumana.Persona;
+import gestionVuelos.Aeropuerto;
+import gestionVuelos.Asiento;
+import gestionVuelos.Avion;
+import gestionVuelos.Equipaje;
+import gestionVuelos.Vuelo;
+import gestionVuelos.zonasEmbarque;
 
 public class Administrador {
 	public static void main(String[] args) {
@@ -119,7 +128,7 @@ public class Administrador {
 			entrada.nextLine();
 			String salaEmb = entrada.nextLine();
 
-			if(!Aeropuerto.conjunto.contains(salaEmb)){
+			if (!Aeropuerto.conjunto.contains(salaEmb)) {
 				System.out.println("Por favor ingrese una sala de embarque valida.");
 				programarVuelos(aeropuerto);
 				return;
@@ -140,16 +149,18 @@ public class Administrador {
 			boolean hayEmpleados = false;
 			if (internacional.equals("y")) {
 				for (Empleado empleado : aeropuerto.getEmpleados()) {
-					if (empleado.getExperiencia() >= 5){
+					if (empleado.getExperiencia() >= 5) {
 						System.out.println(empleado);
 						hayEmpleados = true;
 					}
 				}
-				if(!hayEmpleados) System.out.println("por el momento se considera que no hay personal calificado para el vuelo.");
+				if (!hayEmpleados)
+					System.out.println("por el momento se considera que no hay personal calificado para el vuelo.");
 			} else {
 				System.out.println("Cualquier empleado puede cumplir las expectativas de calidad.");
 			}
-			System.out.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
+			System.out
+					.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
 							+ "Ingrese 1 para ir a la opcion de gestion de empleados o 0 para regresar al menu principal: ");
 
 			int des = entrada.nextInt();
@@ -319,8 +330,14 @@ public class Administrador {
 
 	public static void reservaDeVuelo(Aeropuerto aeropuerto) {
 		Scanner entradas = new Scanner(System.in);
-		System.out.print("Por favor inserte la ciudad de destino: ");
+		System.out.print("Por favor inserte la ciudad de destino: \n0. Volver.\n");
+		for (Vuelo vuelo : aeropuerto.getVuelos()) {
+			System.out.println(vuelo.getDestino());
+		}
 		String entradaDestino = entradas.nextLine();
+		if (entradaDestino.equals("0")) {
+			opcionesPrincipales(aeropuerto);
+		}
 
 		List<Vuelo> vuelosDisp = new ArrayList<>();
 		for (Vuelo vuelo : aeropuerto.getVuelos()) {
@@ -359,7 +376,7 @@ public class Administrador {
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
 		int nroEquipajes = entradas.nextInt();
 		List<Equipaje> equipajes = new ArrayList<>();
-		Pasajero nuevoPasajero = new Pasajero(nombre, documento, edad, sexo,0);
+		Pasajero nuevoPasajero = new Pasajero(nombre, documento, edad, sexo, 0);
 
 		for (int i = 1; i <= nroEquipajes; i++) {
 			System.out.print("Inserte el peso del equipaje " + i + ": ");
@@ -377,7 +394,7 @@ public class Administrador {
 		int nroAsiento = entradas.nextInt();
 		// vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
 		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
-			System.out.println(vueloElegido.tiquete(nuevoPasajero));  //Imprime el tiquete
+			System.out.println(vueloElegido.tiquete(nuevoPasajero)); // Imprime el tiquete
 		} else {
 			vueloElegido.getPasajeros().remove(nuevoPasajero);
 			aeropuerto.getPasajeros().remove(nuevoPasajero);
@@ -403,12 +420,11 @@ public class Administrador {
 	}
 
 	/*
-	Interfaz de el sistema de administración de finanzas para que el usuario pueda:
-	-pagar la nomina de los empleados
-	-ver el historial de transacciones
-	-modificar el sueldo de los empleados (tambien se puede realizar en el menu de gestionar empleados)
-	-crear un nuevo empleado
-	-*/
+	 * Interfaz de el sistema de administración de finanzas para que el usuario
+	 * pueda: -pagar la nomina de los empleados -ver el historial de transacciones
+	 * -modificar el sueldo de los empleados (tambien se puede realizar en el menu
+	 * de gestionar empleados) -crear un nuevo empleado -
+	 */
 	public static void interfazFinanzas(Aeropuerto aeropuerto) {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Finanzas --");
@@ -427,37 +443,36 @@ public class Administrador {
 
 		option = entrada.nextInt();
 		switch (option) {
-			case 1:
-				pagarNominaInterfaz(aeropuerto);
-				break;
-			case 2:
-				System.out.println(aeropuerto.transacciones());
-				interfazFinanzas(aeropuerto);
-				break;
-			case 3:
-				cambiarSueldo(aeropuerto);
-				interfazFinanzas(aeropuerto);
-				break;
-			case 4:
-				nuevoEmpleado();
-				interfazFinanzas(aeropuerto);
-				break;
-			case 5:
-				opcionesPrincipales(aeropuerto);
-				break;
-			case 0:
-				salirDelSistema(aeropuerto);
-				break;
-			default:
-					System.out.println("Opcion incorrecta, vuelva a intentarlo.");
+		case 1:
+			pagarNominaInterfaz(aeropuerto);
+			break;
+		case 2:
+			System.out.println(aeropuerto.transacciones());
+			interfazFinanzas(aeropuerto);
+			break;
+		case 3:
+			cambiarSueldo(aeropuerto);
+			interfazFinanzas(aeropuerto);
+			break;
+		case 4:
+			nuevoEmpleado();
+			interfazFinanzas(aeropuerto);
+			break;
+		case 5:
+			opcionesPrincipales(aeropuerto);
+			break;
+		case 0:
+			salirDelSistema(aeropuerto);
+			break;
+		default:
+			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 		}
 	}
 
 	/*
-	Interfaz de pago de nomina para que el usuario pueda:
-	-pagar la nomina de todos los empleados
-	-elegir empleados uno a uno para pagarles nomina
-	-*/
+	 * Interfaz de pago de nomina para que el usuario pueda: -pagar la nomina de
+	 * todos los empleados -elegir empleados uno a uno para pagarles nomina -
+	 */
 	public static void pagarNominaInterfaz(Aeropuerto aeropuerto) {
 		int dineroapagar = 0;
 		List<Empleado> lempleados = aeropuerto.getEmpleados();
@@ -468,31 +483,31 @@ public class Administrador {
 		int option2;
 		System.out.println("\nDesea pagarle a todos los empleados?");
 		System.out.print("""
-					1. Pagar a todos los empleados
-					2. Elegir empleados
-					3. Finalizar y Volver.
-					""");
+				1. Pagar a todos los empleados
+				2. Elegir empleados
+				3. Finalizar y Volver.
+				""");
 
 		option = entrada.nextInt();
 
 		if (option == 1) {
-			pagarNominaGeneral(aeropuerto,lempleados);
+			pagarNominaGeneral(aeropuerto, lempleados);
 			pagarNominaInterfaz(aeropuerto);
 		} else if (option == 2) {
 			System.out.println("\nListado de empleados");
 			for (int i = 0; i < lempleados.size(); i++) {
-				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
-						+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
+				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
+						+ ", sueldo = " + lempleados.get(i).getSueldo());
 			}
 			System.out.println("Selecciona el numero del empleado a pagar o pulsa 0 para volver:");
 			option2 = entrada.nextInt();
 
 			if (option2 == 0) {
-				//pass
+				// pass
 			} else if (option2 < 1 || option2 > lempleados.size()) {
 				System.out.println("Error: numero incorrecto");
 			} else {
-				dineroapagar = lempleados.get(option2-1).pagoNomina(aeropuerto);
+				dineroapagar = lempleados.get(option2 - 1).pagoNomina(aeropuerto);
 				if (dineroapagar < 0) {
 					System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
 				} else {
@@ -510,8 +525,8 @@ public class Administrador {
 		}
 	}
 
-	//metodo para pagar la nomina  a un listado de empleados
-	public static void pagarNominaGeneral(Aeropuerto aeropuerto,List<Empleado> empleados){
+	// metodo para pagar la nomina a un listado de empleados
+	public static void pagarNominaGeneral(Aeropuerto aeropuerto, List<Empleado> empleados) {
 		int dineroapagar = 0;
 		for (Empleado empleado : empleados) {
 			dineroapagar += empleado.getSueldo();
@@ -527,8 +542,9 @@ public class Administrador {
 		}
 	}
 
-	//metodo para crear (contratar) un nuevo empleado
-	//el metodo retorna el nuevo empleado aunque no es necesario asignar este retorno
+	// metodo para crear (contratar) un nuevo empleado
+	// el metodo retorna el nuevo empleado aunque no es necesario asignar este
+	// retorno
 	public static Empleado nuevoEmpleado() {
 		String nombret;
 		int cedulat;
@@ -559,7 +575,8 @@ public class Administrador {
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
 	}
 
-	//metodo de clase que proporciona una interfaz para elegir un empleado y cambiarle el sueldo
+	// metodo de clase que proporciona una interfaz para elegir un empleado y
+	// cambiarle el sueldo
 	public static void cambiarSueldo(Aeropuerto aeropuerto) {
 		try {
 			Scanner entrada = new Scanner(System.in);
@@ -583,14 +600,13 @@ public class Administrador {
 			lempleados.get(option - 1).setSueldo(option2);
 			System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
 					+ lempleados.get(option - 1).getSueldo());
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("numero incorrecto");
 		}
 	}
 
-	/* Metodo mostrarPasajeros
-	 * Permite ver los pasajeros activos en el aeropuerto.
+	/*
+	 * Metodo mostrarPasajeros Permite ver los pasajeros activos en el aeropuerto.
 	 */
 	public static void mostrarPasajeros(Aeropuerto aeropuerto) {
 		System.out.println("Estos son los pasajeros del aeropuerto:\n");
@@ -601,9 +617,8 @@ public class Administrador {
 		}
 	}
 
-
-	/* Metodo mostrarVuelos
-	 * Permite ver los vuelos disponibles en el aeropuerto.
+	/*
+	 * Metodo mostrarVuelos Permite ver los vuelos disponibles en el aeropuerto.
 	 */
 	public static void mostrarVuelos(Aeropuerto aeropuerto) {
 		System.out.println("El aeropuerto dispone de los siguientes vuelos: \n");
@@ -614,9 +629,8 @@ public class Administrador {
 		}
 	}
 
-
-	/* Metodo mostrarAviones
-	 * Permite ver los aviones disponibles del aeropuerto.
+	/*
+	 * Metodo mostrarAviones Permite ver los aviones disponibles del aeropuerto.
 	 */
 	public static void mostrarAviones(Aeropuerto aeropuerto) {
 		System.out.println("El aeropuerto dispone de los siguientes aviones: \n");
@@ -627,10 +641,10 @@ public class Administrador {
 		}
 	}
 
-
-	/* Funcionalidad Modificaciones
-	 * Esta funcionalidad permite las opciones de cambiar asiento, cancelar un vuelo y eliminar un avion.
-	 * En cada opcion contiene un metodo el cual recibe la instancia aeropuerto
+	/*
+	 * Funcionalidad Modificaciones Esta funcionalidad permite las opciones de
+	 * cambiar asiento, cancelar un vuelo y eliminar un avion. En cada opcion
+	 * contiene un metodo el cual recibe la instancia aeropuerto
 	 */
 	public static void Modificaciones(Aeropuerto aeropuerto) {
 		Scanner entrada = new Scanner(System.in);
@@ -668,59 +682,59 @@ public class Administrador {
 		} while (option != 6);
 	}
 
-
-	/* Metodo cambiarAsiento
-	 * Permite al pasajero poder cambiar su asiento una vez ya ha reservado vuelo.
-	 * En este se piden los datos del pasajero para poder verificar que se encuentre registrado y hacer el debido proceso.
-	 * Si el pasajero no esta registrado se mostrara un mensaje.
-	 * Si el pasajero esta registrado se realizara el proceso de reversa de vuelo.
-	 * Para lo anterior se creo el metodo reservaDeVuelo2()
+	/*
+	 * Metodo cambiarAsiento Permite al pasajero poder cambiar su asiento una vez ya
+	 * ha reservado vuelo. En este se piden los datos del pasajero para poder
+	 * verificar que se encuentre registrado y hacer el debido proceso. Si el
+	 * pasajero no esta registrado se mostrara un mensaje. Si el pasajero esta
+	 * registrado se realizara el proceso de reversa de vuelo. Para lo anterior se
+	 * creo el metodo reservaDeVuelo2()
 	 */
 	private static void cambiarAsiento(Aeropuerto aeropuerto) {
 		mostrarPasajeros(aeropuerto);
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Ingrese su documento de identidad.");
 		int documento = entradas.nextInt();
-		Pasajero pasajero = Pasajero.buscarPasajero(documento);   //Verifica si el pasajero se encuentra registrado
+		Pasajero pasajero = Pasajero.buscarPasajero(documento); // Verifica si el pasajero se encuentra registrado
 		if (pasajero == null) {
 			System.out.println("El usuario no se encuentra registrado.\n");
 			int option;
 			do {
 				System.out.println("\nIngrese el numero de la opcion a elegir:");
 				System.out.print("""
-					1. Intentar de nuevo.
-					2. Volver.
-					3. Finalizar.
-					""");
+						1. Intentar de nuevo.
+						2. Volver.
+						3. Finalizar.
+						""");
 
 				option = entradas.nextInt();
 				switch (option) {
-					case 1:
-						cambiarAsiento(aeropuerto);
-						break;
-					case 2:
-						opcionesPrincipales(aeropuerto);
-						break;
-					case 3:
-						salirDelSistema(aeropuerto);
-						break;
+				case 1:
+					cambiarAsiento(aeropuerto);
+					break;
+				case 2:
+					opcionesPrincipales(aeropuerto);
+					break;
+				case 3:
+					salirDelSistema(aeropuerto);
+					break;
 				}
 			} while (option != 4);
 
 		} else {
 			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
-			reservaDeVuelo2(pasajero, aeropuerto);   // Proceso de reserva de vuelo, es diferente a la primera reserva que se hace
+			reservaDeVuelo2(pasajero, aeropuerto); // Proceso de reserva de vuelo, es diferente a la primera reserva que
+													// se hace
 		}
 	}
 
-
-	/* Metodo reservaDeVuelo2
-	 * El metodo recibe como parametros un pasajero y aeropuerto
-	 * Este metodo permite hacer el cambio de asiento conservando los datos ingresados en la primera reserva que se hizo
-	 * por lo que no es necesario volver a pedirlos en esta ocasion.
-	 * Se pide la cedula para confirmar que es el usuario.
-	 * En caso de que el costo del asiento sea mayor al pagado en la primera reserva se pide un excedente,
-	 * en caso contrario se devuelve el dinero
+	/*
+	 * Metodo reservaDeVuelo2 El metodo recibe como parametros un pasajero y
+	 * aeropuerto Este metodo permite hacer el cambio de asiento conservando los
+	 * datos ingresados en la primera reserva que se hizo por lo que no es necesario
+	 * volver a pedirlos en esta ocasion. Se pide la cedula para confirmar que es el
+	 * usuario. En caso de que el costo del asiento sea mayor al pagado en la
+	 * primera reserva se pide un excedente, en caso contrario se devuelve el dinero
 	 */
 	public static void reservaDeVuelo2(Pasajero pasajero, Aeropuerto aeropuerto) {
 		int valorInicial = pasajero.getInversion();
@@ -746,32 +760,29 @@ public class Administrador {
 		int nroAsiento = entradas.nextInt();
 		Asiento nuevoasiento = null;
 
-		//Es para actualizar el asiento
-		for(int j = 0; j < pasajero.getVuelo().getAvion().getAsientos().size(); j ++ ){
-			if(nroAsiento == pasajero.getVuelo().getAvion().getAsientos().get(j).getNumero()){
+		// Es para actualizar el asiento
+		for (int j = 0; j < pasajero.getVuelo().getAvion().getAsientos().size(); j++) {
+			if (nroAsiento == pasajero.getVuelo().getAvion().getAsientos().get(j).getNumero()) {
 				pasajero.getVuelo().getAvion().getAsientos().get(j).setOcupado(true);
 				nuevoasiento = pasajero.getVuelo().getAvion().getAsientos().get(j);
 			}
 		}
-		//pasajero.getVuelo().getAvion().getAsientos();
+		// pasajero.getVuelo().getAvion().getAsientos();
 		System.out.println("clase" + nuevoasiento.getClase());
-		if(nuevoasiento.getClase().equals("Primera clase")){
+		if (nuevoasiento.getClase().equals("Primera clase")) {
 			pasajero.setInversion(3 * pasajero.getVuelo().getCosto());
-		}
-		else if (nuevoasiento.getClase().equals("Ejecutiva")) {
-			pasajero.setInversion(2*pasajero.getVuelo().getCosto());
-		}
-		else {
+		} else if (nuevoasiento.getClase().equals("Ejecutiva")) {
+			pasajero.setInversion(2 * pasajero.getVuelo().getCosto());
+		} else {
 			pasajero.setInversion(pasajero.getVuelo().getCosto());
 		}
 		System.out.println(pasajero.getVuelo().tiquete(pasajero));
-		if(valorInicial < pasajero.getInversion()){
+		if (valorInicial < pasajero.getInversion()) {
 			System.out.println("Por favor pagar un excedente de: " + "$" + (pasajero.getInversion() - valorInicial));
-			aeropuerto.ingresarDinero(pasajero.getInversion() - valorInicial);  //se agrega dinero al aeropuerto
-		}
-		else{
+			aeropuerto.ingresarDinero(pasajero.getInversion() - valorInicial); // se agrega dinero al aeropuerto
+		} else {
 			System.out.println("Devolucion: " + "$" + (valorInicial - pasajero.getInversion()));
-			aeropuerto.retirarDinero(valorInicial - pasajero.getInversion()); //se retira dinero del aeropuerto
+			aeropuerto.retirarDinero(valorInicial - pasajero.getInversion()); // se retira dinero del aeropuerto
 		}
 
 		int option;
@@ -794,14 +805,14 @@ public class Administrador {
 
 	}
 
-
-	/* Metodo cancelarVuelo
-	 * Este metodo recibe como parametro un objeto de tipo aeropuerto.
-	 * Es invocado desde el metodo Modificaciones.
-	 * Se pide el ID del vuelo con el fin de revisar en la lista de vuelos que se encuentra en aeropuerto,
-	 * con el fin de que si coinciden valores primero va a buscar en la lista de pasajeros para ver su respectivo vuelo,
-	 * si coincide se elimina el pasajero y despues de esto se elimina el vuelo
-	 * Se mostrara los vuelos disponibles actualizados
+	/*
+	 * Metodo cancelarVuelo Este metodo recibe como parametro un objeto de tipo
+	 * aeropuerto. Es invocado desde el metodo Modificaciones. Se pide el ID del
+	 * vuelo con el fin de revisar en la lista de vuelos que se encuentra en
+	 * aeropuerto, con el fin de que si coinciden valores primero va a buscar en la
+	 * lista de pasajeros para ver su respectivo vuelo, si coincide se elimina el
+	 * pasajero y despues de esto se elimina el vuelo Se mostrara los vuelos
+	 * disponibles actualizados
 	 */
 	private static void cancelarVuelo(Aeropuerto aeropuerto) {
 		mostrarVuelos(aeropuerto);
@@ -835,24 +846,22 @@ public class Administrador {
 
 			option = entradas.nextInt();
 			switch (option) {
-				case 1:
-					opcionesPrincipales(aeropuerto);
-					break;
-				case 2:
-					salirDelSistema(aeropuerto);
-					break;
+			case 1:
+				opcionesPrincipales(aeropuerto);
+				break;
+			case 2:
+				salirDelSistema(aeropuerto);
+				break;
 			}
 		} while (option != 3);
 
 	}
 
-
-
-	/* Metodo cancelarVuelo (Sobrecarga)
-	 * Este metodo recibe como parametros un objeto de tipo vuelo y un objeto de tipo aeropuerto.
-	 * Es invocado por el metodo eliminarAvion.
-	 * Este metodo está pensando para que cuando se elimine el avion se pueda eliminar el vuelo el cual tenia asignado
-	 * dicho avion
+	/*
+	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un
+	 * objeto de tipo vuelo y un objeto de tipo aeropuerto. Es invocado por el
+	 * metodo eliminarAvion. Este metodo está pensando para que cuando se elimine
+	 * el avion se pueda eliminar el vuelo el cual tenia asignado dicho avion
 	 */
 	private static void cancelarVuelo(Vuelo vuelo, Aeropuerto aeropuerto) {
 		Scanner entradas = new Scanner(System.in);
@@ -881,27 +890,26 @@ public class Administrador {
 
 			option = entradas.nextInt();
 			switch (option) {
-				case 1:
-					opcionesPrincipales(aeropuerto);
-					break;
-				case 2:
-					salirDelSistema(aeropuerto);
-					break;
+			case 1:
+				opcionesPrincipales(aeropuerto);
+				break;
+			case 2:
+				salirDelSistema(aeropuerto);
+				break;
 			}
 		} while (option != 3);
 
 	}
 
-
-	/* Metodo eliminarAvion
-	 * Recibe como parametro un objeto de tipo aeropuerto
-	 * En este metodo esta la opcion de agregar otro avion al vuelo que le corresponde o eliminar el vuelo en caso que no
-	 * se le quiera asignar otro vuelo
-	 * Se crea dos variables, una de tipo vuelo y otra de tipo avion.
-	 * Se pide el ID del avion que se desea eliminar, con este ID, si coincide con la lista de aviones se le asigna a la
-	 * variable a, posterior a esto se elimina dicho avion de la lista.
-	 * Despues se busca el respectivo vuelo del avion y se le asigna a la variable v.
-	 * a y v se usan para los cambios necesarios
+	/*
+	 * Metodo eliminarAvion Recibe como parametro un objeto de tipo aeropuerto En
+	 * este metodo esta la opcion de agregar otro avion al vuelo que le corresponde
+	 * o eliminar el vuelo en caso que no se le quiera asignar otro vuelo Se crea
+	 * dos variables, una de tipo vuelo y otra de tipo avion. Se pide el ID del
+	 * avion que se desea eliminar, con este ID, si coincide con la lista de aviones
+	 * se le asigna a la variable a, posterior a esto se elimina dicho avion de la
+	 * lista. Despues se busca el respectivo vuelo del avion y se le asigna a la
+	 * variable v. a y v se usan para los cambios necesarios
 	 */
 	private static void eliminarAvion(Aeropuerto aeropuerto) {
 		mostrarAviones(aeropuerto);
@@ -965,10 +973,11 @@ public class Administrador {
 		mostrarAviones(aeropuerto);
 	}
 
-	/* Metodo agregarAvion
-	 * Recibe como parametro un objeto de tipo vuelo y otro de tipo aeropuerto.
-	 * Este metedo sirve para crear un nuevo avion y este agregarlo a un vuelo.
-	 * Se pide el modelo, peso y el precio, con estos valores se crea el avion.
+	/*
+	 * Metodo agregarAvion Recibe como parametro un objeto de tipo vuelo y otro de
+	 * tipo aeropuerto. Este metedo sirve para crear un nuevo avion y este agregarlo
+	 * a un vuelo. Se pide el modelo, peso y el precio, con estos valores se crea el
+	 * avion.
 	 */
 	private static void agregarAvion(Vuelo vuelo, Aeropuerto aeropuerto, int idMax) {
 		Scanner entradas = new Scanner(System.in);
@@ -998,12 +1007,12 @@ public class Administrador {
 
 			option = entradas.nextInt();
 			switch (option) {
-				case 1:
-					opcionesPrincipales(aeropuerto);
-					break;
-				case 2:
-					salirDelSistema(aeropuerto);
-					break;
+			case 1:
+				opcionesPrincipales(aeropuerto);
+				break;
+			case 2:
+				salirDelSistema(aeropuerto);
+				break;
 			}
 		} while (option != 3);
 	}
