@@ -49,12 +49,18 @@ public class Vuelo implements Serializable{
 			pasajero.setAsiento(asientoElegido);
 			pasajero.setVuelo(this);
 			asientoElegido.setOcupado(true);
-			if (asientoElegido.getClase().equals("Primera clase"))
+			if (asientoElegido.getClase().equals("Primera clase")) {
 				aeropuerto.ingresarDinero(3 * costo);
-			else if (asientoElegido.getClase().equals("Ejecutiva"))
+				pasajero.setInversion(3 * costo);
+			}
+			else if (asientoElegido.getClase().equals("Ejecutiva")) {
 				aeropuerto.ingresarDinero(2 * costo);
-			else
+				pasajero.setInversion(2*costo);
+			}
+			else {
 				aeropuerto.ingresarDinero(costo);
+				pasajero.setInversion(costo);
+			}
 			return true;
 		} else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
 			System.out.println("\n"
@@ -79,7 +85,7 @@ public class Vuelo implements Serializable{
 				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + fecha + "\n" + "Vuelo: " + getId()
 				+ "\n" + "Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
 				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n"
-				+ "Origen: " + origen + "\n" + "Destino: " + getDestino() + "\n" + "Precio Total: " + getCosto() + "\n"
+				+ "Origen: " + origen + "\n" + "Destino: " + getDestino() + "\n" + "Precio Total: " + pasajero.getInversion() + "\n"
 				+ "------------------------------------\n";
 		return tique;
 	}

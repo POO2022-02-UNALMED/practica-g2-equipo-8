@@ -11,10 +11,20 @@ public class Pasajero extends Persona {
 	private Asiento asiento;
 	private Vuelo vuelo;
 	private List<Equipaje> equipajes = new ArrayList<>();
+	private int inversion;
 
-	public Pasajero(String nombre, int cedula, int edad, String sexo) {
+	public Pasajero(String nombre, int cedula, int edad, String sexo, int inversion) {
 		super(nombre, cedula, edad, sexo);
+		this.inversion = inversion;
 		aeropuerto.getPasajeros().add(this);
+	}
+
+	public void setInversion(int inversion) {
+		this.inversion = inversion;
+	}
+
+	public int getInversion() {
+		return inversion;
 	}
 
 	public Asiento getAsiento() {

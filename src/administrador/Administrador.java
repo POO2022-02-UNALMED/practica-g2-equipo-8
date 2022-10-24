@@ -37,7 +37,7 @@ public class Administrador {
 		for (Asiento asiento : vuelo1.getAvion().getAsientos())
 			System.out.println(asiento);
 		List<Equipaje> equipaje = new ArrayList<>();
-		Pasajero pasajero = new Pasajero("Pepito", 897915, 15, "M");
+		Pasajero pasajero = new Pasajero("Pepito", 897915, 15, "M", 0);
 
 		equipaje.add(new Equipaje(12.4, pasajero));
 		pasajero.setEquipajes(equipaje);
@@ -355,7 +355,7 @@ public class Administrador {
 		System.out.print("Inserte la cantidad de equipajes que transporta: ");
 		int nroEquipajes = entradas.nextInt();
 		List<Equipaje> equipajes = new ArrayList<>();
-		Pasajero nuevoPasajero = new Pasajero(nombre, documento, edad, sexo);
+		Pasajero nuevoPasajero = new Pasajero(nombre, documento, edad, sexo,0);
 
 		for (int i = 1; i <= nroEquipajes; i++) {
 			System.out.print("Inserte el peso del equipaje " + i + ": ");
@@ -373,7 +373,7 @@ public class Administrador {
 		int nroAsiento = entradas.nextInt();
 		// vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
 		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
-			System.out.println(vueloElegido.tiquete(nuevoPasajero));
+			System.out.println(vueloElegido.tiquete(nuevoPasajero));  //Imprime el tiquete
 		} else {
 			vueloElegido.getPasajeros().remove(nuevoPasajero);
 			aeropuerto.getPasajeros().remove(nuevoPasajero);
@@ -626,8 +626,11 @@ public class Administrador {
 	 * Este metodo permite hacer el cambio de asiento conservando los datos ingresados en la primera reserva que se hizo
 	 * por lo que no es necesario volver a pedirlos en esta ocasion.
 	 * Se pide la cedula para confirmar que es el usuario.
+	 * En caso de que el costo del asiento sea mayor al pagado en la primera reserva se pide un excedente,
+	 * en caso contrario se devuelve el dinero
 	 */
 	public static void reservaDeVuelo2(Pasajero pasajero, Aeropuerto aeropuerto) {
+		int valorInicial = pasajero.getInversion();
 		System.out.println(pasajero.getAsiento());
 		Scanner entradas = new Scanner(System.in);
 
@@ -640,8 +643,6 @@ public class Administrador {
 			reservaDeVuelo2(pasajero, aeropuerto);
 		}
 
-		Pasajero nuevoPasajero = new Pasajero(pasajero.getNombre(), documento, pasajero.getEdad(), pasajero.getSexo());
-
 		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
 		for (Asiento asiento : pasajero.getVuelo().getAvion().getAsientos()) {
 			if (!asiento.isOcupado())
@@ -650,8 +651,35 @@ public class Administrador {
 
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
-		pasajero.getVuelo().agregarPasajero(nuevoPasajero, nroAsiento);
-		System.out.println(pasajero.getVuelo().tiquete(nuevoPasajero));
+		Asiento nuevoasiento = null;
+
+		//Es para actualizar el asiento
+		for(int j = 0; j < pasajero.getVuelo().getAvion().getAsientos().size(); j ++ ){
+			if(nroAsiento == pasajero.getVuelo().getAvion().getAsientos().get(j).getNumero()){
+				pasajero.getVuelo().getAvion().getAsientos().get(j).setOcupado(true);
+				nuevoasiento = pasajero.getVuelo().getAvion().getAsientos().get(j);
+			}
+		}
+		//pasajero.getVuelo().getAvion().getAsientos();
+		System.out.println("clase" + nuevoasiento.getClase());
+		if(nuevoasiento.getClase().equals("Primera clase")){
+			pasajero.setInversion(3 * pasajero.getVuelo().getCosto());
+		}
+		else if (nuevoasiento.getClase().equals("Ejecutiva")) {
+			pasajero.setInversion(2*pasajero.getVuelo().getCosto());
+		}
+		else {
+			pasajero.setInversion(pasajero.getVuelo().getCosto());
+		}
+		System.out.println(pasajero.getVuelo().tiquete(pasajero));
+		if(valorInicial < pasajero.getInversion()){
+			System.out.println("Por favor pagar un excedente de: " + "$" + (pasajero.getInversion() - valorInicial));
+			aeropuerto.ingresarDinero(pasajero.getInversion() - valorInicial);  //se agrega dinero al aeropuerto
+		}
+		else{
+			System.out.println("Devolucion: " + "$" + (valorInicial - pasajero.getInversion()));
+			aeropuerto.retirarDinero(valorInicial - pasajero.getInversion()); //se retira dinero del aeropuerto
+		}
 
 		int option;
 		do {
@@ -790,6 +818,13 @@ public class Administrador {
 		int id = entradas.nextInt();
 		Vuelo v = null;
 		Avion a = null;
+		int idMax = 0;
+
+		for (int l = 0; l < aeropuerto.getAviones().size(); l++) {
+			if (aeropuerto.getAviones().get(l).getId() > idMax) {
+				idMax = aeropuerto.getAviones().get(l).getId();
+			}
+		}
 
 		for (int i = 0; i < aeropuerto.getAviones().size(); i++) {
 			if (id == aeropuerto.getAviones().get(i).getId()) {
@@ -819,7 +854,7 @@ public class Administrador {
 			option = entradas.nextInt();
 			switch (option) {
 			case 1:
-				agregarAvion(v, aeropuerto);
+				agregarAvion(v, aeropuerto, idMax);
 				break;
 			case 2:
 				cancelarVuelo(v, aeropuerto);
@@ -842,7 +877,7 @@ public class Administrador {
 	 * Este metedo sirve para crear un nuevo avion y este agregarlo a un vuelo.
 	 * Se pide el modelo, peso y el precio, con estos valores se crea el avion.
 	 */
-	private static void agregarAvion(Vuelo vuelo, Aeropuerto aeropuerto) {
+	private static void agregarAvion(Vuelo vuelo, Aeropuerto aeropuerto, int idMax) {
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Por favor ingrese el modelo del avion: ");
 		String modelo = entradas.nextLine();
@@ -852,8 +887,10 @@ public class Administrador {
 
 		System.out.println("Por favor ingrese el precio del avion: ");
 		int valor = entradas.nextInt();
+		System.out.println("idmax" + idMax);
 
 		Avion av = new Avion(modelo, peso, valor);
+		av.setId(idMax + 1);
 		vuelo.setAvion(av);
 		mostrarAviones(aeropuerto);
 

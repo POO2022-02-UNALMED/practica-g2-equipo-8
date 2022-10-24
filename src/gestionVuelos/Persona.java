@@ -13,7 +13,7 @@ public abstract class Persona implements Serializable {
 	protected String sexo;
 	protected static Aeropuerto aeropuerto;
 
-	public Persona(String nombre, int cedula, int edad, String sexo) {
+	public Persona(String nombre, int cedula, int edad, String sexo ) {
 		this.nombre = nombre;
 		this.cedula = cedula;
 		this.edad = edad;
