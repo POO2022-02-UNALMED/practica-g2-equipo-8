@@ -838,17 +838,13 @@ public class Administrador {
 		System.out.println("Por favor ingrese el ID del vuelo que desea cancelar: ");
 		int id = entradas.nextInt();
 
-		for (int i = 0; i < AEROPUERTO.getVuelos().size(); i++) {
-			if (id == AEROPUERTO.getVuelos().get(i).getId()) {
+		Vuelo vueloCancelado = Vuelo.encontrarVuelo(id);
 
-				for (int j = 0; j < AEROPUERTO.getPasajeros().size(); j++) {
-					if (AEROPUERTO.getPasajeros().get(j).getVuelo() == AEROPUERTO.getVuelos().get(i)) {
-						AEROPUERTO.getPasajeros().remove(AEROPUERTO.getPasajeros().get(j));
-					}
-				}
-				AEROPUERTO.getVuelos().remove(AEROPUERTO.getVuelos().get(i));
-			}
+		for (Pasajero pasajero : vueloCancelado.getPasajeros()) {
+			AEROPUERTO.getPasajeros().remove(pasajero);
 		}
+
+		AEROPUERTO.getVuelos().remove(vueloCancelado);
 
 		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
 		mostrarVuelos();
