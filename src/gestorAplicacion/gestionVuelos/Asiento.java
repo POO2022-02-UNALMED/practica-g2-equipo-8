@@ -11,7 +11,6 @@ public class Asiento implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private char fila;
 	private int numero;
 	private boolean ocupado;
 	private String clase;
@@ -23,15 +22,7 @@ public class Asiento implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Fila: " + fila + " - numero: " + numero + " - clase: " + clase;
-	}
-
-	public char getFila() {
-		return fila;
-	}
-
-	public void setFila(char fila) {
-		this.fila = fila;
+		return "numero: " + numero + " - clase: " + clase;
 	}
 
 	public int getNumero() {

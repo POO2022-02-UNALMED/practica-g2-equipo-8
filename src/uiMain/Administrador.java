@@ -1,7 +1,7 @@
 // Autores: Juan Jose Zapata Cadavid
 /* Esta clase sera la encargada de la interaccion entre el sistema y el administrador
  * del aeropuerto, en ella se haran todos los prints e inputs necesarios para esto.
- * A su vez hay varios metodos que comunican los objetos de los demás paquetes entre sí. 
+ * A su vez hay varios metodos que comunican los objetos de los demas paquetes entre si.
  */
 
 package uiMain;

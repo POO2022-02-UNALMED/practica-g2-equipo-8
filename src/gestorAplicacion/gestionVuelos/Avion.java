@@ -20,12 +20,25 @@ public class Avion implements Serializable {
 	private int valor;
 	private static Aeropuerto aeropuerto;
 
+	public Avion(){
+		this.genAsientos(15, 20);
+	}
+
 	public Avion(String modelo, int pesoMaximo, int valor) {
+		this();
 		this.modelo = modelo;
 		this.pesoMaximo = pesoMaximo;
 		this.valor = valor;
 		this.id = nuevoID();
-		this.genAsientos(10, 15);
+		aeropuerto.agregarAvion(this);
+	}
+
+	public Avion(String modelo, int pesoMaximo, int valor, int cantidadAsientos){
+		this.modelo = modelo;
+		this.pesoMaximo = pesoMaximo;
+		this.valor = valor;
+		this.id = nuevoID();
+		this.genAsientos(cantidadAsientos, cantidadAsientos);
 		aeropuerto.agregarAvion(this);
 	}
 
