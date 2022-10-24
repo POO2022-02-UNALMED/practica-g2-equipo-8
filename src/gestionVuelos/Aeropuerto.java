@@ -101,6 +101,11 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 		empleados.remove(empleados.indexOf(empleado));
 	}
 
+	/*metodo para realizar una transaccion
+	primer argumento es un String con el concepto (breve descripcion) de la transaccion
+	segundo argumento es el valor de la transaccion (si es retiro de dinero debe ser negativo)
+	el metodo retira el dinero correspondiente del aeropuerto y añade la transaccion a la lista
+	 */
 	public void transaccion(String concepto, int valor) {
 		transaccionesKeys.add(concepto);
 		transaccionesValues.add(valor);
@@ -108,6 +113,7 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 		ingresarDinero(valor);
 	}
 
+	//Metodo para desplegar el historial de transacciones al usuario
 	public void transacciones() {
 		int acumulador = 0;
 		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {

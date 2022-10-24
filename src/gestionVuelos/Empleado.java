@@ -88,6 +88,7 @@ public class Empleado extends Persona {
 		return experiencia;
 	}
 
+	//Metodo de instancia que paga la nomina al empleado
 	public void pagarNomina() {
 		int dineroapagar = this.getSueldo();
 		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
@@ -101,6 +102,7 @@ public class Empleado extends Persona {
 		}
 	}
 
+	//metodo de clase que paga la nomina al listado de empleados que le pasen por argumento
 	public static void pagarNomina(List<Empleado> empleados) {
 		int dineroapagar = 0;
 		for (Empleado empleado : empleados) {
@@ -117,6 +119,8 @@ public class Empleado extends Persona {
 		}
 	}
 
+	//metodo para crear (contratar) un nuevo empleado
+	//el metodo retorna el nuevo empleado aunque no es necesario asignar este retorno
 	public static Empleado nuevoEmpleado() {
 		String nombret;
 		int cedulat;
@@ -147,6 +151,7 @@ public class Empleado extends Persona {
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
 	}
 
+	//metodo de clase que proporciona una interfaz para elegir un empleado y cambiarle el sueldo
 	public static void cambiarSueldo() {
 		try {
 			Scanner entrada = new Scanner(System.in);

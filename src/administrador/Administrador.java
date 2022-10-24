@@ -401,7 +401,7 @@ public class Administrador {
 	/*
 	Interfaz de el sistema de administración de finanzas para que el usuario pueda:
 	-pagar la nomina de los empleados
-	-ver el historial de transacciones (de la sesion actual)
+	-ver el historial de transacciones
 	-modificar el sueldo de los empleados (tambien se puede realizar en el menu de gestionar empleados)
 	-crear un nuevo empleado
 	-*/
@@ -443,6 +443,11 @@ public class Administrador {
 		}
 	}
 
+	/*
+	Interfaz de pago de nomina para que el usuario pueda:
+	-pagar la nomina de todos los empleados
+	-elegir empleados uno a uno para pagarles nomina
+	-*/
 	public static void pagarNominaInterfaz(Aeropuerto aeropuerto) {
 		int dineroapagar = 0;
 		List<Empleado> lempleados = aeropuerto.getEmpleados();
@@ -487,36 +492,6 @@ public class Administrador {
 			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 			pagarNominaInterfaz(aeropuerto);
 		}
-		/*
-		do {
-			System.out.println("\nDesea pagarle a todos los empleados?");
-			System.out.print("""
-					1. Pagar a todos los empleados
-					2. Elegir empleados
-					3. Finalizar y Volver.
-					""");
-
-			option = entrada.nextInt();
-
-			if (option == 1) {
-				Empleado.pagarNomina(aeropuerto.getEmpleados());
-			} else if (option == 2) {
-				System.out.println("\nListado de empleados");
-				for (int i = 0; i < lempleados.size(); i++) {
-					System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
-							+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
-				}
-				System.out.println("Selecciona el numero del empleado a pagar:");
-				option2 = entrada.nextInt();
-
-				if (option2 < 1 || option2 > lempleados.size()) {
-					System.out.println("Error: numero incorrecto");
-				} else {
-					lempleados.get(option2 - 1).pagarNomina();
-				}
-			}
-		} while (option != 3);
-		interfazFinanzas(aeropuerto);*/
 	}
 
 	public static void mostrarPasajeros(Aeropuerto aeropuerto) {
