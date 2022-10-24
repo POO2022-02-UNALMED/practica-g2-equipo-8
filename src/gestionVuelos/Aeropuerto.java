@@ -6,7 +6,7 @@ import java.util.List;
 
 import basedatos.Deserializador;
 
-public class Aeropuerto implements Serializable {
+public class Aeropuerto implements Serializable, zonasEmbarque {
 	/**
 	 * 
 	 */
@@ -15,7 +15,6 @@ public class Aeropuerto implements Serializable {
 	private List<Vuelo> vuelos = new ArrayList<>();
 	private List<Empleado> empleados = new ArrayList<>();
 	private List<Pasajero> pasajeros = new ArrayList<>();
-	private List<String> salas = new ArrayList<>();
 	private List<Avion> aviones = new ArrayList<>();
 	private List<String> transaccionesKeys = new ArrayList<>();
 	private List<Integer> transaccionesValues = new ArrayList<>();
@@ -53,10 +52,6 @@ public class Aeropuerto implements Serializable {
 		this.empleados.add(empleado);
 	}
 
-	public void agregarSalas(String sala) {
-		this.salas.add(sala);
-	}
-
 	public void agregarAvion(Avion avion) {
 		this.aviones.add(avion);
 	}
@@ -75,14 +70,6 @@ public class Aeropuerto implements Serializable {
 
 	public void setEmpleados(List<Empleado> empleados) {
 		this.empleados = empleados;
-	}
-
-	public List<String> getSalas() {
-		return salas;
-	}
-
-	public void setSalas(List<String> salas) {
-		this.salas = salas;
 	}
 
 	public List<Avion> getAviones() {

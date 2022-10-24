@@ -22,7 +22,7 @@ public class Deserializador {
 			aeropuerto.setEmpleados(e.getEmpleados());
 			aeropuerto.setNombre(e.getNombre());
 			aeropuerto.setPasajeros(e.getPasajeros());
-			aeropuerto.setSalas(e.getSalas());
+			//aeropuerto.setSalas(e.getSalas());
 			aeropuerto.setVuelos(e.getVuelos());
 
 			oos.close();
