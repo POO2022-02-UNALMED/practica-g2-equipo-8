@@ -34,7 +34,7 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 	public void ingresarDinero(int pago) {
 		dinero += pago;
 	}
-	
+
 	public float getDinero() {
 		return dinero;
 	}
@@ -100,7 +100,10 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 	}
 
 	public void despedirEmpleado(Empleado empleado) {
-		empleado.getVuelo().getEmpleados().remove(empleado);
+		if (empleado.getVuelo() != null) {
+			empleado.getVuelo().getEmpleados().remove(empleado);
+		}
+
 		empleados.remove(empleados.indexOf(empleado));
 	}
 

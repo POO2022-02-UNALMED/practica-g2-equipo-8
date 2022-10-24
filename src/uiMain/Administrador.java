@@ -258,7 +258,7 @@ public class Administrador {
 			break;
 		case 4:
 			AEROPUERTO.despedirEmpleado(empleadoActual);
-			System.out.println(empleadoActual);
+			System.out.println(empleadoActual.getNombre() + " ha sido despedido.");
 			break;
 		default:
 			System.out.println("Opcion erronea, vuelva a intentarlo.");
@@ -590,7 +590,7 @@ public class Administrador {
 	// metodo para crear (contratar) un nuevo empleado
 	// el metodo retorna el nuevo empleado aunque no es necesario asignar este
 	// retorno
-	public static Empleado nuevoEmpleado() {
+	public static void nuevoEmpleado() {
 		String nombret;
 		int cedulat;
 		Cargos cargot;
@@ -617,10 +617,10 @@ public class Administrador {
 			sueldot = cargot.getSueldoBase();
 		}
 		System.out.println("Se ha agragado al empleado " + nombret);
-		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
+		new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
 	}
 
-	//Metodo usado al crear un empleado para elegir uno de los cargos disponibles
+	// Metodo usado al crear un empleado para elegir uno de los cargos disponibles
 	public static Cargos elegirCargo() {
 		for (int i = 0; i < Cargos.values().length; i++) {
 			System.out.println((i + 1) + ". " + Cargos.values()[i].getCargo());
@@ -812,12 +812,17 @@ public class Administrador {
 		System.out.println(pasajero.getVuelo().tiquete(pasajero));
 		if (valorInicial < pasajero.getInversion()) {
 			System.out.println("Por favor pagar un excedente de: " + "$" + (pasajero.getInversion() - valorInicial));
-			AEROPUERTO.transaccion("Excedente cambio de asiento", pasajero.getInversion() - valorInicial); // se agrega dinero al aeropuerto
-			//AEROPUERTO.ingresarDinero(pasajero.getInversion() - valorInicial);
+			AEROPUERTO.transaccion("Excedente cambio de asiento", pasajero.getInversion() - valorInicial); // se agrega
+																											// dinero al
+																											// aeropuerto
+			// AEROPUERTO.ingresarDinero(pasajero.getInversion() - valorInicial);
 		} else {
 			System.out.println("Devolucion: " + "$" + (valorInicial - pasajero.getInversion()));
-			AEROPUERTO.transaccion("Devolucion cambio de asiento", valorInicial - pasajero.getInversion()); // se retira dinero del aeropuerto
-			//AEROPUERTO.retirarDinero(valorInicial - pasajero.getInversion());
+			AEROPUERTO.transaccion("Devolucion cambio de asiento", valorInicial - pasajero.getInversion()); // se retira
+																											// dinero
+																											// del
+																											// aeropuerto
+			// AEROPUERTO.retirarDinero(valorInicial - pasajero.getInversion());
 		}
 
 		int option;
