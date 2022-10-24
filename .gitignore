@@ -7,3 +7,4 @@ build/
 .idea/
 *__pycache__*
 /out/
+src/basedatos/temp/aeropuerto.txt

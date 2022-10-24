@@ -7,15 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import basedatos.Serializador;
-import gestionVuelos.Aeropuerto;
-import gestionVuelos.Asiento;
-import gestionVuelos.Avion;
-import gestionVuelos.Cargos;
-import gestionVuelos.Empleado;
-import gestionVuelos.Equipaje;
-import gestionVuelos.Pasajero;
-import gestionVuelos.Persona;
-import gestionVuelos.Vuelo;
+import gestionVuelos.*;
 
 public class Administrador {
 	public static void main(String[] args) {
@@ -122,9 +114,17 @@ public class Administrador {
 			String destino = entrada.nextLine();
 			System.out.print("Ingrese el costo por pasajero del vuelo: ");
 			int costo = entrada.nextInt();
-			System.out.print("Ingrese la sala de embarque del vuelo: ");
+			System.out.print("Ingrese la sala de embarque del vuelo, las disponibles son las siguientes: ");
+			zonasEmbarque.mostrarZonas();
 			entrada.nextLine();
 			String salaEmb = entrada.nextLine();
+
+			if(!Aeropuerto.conjunto.contains(salaEmb)){
+				System.out.println("Por favor ingrese una sala de embarque valida.");
+				programarVuelos(aeropuerto);
+				return;
+			}
+
 			System.out.print("El vuelo es internacional? (y/n): ");
 			String internacional = entrada.nextLine();
 
@@ -137,17 +137,21 @@ public class Administrador {
 			System.out.println("El vuelo ha sido creado exitosamente.\n");
 			System.out.println("Se recomiendan los siguiente empleados segun las caracteristicas del vuelo: ");
 
+			boolean hayEmpleados = false;
 			if (internacional.equals("y")) {
 				for (Empleado empleado : aeropuerto.getEmpleados()) {
-					if (empleado.getExperiencia() >= 5)
+					if (empleado.getExperiencia() >= 5){
 						System.out.println(empleado);
+						hayEmpleados = true;
+					}
 				}
+				if(!hayEmpleados) System.out.println("por el momento se considera que no hay personal calificado para el vuelo.");
 			} else {
 				System.out.println("Cualquier empleado puede cumplir las expectativas de calidad.");
 			}
-			System.out
-					.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
-							+ "Ingrese 1 para ir a la gestion de empleado o 0 para regresar al menu principal:");
+			System.out.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
+							+ "Ingrese 1 para ir a la opcion de gestion de empleados o 0 para regresar al menu principal: ");
+
 			int des = entrada.nextInt();
 
 			if (des == 1)
@@ -263,7 +267,7 @@ public class Administrador {
 	public static void cambiarCargo(Empleado empleado, Aeropuerto aeropuerto) {
 
 		System.out.println("El cargo actual de " + empleado.getNombre() + " es " + empleado.getCargo());
-		System.out.println("�A que cargo quieres asignarle? Los cargos disponibles son: ");
+		System.out.println("A que cargo quieres asignarle? Los cargos disponibles son: ");
 
 		for (int i = 0; i < Cargos.values().length; i++) {
 			System.out.println((i + 1) + ". " + Cargos.values()[i].getCargo());
@@ -329,7 +333,7 @@ public class Administrador {
 			for (Vuelo vuelo : vuelosDisp)
 				System.out.print(vuelo);
 		else {
-			System.out.println("Lo sentimos, no hay vuelos disponibles desde ese origen para el destino indicado");
+			System.out.println("Lo sentimos, no hay vuelos disponibles desde Medellin para el destino indicado");
 			opcionesPrincipales(aeropuerto);
 		}
 		System.out.print("Inserte el ID del vuelo de su preferencia: ");
@@ -427,17 +431,23 @@ public class Administrador {
 				pagarNominaInterfaz(aeropuerto);
 				break;
 			case 2:
-				aeropuerto.transacciones();
+				System.out.println(aeropuerto.transacciones());
 				interfazFinanzas(aeropuerto);
+				break;
 			case 3:
-				Empleado.cambiarSueldo();
+				cambiarSueldo(aeropuerto);
 				interfazFinanzas(aeropuerto);
+				break;
 			case 4:
-				Empleado.nuevoEmpleado();
+				nuevoEmpleado();
+				interfazFinanzas(aeropuerto);
+				break;
 			case 5:
 				opcionesPrincipales(aeropuerto);
+				break;
 			case 0:
 				salirDelSistema(aeropuerto);
+				break;
 			default:
 					System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 		}
@@ -466,7 +476,7 @@ public class Administrador {
 		option = entrada.nextInt();
 
 		if (option == 1) {
-			Empleado.pagarNomina(aeropuerto.getEmpleados());
+			pagarNominaGeneral(aeropuerto,lempleados);
 			pagarNominaInterfaz(aeropuerto);
 		} else if (option == 2) {
 			System.out.println("\nListado de empleados");
@@ -482,7 +492,13 @@ public class Administrador {
 			} else if (option2 < 1 || option2 > lempleados.size()) {
 				System.out.println("Error: numero incorrecto");
 			} else {
-				lempleados.get(option2 - 1).pagarNomina();
+				dineroapagar = lempleados.get(option2-1).pagoNomina(aeropuerto);
+				if (dineroapagar < 0) {
+					System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+				} else {
+					// Aeropuerto.setDinero(nuevosaldo);
+					System.out.println("Transaccion realizada, nuevo saldo = " + aeropuerto.getDinero());
+				}
 			}
 			pagarNominaInterfaz(aeropuerto);
 
@@ -494,7 +510,84 @@ public class Administrador {
 		}
 	}
 
+	//metodo para pagar la nomina  a un listado de empleados
+	public static void pagarNominaGeneral(Aeropuerto aeropuerto,List<Empleado> empleados){
+		int dineroapagar = 0;
+		for (Empleado empleado : empleados) {
+			dineroapagar += empleado.getSueldo();
+		}
+		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
 
+		if (nuevosaldo < 0) {
+			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+		} else {
+			aeropuerto.transaccion("Nomina General", dineroapagar * (-1));
+			// Aeropuerto.setDinero(nuevosaldo);
+			System.out.println("Transaccion realizada, nuevo saldo = " + aeropuerto.getDinero());
+		}
+	}
+
+	//metodo para crear (contratar) un nuevo empleado
+	//el metodo retorna el nuevo empleado aunque no es necesario asignar este retorno
+	public static Empleado nuevoEmpleado() {
+		String nombret;
+		int cedulat;
+		Cargos cargot;
+		int edadt;
+		String sexot;
+		int sueldot;
+
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("---NUEVO EMPLEADO---");
+		System.out.print("Por favor inserte el nombre del empleado: ");
+		nombret = entrada.nextLine();
+		System.out.print("Por favor elija el cargo del empleado:\n");
+		cargot = Cargos.elegirCargo();
+		System.out.print("Por favor inserte el sexo del empleado, (M) para hombres y (F) para mujeres: ");
+		sexot = entrada.nextLine();
+		System.out.print("Por favor inserte la cedula del empleado: ");
+		cedulat = entrada.nextInt();
+		System.out.print("Por favor inserte la edad del empleado: ");
+		edadt = entrada.nextInt();
+		System.out.print("Por favor inserte el sueldo del empleado: \n(Inserte 0 si desea asignarle el precio base): ");
+		sueldot = entrada.nextInt();
+
+		if (sueldot == 0) {
+			sueldot = cargot.getSueldoBase();
+		}
+		System.out.println("Se ha agragado al empleado " + nombret);
+		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
+	}
+
+	//metodo de clase que proporciona una interfaz para elegir un empleado y cambiarle el sueldo
+	public static void cambiarSueldo(Aeropuerto aeropuerto) {
+		try {
+			Scanner entrada = new Scanner(System.in);
+			List<Empleado> lempleados = aeropuerto.getEmpleados();
+
+			System.out.println("\nListado de empleados");
+			for (int i = 0; i < lempleados.size(); i++) {
+				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
+						+ ", sueldo = " + lempleados.get(i).getSueldo());
+			}
+			System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
+			int option = entrada.nextInt();
+
+			System.out.println("Empleado seleccionado: ");
+			System.out.println(lempleados.get(option - 1).getCargo() + ": " + lempleados.get(option - 1).getNombre()
+					+ ", sueldo = " + lempleados.get(option - 1).getSueldo());
+
+			System.out.println("\nIngresa el nuevo sueldo: ");
+			int option2 = entrada.nextInt();
+
+			lempleados.get(option - 1).setSueldo(option2);
+			System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
+					+ lempleados.get(option - 1).getSueldo());
+		}
+		catch(Exception e) {
+			System.out.println("numero incorrecto");
+		}
+	}
 
 	/* Metodo mostrarPasajeros
 	 * Permite ver los pasajeros activos en el aeropuerto.
