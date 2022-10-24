@@ -51,6 +51,10 @@ public class Administrador {
 		}
 	}
 
+	/*
+	 * Da ciertos valores iniciales al aeropuerto y a sus objetos para tener ya
+	 * guardados ciertos datos
+	 */
 	public static void inicializadorObjetos() {
 		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "10A");
 		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), LocalDateTime.now(), "Miami", 1500, "1B");
@@ -76,12 +80,19 @@ public class Administrador {
 		Serializador.serializar(AEROPUERTO);
 	}
 
+	/*
+	 * Da a ciertas clases el valor del AEROPUERTO para el funcionamiento correcto
+	 * de estas
+	 */
 	public static void inicializarStatics() {
 		Avion.setAeropuerto(AEROPUERTO);
 		Persona.setAeropuerto(AEROPUERTO);
 		Vuelo.setAeropuerto(AEROPUERTO);
 	}
 
+	/*
+	 * Menu principal donde estan las 5 funcionalidades principales
+	 */
 	public static void opcionesPrincipales() {
 		Scanner entrada = new Scanner(System.in);
 		int option = 0;
@@ -196,6 +207,10 @@ public class Administrador {
 		}
 	}
 
+	/*
+	 * Interfaz principal de la funcionalidad 3. En este metodo se muestran y
+	 * gestionan los empleados del aeropuerto.
+	 */
 	public static void gestionarEmpleadosInterfaz() {
 		mostrarEmpleados();
 		System.out.println("Introduzca la cedula para ver mas opciones:");
@@ -218,6 +233,10 @@ public class Administrador {
 		opcionesEmpleado(empleadoActual);
 	}
 
+	/*
+	 * Muestra y permite seleccionar las opciones posibles a realizar con el
+	 * empleado pasado por parametro
+	 */
 	private static void opcionesEmpleado(Empleado empleadoActual) {
 		Scanner entrada = new Scanner(System.in);
 
@@ -247,6 +266,9 @@ public class Administrador {
 		}
 	}
 
+	/*
+	 * Aumenta o disminuye el sueldo del empleado pasado por parametro
+	 */
 	public static void cambiarSueldo(Empleado empleado) {
 		System.out.println("El sueldo actual de " + empleado.getNombre() + " es " + empleado.getSueldo());
 		System.out.println(
@@ -295,6 +317,10 @@ public class Administrador {
 		}
 	}
 
+	/*
+	 * Ejecuta la interfaz para cambiar el cargo del empleado que entra por
+	 * parametro
+	 */
 	public static void cambiarCargo(Empleado empleado) {
 
 		System.out.println("El cargo actual de " + empleado.getNombre() + " es " + empleado.getCargo());
@@ -342,6 +368,10 @@ public class Administrador {
 		opcionesPrincipales();
 	}
 
+	/*
+	 * Guarda el objeto aeropuerto, donde estan todos los valores necesarios para
+	 * una siguiente ejecucion, y sale del sistema
+	 */
 	public static void salirDelSistema() {
 		System.out.println("Vuelva pronto");
 		Serializador.serializar(AEROPUERTO);
@@ -455,9 +485,8 @@ public class Administrador {
 		System.out.print("""
 				1. Pagar Nomina de empleados.
 				2. ver historial de transacciones.
-				3. Otorgar un aumento o disminucion de sueldo a un empleado.
-				4. Contratar nuevo empleado.
-				5. Colver.
+				3. Contratar nuevo empleado.
+				4. Colver.
 				0. Cerrar.
 				""");
 
@@ -471,14 +500,10 @@ public class Administrador {
 			interfazFinanzas();
 			break;
 		case 3:
-			cambiarSueldo();
-			interfazFinanzas();
-			break;
-		case 4:
 			nuevoEmpleado();
 			interfazFinanzas();
 			break;
-		case 5:
+		case 4:
 			opcionesPrincipales();
 			break;
 		case 0:
@@ -593,36 +618,6 @@ public class Administrador {
 		}
 		System.out.println("Se ha agragado al empleado " + nombret);
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
-	}
-
-	// metodo de clase que proporciona una interfaz para elegir un empleado y
-	// cambiarle el sueldo
-	public static void cambiarSueldo() {
-		try {
-			Scanner entrada = new Scanner(System.in);
-			List<Empleado> lempleados = AEROPUERTO.getEmpleados();
-
-			System.out.println("\nListado de empleados");
-			for (int i = 0; i < lempleados.size(); i++) {
-				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
-						+ ", sueldo = " + lempleados.get(i).getSueldo());
-			}
-			System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
-			int option = entrada.nextInt();
-
-			System.out.println("Empleado seleccionado: ");
-			System.out.println(lempleados.get(option - 1).getCargo() + ": " + lempleados.get(option - 1).getNombre()
-					+ ", sueldo = " + lempleados.get(option - 1).getSueldo());
-
-			System.out.println("\nIngresa el nuevo sueldo: ");
-			int option2 = entrada.nextInt();
-
-			lempleados.get(option - 1).setSueldo(option2);
-			System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
-					+ lempleados.get(option - 1).getSueldo());
-		} catch (Exception e) {
-			System.out.println("numero incorrecto");
-		}
 	}
 
 	/*

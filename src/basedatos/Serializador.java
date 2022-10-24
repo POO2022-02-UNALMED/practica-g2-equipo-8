@@ -22,7 +22,6 @@ public class Serializador {
 			fos = new FileOutputStream(ruta);
 			ObjectOutputStream outputStream = new ObjectOutputStream(fos);
 			outputStream.writeObject(aeropuerto);
-			System.out.println("Se ha guardado correctamente el objeto en el archivo: aeropuerto");
 			outputStream.close();
 			fos.close();
 		} catch (FileNotFoundException e) {
