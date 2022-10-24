@@ -841,7 +841,6 @@ public class Administrador {
 	 */
 	public static void reservaDeVuelo2(Pasajero pasajero) {
 		int valorInicial = pasajero.getInversion();
-		System.out.println(pasajero.getAsiento());
 		Scanner entradas = new Scanner(System.in);
 
 		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
