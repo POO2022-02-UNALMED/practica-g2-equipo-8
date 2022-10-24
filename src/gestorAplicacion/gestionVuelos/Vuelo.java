@@ -73,7 +73,7 @@ public class Vuelo implements Serializable {
 				//aeropuerto.ingresarDinero(2 * costo);
 				pasajero.setInversion(2 * costo);
 			} else {
-				aeropuerto.transaccion("Boleto General", costo);
+				aeropuerto.transaccion("Boleto Clase Turista", costo);
 				//aeropuerto.ingresarDinero(costo);
 				pasajero.setInversion(costo);
 			}

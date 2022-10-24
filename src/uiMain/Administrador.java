@@ -486,31 +486,36 @@ public class Administrador {
 				1. Pagar Nomina de empleados.
 				2. ver historial de transacciones.
 				3. Contratar nuevo empleado.
-				4. Colver.
+				4. Modificar el dinero del aeropuerto
+				5. Colver.
 				0. Cerrar.
 				""");
 
 		option = entrada.nextInt();
 		switch (option) {
-		case 1:
-			pagarNominaInterfaz();
-			break;
-		case 2:
-			System.out.println(AEROPUERTO.transacciones());
-			interfazFinanzas();
-			break;
-		case 3:
-			nuevoEmpleado();
-			interfazFinanzas();
-			break;
-		case 4:
-			opcionesPrincipales();
-			break;
-		case 0:
-			salirDelSistema();
-			break;
-		default:
-			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
+			case 1:
+				pagarNominaInterfaz();
+				break;
+			case 2:
+				System.out.println(AEROPUERTO.transacciones());
+				interfazFinanzas();
+				break;
+			case 3:
+				nuevoEmpleado();
+				interfazFinanzas();
+				break;
+			case 4:
+				modificarDinero();
+				interfazFinanzas();
+				break;
+			case 5:
+				opcionesPrincipales();
+				break;
+			case 0:
+				salirDelSistema();
+				break;
+			default:
+				System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 		}
 	}
 
@@ -585,6 +590,48 @@ public class Administrador {
 			// Aeropuerto.setDinero(nuevosaldo);
 			System.out.println("Transaccion realizada, nuevo saldo = " + AEROPUERTO.getDinero());
 		}
+	}
+
+	//metodo para ingresar o retirar dinero al aeropuerto
+	public static void modificarDinero() {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("\n-- Bienvenido al sistema de transacciones externas --");
+		System.out.println("Desea ingresar o retirar dinero?");
+		System.out.println("1. Ingresar\n2. Retirar\n0. Volver");
+		int option = entrada.nextInt();
+
+		if (option == 0){
+			interfazFinanzas();
+			return;
+		} else if (option != 1 && option != 2) {
+			System.out.println("numero incorrecto, vuelve a intentar");
+			modificarDinero();
+			return;
+		}
+
+		System.out.println("Ingrese el valor de la transaccion: ");
+		int monto = entrada.nextInt();
+
+		System.out.println("Ingrese el cocepto de la transaccion (Breve descripcion):");
+		entrada.nextLine();
+		String cocepto = entrada.nextLine();
+
+
+		switch (option) {
+			case 1:
+				AEROPUERTO.transaccion(cocepto, monto);
+				System.out.println("Se ha ingresado exitosamente el monto de " + monto);
+				break;
+			case 2:
+				if (AEROPUERTO.getDinero() - monto >= 0) {
+					AEROPUERTO.transaccion(cocepto, monto * (-1));
+					System.out.println("Se ha retirado exitosamente el monto de " + monto);
+				} else {
+					System.out.println("Fondos insuficientes, no se ha podido realizar la transaccion");
+				}
+				break;
+		}
+		System.out.println("Nuevo saldo = " + AEROPUERTO.getDinero());
 	}
 
 	// metodo para crear (contratar) un nuevo empleado
