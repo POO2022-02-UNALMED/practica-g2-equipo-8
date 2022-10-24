@@ -666,35 +666,46 @@ public class Administrador {
 		System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
 
 		int option;
-		do {
-			System.out.println("\nIngrese el numero de la opcion a elegir:");
-			System.out.print("""
-					1. Cambiar asiento.
-					2. Cancelar vuelo.
-					3. Eliminar avion.
-					4. Volver.
-					5. Finalizar.
-					""");
 
-			option = entrada.nextInt();
-			switch (option) {
-			case 1:
-				cambiarAsiento();
-				break;
-			case 2:
-				cancelarVuelo();
-				break;
-			case 3:
-				eliminarAvion();
-				break;
-			case 4:
-				opcionesPrincipales();
-				break;
-			case 5:
-				salirDelSistema();
-				break;
+		System.out.println("\nIngrese el numero de la opcion a elegir:");
+		System.out.print("""
+				1. Cambiar asiento.
+				2. Cancelar vuelo.
+				3. Eliminar avion.
+				4. Ingresar nuevo avion.
+				4. Volver.
+				5. Finalizar.
+				""");
+
+		option = entrada.nextInt();
+		switch (option) {
+		case 1:
+			cambiarAsiento();
+			break;
+		case 2:
+			cancelarVuelo();
+			break;
+		case 3:
+			eliminarAvion();
+			break;
+		case 4:
+			int idMax = 0;
+
+			for (int l = 0; l < AEROPUERTO.getAviones().size(); l++) {
+				if (AEROPUERTO.getAviones().get(l).getId() > idMax) {
+					idMax = AEROPUERTO.getAviones().get(l).getId();
+				}
 			}
-		} while (option != 6);
+
+			comprarAvion(idMax);
+		case 5:
+			opcionesPrincipales();
+			break;
+		case 6:
+			salirDelSistema();
+			break;
+		}
+
 	}
 
 	/*
@@ -738,7 +749,8 @@ public class Administrador {
 
 		} else {
 			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
-			reservaDeVuelo2(pasajero); // Proceso de reserva de vuelo, es diferente a la primera reserva que se hace
+			reservaDeVuelo2(pasajero); // Proceso de reserva de vuelo, es diferente a la primera reserva que
+										// se hace
 		}
 	}
 
@@ -773,6 +785,7 @@ public class Administrador {
 				pasajero.getAsiento().setNumero(nroAsiento);
 			}
 		}
+		// pasajero.getVuelo().getAvion().getAsientos();
 		if (nuevoasiento.getClase().equals("Primera clase")) {
 			pasajero.setInversion(3 * pasajero.getVuelo().getCosto());
 		} else if (nuevoasiento.getClase().equals("Ejecutiva")) {
@@ -984,25 +997,12 @@ public class Administrador {
 	 * avion.
 	 */
 	private static void agregarAvion(Vuelo vuelo, int idMax) {
+		comprarAvion(idMax);
 		Scanner entradas = new Scanner(System.in);
-		System.out.println("Por favor ingrese el modelo del avion: ");
-		String modelo = entradas.nextLine();
-
-		System.out.println("Por favor ingrese el peso maximo del avion: ");
-		int peso = entradas.nextInt();
-
-		System.out.println("Por favor ingrese el precio del avion: ");
-		int valor = entradas.nextInt();
-		System.out.println("idmax" + idMax);
-
-		Avion av = new Avion(modelo, peso, valor);
-		av.setId(idMax + 1);
-		vuelo.setAvion(av);
-		mostrarAviones();
-
+		vuelo.setAvion(AEROPUERTO.getAviones().get(AEROPUERTO.getAviones().size() - 1));
 		int option;
 		do {
-			System.out.println("\nSe ha agregado el avión exitosamente.\n");
+			System.out.println("\nSe ha agregado el avion exitosamente.\n");
 			System.out.println("Ingrese el numero de la opcion a elegir:");
 			System.out.print("""
 					1. Volver.
@@ -1021,4 +1021,26 @@ public class Administrador {
 		} while (option != 3);
 	}
 
+	public static void comprarAvion(int idMax) {
+		Scanner entradas = new Scanner(System.in);
+		System.out.println("Por favor ingrese el modelo del avion: ");
+		String modelo = entradas.nextLine();
+
+		System.out.println("Por favor ingrese el peso maximo del avion: ");
+		int peso = entradas.nextInt();
+
+		System.out.println("Por favor ingrese el precio del avion: ");
+		int valor = entradas.nextInt();
+		System.out.println("idmax" + idMax);
+
+		if (valor > AEROPUERTO.getDinero()) {
+			System.out.println("No hay fondos suficientes para comprar este avion, intentelo de nuevo.");
+			comprarAvion(idMax);
+
+		}
+
+		Avion av = new Avion(modelo, peso, valor);
+		av.setId(idMax + 1);
+		mostrarAviones();
+	}
 }
