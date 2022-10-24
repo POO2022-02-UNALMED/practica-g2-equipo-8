@@ -473,6 +473,11 @@ public class Administrador {
 		} while (option != 3);
 	}
 
+
+
+	/* Metodo mostrarPasajeros
+	 * Permite ver los pasajeros activos en el aeropuerto.
+	 */
 	public static void mostrarPasajeros(Aeropuerto aeropuerto) {
 		System.out.println("Estos son los pasajeros del aeropuerto:\n");
 		System.out.println("Cedula         Nombre");
@@ -482,6 +487,10 @@ public class Administrador {
 		}
 	}
 
+
+	/* Metodo mostrarVuelos
+	 * Permite ver los vuelos disponibles en el aeropuerto.
+	 */
 	public static void mostrarVuelos(Aeropuerto aeropuerto) {
 		System.out.println("El aeropuerto dispone de los siguientes vuelos: \n");
 		System.out.println("ID             Destino");
@@ -491,6 +500,10 @@ public class Administrador {
 		}
 	}
 
+
+	/* Metodo mostrarAviones
+	 * Permite ver los aviones disponibles del aeropuerto.
+	 */
 	public static void mostrarAviones(Aeropuerto aeropuerto) {
 		System.out.println("El aeropuerto dispone de los siguientes aviones: \n");
 		System.out.println("ID             Modelo");
@@ -500,6 +513,11 @@ public class Administrador {
 		}
 	}
 
+
+	/* Funcionalidad Modificaciones
+	 * Esta funcionalidad permite las opciones de cambiar asiento, cancelar un vuelo y eliminar un avion.
+	 * En cada opcion contiene un metodo el cual recibe la instancia aeropuerto
+	 */
 	public static void Modificaciones(Aeropuerto aeropuerto) {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de vuelos y aviones --");
@@ -536,24 +554,58 @@ public class Administrador {
 		} while (option != 6);
 	}
 
+
+	/* Metodo cambiarAsiento
+	 * Permite al pasajero poder cambiar su asiento una vez ya ha reservado vuelo.
+	 * En este se piden los datos del pasajero para poder verificar que se encuentre registrado y hacer el debido proceso.
+	 * Si el pasajero no esta registrado se mostrara un mensaje.
+	 * Si el pasajero esta registrado se realizara el proceso de reversa de vuelo.
+	 * Para lo anterior se creo el metodo reservaDeVuelo2()
+	 */
 	private static void cambiarAsiento(Aeropuerto aeropuerto) {
 		mostrarPasajeros(aeropuerto);
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Ingrese su documento de identidad.");
 		int documento = entradas.nextInt();
-		Pasajero pasajero = Pasajero.buscarPasajero(documento);
-		if (documento == 0) {
-
-		}
+		Pasajero pasajero = Pasajero.buscarPasajero(documento);   //Verifica si el pasajero se encuentra registrado
 		if (pasajero == null) {
 			System.out.println("El usuario no se encuentra registrado.\n");
-			cambiarAsiento(aeropuerto);
+			int option;
+			do {
+				System.out.println("\nIngrese el numero de la opcion a elegir:");
+				System.out.print("""
+					1. Intentar de nuevo.
+					2. Volver.
+					3. Finalizar.
+					""");
+
+				option = entradas.nextInt();
+				switch (option) {
+					case 1:
+						cambiarAsiento(aeropuerto);
+						break;
+					case 2:
+						opcionesPrincipales(aeropuerto);
+						break;
+					case 3:
+						salirDelSistema(aeropuerto);
+						break;
+				}
+			} while (option != 4);
+
 		} else {
 			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
-			reservaDeVuelo2(pasajero, aeropuerto);
+			reservaDeVuelo2(pasajero, aeropuerto);   // Proceso de reserva de vuelo, es diferente a la primera reserva que se hace
 		}
 	}
 
+
+	/* Metodo reservaDeVuelo2
+	 * El metodo recibe como parametros un pasajero y aeropuerto
+	 * Este metodo permite hacer el cambio de asiento conservando los datos ingresados en la primera reserva que se hizo
+	 * por lo que no es necesario volver a pedirlos en esta ocasion.
+	 * Se pide la cedula para confirmar que es el usuario.
+	 */
 	public static void reservaDeVuelo2(Pasajero pasajero, Aeropuerto aeropuerto) {
 		System.out.println(pasajero.getAsiento());
 		Scanner entradas = new Scanner(System.in);
@@ -562,9 +614,7 @@ public class Administrador {
 
 		System.out.print("Inserte su documento de identidad: ");
 		int documento = entradas.nextInt();
-		if (documento == pasajero.getCedula()) {
-
-		} else {
+		if (documento != pasajero.getCedula()) {
 			System.out.println("Los datos no coinciden");
 			reservaDeVuelo2(pasajero, aeropuerto);
 		}
@@ -602,13 +652,15 @@ public class Administrador {
 
 	}
 
-	public static void cambiarVuelo(List<Vuelo> vuelos) {
-		Vuelo vuelo = null;
-		for (int i = 0; i < vuelos.size(); i++) {
-			vuelo = vuelos.get(i);
-		}
-	}
 
+	/* Metodo cancelarVuelo
+	 * Este metodo recibe como parametro un objeto de tipo aeropuerto.
+	 * Es invocado desde el metodo Modificaciones.
+	 * Se pide el ID del vuelo con el fin de revisar en la lista de vuelos que se encuentra en aeropuerto,
+	 * con el fin de que si coinciden valores primero va a buscar en la lista de pasajeros para ver su respectivo vuelo,
+	 * si coincide se elimina el pasajero y despues de esto se elimina el vuelo
+	 * Se mostrara los vuelos disponibles actualizados
+	 */
 	private static void cancelarVuelo(Aeropuerto aeropuerto) {
 		mostrarVuelos(aeropuerto);
 		Scanner entradas = new Scanner(System.in);
@@ -631,9 +683,37 @@ public class Administrador {
 		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
 		mostrarVuelos(aeropuerto);
 
+		int option;
+		do {
+			System.out.println("\nIngrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Volver.
+					2. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					opcionesPrincipales(aeropuerto);
+					break;
+				case 2:
+					salirDelSistema(aeropuerto);
+					break;
+			}
+		} while (option != 3);
+
 	}
 
+
+
+	/* Metodo cancelarVuelo (Sobrecarga)
+	 * Este metodo recibe como parametros un objeto de tipo vuelo y un objeto de tipo aeropuerto.
+	 * Es invocado por el metodo eliminarAvion.
+	 * Este metodo está pensando para que cuando se elimine el avion se pueda eliminar el vuelo el cual tenia asignado
+	 * dicho avion
+	 */
 	private static void cancelarVuelo(Vuelo vuelo, Aeropuerto aeropuerto) {
+		Scanner entradas = new Scanner(System.in);
 		for (int i = 0; i < aeropuerto.getVuelos().size(); i++) {
 			if (vuelo.getId() == aeropuerto.getVuelos().get(i).getId()) {
 
@@ -649,8 +729,38 @@ public class Administrador {
 		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
 		mostrarVuelos(aeropuerto);
 
+		int option;
+		do {
+			System.out.println("\nIngrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Volver.
+					2. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					opcionesPrincipales(aeropuerto);
+					break;
+				case 2:
+					salirDelSistema(aeropuerto);
+					break;
+			}
+		} while (option != 3);
+
 	}
 
+
+	/* Metodo eliminarAvion
+	 * Recibe como parametro un objeto de tipo aeropuerto
+	 * En este metodo esta la opcion de agregar otro avion al vuelo que le corresponde o eliminar el vuelo en caso que no
+	 * se le quiera asignar otro vuelo
+	 * Se crea dos variables, una de tipo vuelo y otra de tipo avion.
+	 * Se pide el ID del avion que se desea eliminar, con este ID, si coincide con la lista de aviones se le asigna a la
+	 * variable a, posterior a esto se elimina dicho avion de la lista.
+	 * Despues se busca el respectivo vuelo del avion y se le asigna a la variable v.
+	 * a y v se usan para los cambios necesarios
+	 */
 	private static void eliminarAvion(Aeropuerto aeropuerto) {
 		mostrarAviones(aeropuerto);
 		Scanner entradas = new Scanner(System.in);
@@ -663,14 +773,12 @@ public class Administrador {
 		for (int i = 0; i < aeropuerto.getAviones().size(); i++) {
 			if (id == aeropuerto.getAviones().get(i).getId()) {
 				a = aeropuerto.getAviones().get(i);
-				System.out.println("a" + aeropuerto.getAviones().get(i).getModelo());
 				aeropuerto.getAviones().remove(aeropuerto.getAviones().get(i));
 			}
 			for (int j = 0; j < aeropuerto.getVuelos().size(); j++) {
 				if (a != null) {
 					if (a.getId() == aeropuerto.getVuelos().get(j).getAvion().getId()) {
 						v = aeropuerto.getVuelos().get(j);
-						System.out.println("v" + aeropuerto.getVuelos().get(j));
 					}
 				}
 			}
@@ -690,7 +798,7 @@ public class Administrador {
 			option = entradas.nextInt();
 			switch (option) {
 			case 1:
-				agregarAvion(a, v, aeropuerto);
+				agregarAvion(v, aeropuerto);
 				break;
 			case 2:
 				cancelarVuelo(v, aeropuerto);
@@ -708,7 +816,12 @@ public class Administrador {
 		mostrarAviones(aeropuerto);
 	}
 
-	private static void agregarAvion(Avion avion, Vuelo vuelo, Aeropuerto aeropuerto) {
+	/* Metodo agregarAvion
+	 * Recibe como parametro un objeto de tipo vuelo y otro de tipo aeropuerto.
+	 * Este metedo sirve para crear un nuevo avion y este agregarlo a un vuelo.
+	 * Se pide el modelo, peso y el precio, con estos valores se crea el avion.
+	 */
+	private static void agregarAvion(Vuelo vuelo, Aeropuerto aeropuerto) {
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Por favor ingrese el modelo del avion: ");
 		String modelo = entradas.nextLine();
@@ -722,6 +835,26 @@ public class Administrador {
 		Avion av = new Avion(modelo, peso, valor);
 		vuelo.setAvion(av);
 		mostrarAviones(aeropuerto);
+
+		int option;
+		do {
+			System.out.println("\nSe ha agregado el avión exitosamente.\n");
+			System.out.println("Ingrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Volver.
+					2. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					opcionesPrincipales(aeropuerto);
+					break;
+				case 2:
+					salirDelSistema(aeropuerto);
+					break;
+			}
+		} while (option != 3);
 	}
 
 }
