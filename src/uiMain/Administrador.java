@@ -859,6 +859,7 @@ public class Administrador {
 				pasajero.getVuelo().getAvion().getAsientos().get(j).setOcupado(true);
 				nuevoasiento = pasajero.getVuelo().getAvion().getAsientos().get(j);
 				pasajero.getAsiento().setNumero(nroAsiento);
+				pasajero.getAsiento().setClase(pasajero.getVuelo().getAvion().getAsientos().get(j).getClase());
 			}
 		}
 		// pasajero.getVuelo().getAvion().getAsientos();
