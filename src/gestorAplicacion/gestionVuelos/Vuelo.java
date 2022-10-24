@@ -97,7 +97,7 @@ public class Vuelo implements Serializable {
 
 	public String tiquete(Pasajero pasajero) {
 		String tique = "\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
-				+ "          Tiquete No." + this.id + "\n" + "------------------------------------\n"
+				+ "             Tiquete " + "\n" + "------------------------------------\n"
 				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + fecha + "\n" + "Vuelo: " + getId()
 				+ "\n" + "Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
 				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n"

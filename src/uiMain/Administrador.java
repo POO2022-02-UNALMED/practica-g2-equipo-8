@@ -442,11 +442,10 @@ public class Administrador {
 
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
-		// vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento);
 		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
 			System.out.println(vueloElegido.tiquete(nuevoPasajero)); // Imprime el tiquete
 		} else {
-			vueloElegido.getPasajeros().remove(nuevoPasajero);
+			vueloElegido.getPasajeros().remove(nuevoPasajero);  //Por si no se hace efectiva la reserva dado el peso del equipaje
 			AEROPUERTO.getPasajeros().remove(nuevoPasajero);
 		}
 
@@ -862,7 +861,6 @@ public class Administrador {
 				pasajero.getAsiento().setClase(pasajero.getVuelo().getAvion().getAsientos().get(j).getClase());
 			}
 		}
-		// pasajero.getVuelo().getAvion().getAsientos();
 		if (nuevoasiento.getClase().equals("Primera clase")) {
 			pasajero.setInversion(3 * pasajero.getVuelo().getCosto());
 		} else if (nuevoasiento.getClase().equals("Ejecutiva")) {
@@ -876,14 +874,12 @@ public class Administrador {
 			AEROPUERTO.transaccion("Excedente cambio de asiento", pasajero.getInversion() - valorInicial); // se agrega
 																											// dinero al
 																											// aeropuerto
-			// AEROPUERTO.ingresarDinero(pasajero.getInversion() - valorInicial);
 		} else {
 			System.out.println("Devolucion: " + "$" + (valorInicial - pasajero.getInversion()));
 			AEROPUERTO.transaccion("Devolucion cambio de asiento", valorInicial - pasajero.getInversion()); // se retira
 																											// dinero
 																											// del
 																											// aeropuerto
-			// AEROPUERTO.retirarDinero(valorInicial - pasajero.getInversion());
 		}
 
 		int option;
