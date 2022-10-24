@@ -21,23 +21,25 @@ public interface zonasEmbarque{
 
     List<String> conjunto = new ArrayList<>(Arrays.asList(sala1, sala2, sala3, sala4, sala5, sala6, sala7, sala8, sala9, sala10, sala11, sala12));
 
-    static void mostrarZonas(){
-        System.out.println("\n\tZona A");
+    static String mostrarZonas(){
+        String zondisp = "";
+        zondisp += "\n\t\tZona A\n";
         for (int i=0; i < 3; i++) {
-            System.out.print(" - "+conjunto.get(i)+" - ");
+            zondisp += " - "+conjunto.get(i)+" - ";
         }
-        System.out.println("\n\tZona B");
+        zondisp +=  "\n\t\tZona B\n";
         for (int i=3; i < 6; i++) {
-            System.out.print(" - "+conjunto.get(i)+" - ");
+            zondisp += " - "+conjunto.get(i)+" - ";
         }
-        System.out.println("\n\tZona C");
+        zondisp += "\n\t\tZona C\n";
         for (int i=6; i < 9; i++) {
-            System.out.print(" - "+conjunto.get(i)+" - ");
+            zondisp += " - "+conjunto.get(i)+" - ";
         }
-        System.out.println("\n\tZona D");
+        zondisp += "\n\t\tZona D\n";
         for (int i=9; i < 12; i++) {
-            System.out.print(" - "+conjunto.get(i)+" - ");
+            zondisp += " - "+conjunto.get(i)+" - ";
         }
-        System.out.print("\n");
+        zondisp += "\n";
+        return zondisp;
     }
 }

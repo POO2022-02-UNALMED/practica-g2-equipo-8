@@ -133,7 +133,7 @@ public class Administrador {
 			System.out.print("Ingrese el costo por pasajero del vuelo: ");
 			int costo = entrada.nextInt();
 			System.out.print("Ingrese la sala de embarque del vuelo, las disponibles son las siguientes: ");
-			zonasEmbarque.mostrarZonas();
+			System.out.println(zonasEmbarque.mostrarZonas());
 			entrada.nextLine();
 			String salaEmb = entrada.nextLine();
 
