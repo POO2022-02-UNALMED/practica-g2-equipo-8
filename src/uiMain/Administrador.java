@@ -30,7 +30,7 @@ public class Administrador {
 	public static void main(String[] args) {
 
 		inicializarStatics();
-		// inicializadorObjetos(aeropuerto);
+		// inicializadorObjetos();
 
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
