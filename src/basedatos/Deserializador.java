@@ -24,6 +24,8 @@ public class Deserializador {
 			aeropuerto.setPasajeros(e.getPasajeros());
 			aeropuerto.setSalas(e.getSalas());
 			aeropuerto.setVuelos(e.getVuelos());
+			aeropuerto.setTransaccionesKeys(e.getTransaccionesKeys());
+			aeropuerto.setTransaccionesValues(e.getTransaccionesValues());
 
 			oos.close();
 			fin.close();

@@ -129,4 +129,20 @@ public class Aeropuerto implements Serializable {
 		}
 		System.out.println("rendimiento total : --- " + acumulador);
 	}
+
+	public List<String> getTransaccionesKeys() {
+		return transaccionesKeys;
+	}
+
+	public void setTransaccionesKeys(List<String> transaccionesKeys) {
+		this.transaccionesKeys = transaccionesKeys;
+	}
+
+	public List<Integer> getTransaccionesValues() {
+		return transaccionesValues;
+	}
+
+	public void setTransaccionesValues(List<Integer> transaccionesValues) {
+		this.transaccionesValues = transaccionesValues;
+	}
 }
