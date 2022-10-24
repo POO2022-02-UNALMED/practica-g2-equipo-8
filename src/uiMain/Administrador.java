@@ -738,8 +738,7 @@ public class Administrador {
 
 		} else {
 			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
-			reservaDeVuelo2(pasajero); // Proceso de reserva de vuelo, es diferente a la primera reserva que
-										// se hace
+			reservaDeVuelo2(pasajero); // Proceso de reserva de vuelo, es diferente a la primera reserva que se hace
 		}
 	}
 
@@ -756,15 +755,6 @@ public class Administrador {
 		System.out.println(pasajero.getAsiento());
 		Scanner entradas = new Scanner(System.in);
 
-		System.out.println("\nFormulario de datos personales");
-
-		System.out.print("Inserte su documento de identidad: ");
-		int documento = entradas.nextInt();
-		if (documento != pasajero.getCedula()) {
-			System.out.println("Los datos no coinciden");
-			reservaDeVuelo2(pasajero);
-		}
-
 		System.out.println("\nLos asientos disponibles en el vuelo son los siguientes: ");
 		for (Asiento asiento : pasajero.getVuelo().getAvion().getAsientos()) {
 			if (!asiento.isOcupado())
@@ -780,10 +770,9 @@ public class Administrador {
 			if (nroAsiento == pasajero.getVuelo().getAvion().getAsientos().get(j).getNumero()) {
 				pasajero.getVuelo().getAvion().getAsientos().get(j).setOcupado(true);
 				nuevoasiento = pasajero.getVuelo().getAvion().getAsientos().get(j);
+				pasajero.getAsiento().setNumero(nroAsiento);
 			}
 		}
-		// pasajero.getVuelo().getAvion().getAsientos();
-		System.out.println("clase" + nuevoasiento.getClase());
 		if (nuevoasiento.getClase().equals("Primera clase")) {
 			pasajero.setInversion(3 * pasajero.getVuelo().getCosto());
 		} else if (nuevoasiento.getClase().equals("Ejecutiva")) {
