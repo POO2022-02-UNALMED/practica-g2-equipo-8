@@ -34,11 +34,7 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 	public void ingresarDinero(int pago) {
 		dinero += pago;
 	}
-
-	public void retirarDinero(int pago) {
-		dinero -= pago;
-	}
-
+	
 	public float getDinero() {
 		return dinero;
 	}

@@ -65,13 +65,16 @@ public class Vuelo implements Serializable {
 			pasajero.setVuelo(this);
 			asientoElegido.setOcupado(true);
 			if (asientoElegido.getClase().equals("Primera clase")) {
-				aeropuerto.ingresarDinero(3 * costo);
+				aeropuerto.transaccion("Boleto Primera Clase", 3 * costo);
+				//aeropuerto.ingresarDinero(3 * costo);
 				pasajero.setInversion(3 * costo);
 			} else if (asientoElegido.getClase().equals("Ejecutiva")) {
-				aeropuerto.ingresarDinero(2 * costo);
+				aeropuerto.transaccion("Boleto Clase Ejecutiva", 2 * costo);
+				//aeropuerto.ingresarDinero(2 * costo);
 				pasajero.setInversion(2 * costo);
 			} else {
-				aeropuerto.ingresarDinero(costo);
+				aeropuerto.transaccion("Boleto General", costo);
+				//aeropuerto.ingresarDinero(costo);
 				pasajero.setInversion(costo);
 			}
 			return true;

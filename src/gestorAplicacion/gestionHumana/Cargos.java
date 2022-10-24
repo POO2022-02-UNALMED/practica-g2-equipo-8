@@ -26,18 +26,4 @@ public enum Cargos {
 		return sueldoBase;
 	}
 
-	public static Cargos elegirCargo() {
-		for (int i = 0; i < Cargos.values().length; i++) {
-			System.out.println((i + 1) + ". " + Cargos.values()[i].cargo);
-		}
-		Scanner entrada = new Scanner(System.in);
-		System.out.println("Ingrese el indice del cargo a elegir: ");
-		int indice = entrada.nextInt();
-		if (indice <= Cargos.values().length) {
-			return Cargos.values()[indice - 1];
-		} else {
-			System.out.println("Valor erroneo, vuelva a intentarlo.");
-			return elegirCargo();
-		}
-	}
 }
