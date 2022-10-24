@@ -1,3 +1,7 @@
+// Autores: Juan Jose Zapata Cadavid
+/* 
+ * Extraer los valores guardados en la memoria para usarlo luego en la RAM
+ */
 package basedatos;
 
 import java.io.FileInputStream;
@@ -8,6 +12,10 @@ import java.io.ObjectInputStream;
 import gestorAplicacion.gestionVuelos.Aeropuerto;
 
 public class Deserializador {
+	/*
+	 * Se encarga de extraer a aeropuerto de aeropuerto.txt y asignar todos los
+	 * valores al aeropuerto que se pasa por parametro
+	 */
 	public static <E> void deserializar(Aeropuerto aeropuerto) {
 		FileInputStream fin;
 

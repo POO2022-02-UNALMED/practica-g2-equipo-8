@@ -1,3 +1,8 @@
+// Autores: 
+/*
+ * 
+ */
+
 package gestorAplicacion.gestionVuelos;
 
 import java.io.Serializable;
@@ -8,7 +13,7 @@ import java.util.List;
 import gestorAplicacion.gestionHumana.Empleado;
 import gestorAplicacion.gestionHumana.Pasajero;
 
-public class Vuelo implements Serializable{
+public class Vuelo implements Serializable {
 	/**
 	 * 
 	 */
@@ -55,12 +60,10 @@ public class Vuelo implements Serializable{
 			if (asientoElegido.getClase().equals("Primera clase")) {
 				aeropuerto.ingresarDinero(3 * costo);
 				pasajero.setInversion(3 * costo);
-			}
-			else if (asientoElegido.getClase().equals("Ejecutiva")) {
+			} else if (asientoElegido.getClase().equals("Ejecutiva")) {
 				aeropuerto.ingresarDinero(2 * costo);
-				pasajero.setInversion(2*costo);
-			}
-			else {
+				pasajero.setInversion(2 * costo);
+			} else {
 				aeropuerto.ingresarDinero(costo);
 				pasajero.setInversion(costo);
 			}
@@ -88,8 +91,8 @@ public class Vuelo implements Serializable{
 				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + fecha + "\n" + "Vuelo: " + getId()
 				+ "\n" + "Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
 				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n"
-				+ "Origen: " + origen + "\n" + "Destino: " + getDestino() + "\n" + "Precio Total: " + pasajero.getInversion() + "\n"
-				+ "------------------------------------\n";
+				+ "Origen: " + origen + "\n" + "Destino: " + getDestino() + "\n" + "Precio Total: "
+				+ pasajero.getInversion() + "\n" + "------------------------------------\n";
 		return tique;
 	}
 

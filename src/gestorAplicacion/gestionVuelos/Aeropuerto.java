@@ -1,3 +1,8 @@
+// Autores: Juan Jose Zapata Cadavid
+/* Se encarga del manejo de los atributos del aeropuerto, como su nombre indica
+ * es donde se van a almacenar todos los datos del sistema.
+ */
+
 package gestorAplicacion.gestionVuelos;
 
 import java.io.Serializable;

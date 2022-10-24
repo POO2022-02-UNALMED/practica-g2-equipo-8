@@ -1,3 +1,8 @@
+// Autores: Juan Jose Zapata Cadavid
+/*
+ * Empleados del aeropuerto, quienes estan asociados a un vuelo y tiene los datos para poder pagarles, 
+ * hereda de persona
+ */
 package gestorAplicacion.gestionHumana;
 
 import gestorAplicacion.gestionVuelos.Aeropuerto;
@@ -37,6 +42,9 @@ public class Empleado extends Persona {
 		}
 	}
 
+	/*
+	 * Retorna el empleado con el numero de cedula que se pasa por parametro
+	 */
 	public static Empleado buscarEmpleado(int cedula) {
 		for (Empleado empleado : aeropuerto.getEmpleados()) {
 			if (empleado.getCedula() == cedula) {

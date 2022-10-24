@@ -1,3 +1,7 @@
+// Autores: Juan Jose Zapata Cadavid
+/*
+ * Guardar los archivos para no perder informacion al terminar de ejecutar
+ */
 package basedatos;
 
 import java.io.FileNotFoundException;
@@ -8,6 +12,9 @@ import java.io.ObjectOutputStream;
 import gestorAplicacion.gestionVuelos.Aeropuerto;
 
 public class Serializador {
+	/*
+	 * Guarda en el archivo txt el objeto aeropuerto pasado por parametro
+	 */
 	public static <E> void serializar(Aeropuerto aeropuerto) {
 		FileOutputStream fos;
 		try {

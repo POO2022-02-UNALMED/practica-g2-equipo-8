@@ -1,3 +1,7 @@
+// Autores: 
+/*
+ * 
+ */
 package gestorAplicacion.gestionHumana;
 
 import java.util.ArrayList;

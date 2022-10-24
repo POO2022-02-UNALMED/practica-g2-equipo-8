@@ -1,3 +1,7 @@
+// Autores: Juan Jose Zapata Cadavid
+/*
+ * Cargos asociados a la clase Empleado, junto con su sueldo base
+ */
 package gestorAplicacion.gestionHumana;
 
 import java.util.Scanner;
