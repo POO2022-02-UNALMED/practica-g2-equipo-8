@@ -82,6 +82,7 @@ public class Avion implements Serializable {
 		this.valor = valor;
 	}
 
+	/*
 	public static Avion comprarAvion() {
 		String modelot;
 		int pesoMaximot;
@@ -99,7 +100,7 @@ public class Avion implements Serializable {
 		aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1));
 		// Aeropuerto.retirarDinero(valort);
 		return new Avion(modelot, pesoMaximot, valort);
-	}
+	}*/
 
 	public static void setAeropuerto(Aeropuerto aeropuerto) {
 		Avion.aeropuerto = aeropuerto;

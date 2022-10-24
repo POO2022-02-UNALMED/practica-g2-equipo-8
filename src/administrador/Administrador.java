@@ -431,17 +431,23 @@ public class Administrador {
 				pagarNominaInterfaz(aeropuerto);
 				break;
 			case 2:
-				aeropuerto.transacciones();
+				System.out.println(aeropuerto.transacciones());
 				interfazFinanzas(aeropuerto);
+				break;
 			case 3:
-				Empleado.cambiarSueldo();
+				cambiarSueldo(aeropuerto);
 				interfazFinanzas(aeropuerto);
+				break;
 			case 4:
-				Empleado.nuevoEmpleado();
+				nuevoEmpleado();
+				interfazFinanzas(aeropuerto);
+				break;
 			case 5:
 				opcionesPrincipales(aeropuerto);
+				break;
 			case 0:
 				salirDelSistema(aeropuerto);
+				break;
 			default:
 					System.out.println("Opcion incorrecta, vuelva a intentarlo.");
 		}
@@ -470,7 +476,7 @@ public class Administrador {
 		option = entrada.nextInt();
 
 		if (option == 1) {
-			Empleado.pagarNomina(aeropuerto.getEmpleados());
+			pagarNominaGeneral(aeropuerto,lempleados);
 			pagarNominaInterfaz(aeropuerto);
 		} else if (option == 2) {
 			System.out.println("\nListado de empleados");
@@ -486,7 +492,13 @@ public class Administrador {
 			} else if (option2 < 1 || option2 > lempleados.size()) {
 				System.out.println("Error: numero incorrecto");
 			} else {
-				lempleados.get(option2 - 1).pagarNomina();
+				dineroapagar = lempleados.get(option2-1).pagoNomina(aeropuerto);
+				if (dineroapagar < 0) {
+					System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+				} else {
+					// Aeropuerto.setDinero(nuevosaldo);
+					System.out.println("Transaccion realizada, nuevo saldo = " + aeropuerto.getDinero());
+				}
 			}
 			pagarNominaInterfaz(aeropuerto);
 
@@ -498,7 +510,84 @@ public class Administrador {
 		}
 	}
 
+	//metodo para pagar la nomina  a un listado de empleados
+	public static void pagarNominaGeneral(Aeropuerto aeropuerto,List<Empleado> empleados){
+		int dineroapagar = 0;
+		for (Empleado empleado : empleados) {
+			dineroapagar += empleado.getSueldo();
+		}
+		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
 
+		if (nuevosaldo < 0) {
+			System.out.println("No se ha podido realizar la transaccion: no tienes suficiente dinero");
+		} else {
+			aeropuerto.transaccion("Nomina General", dineroapagar * (-1));
+			// Aeropuerto.setDinero(nuevosaldo);
+			System.out.println("Transaccion realizada, nuevo saldo = " + aeropuerto.getDinero());
+		}
+	}
+
+	//metodo para crear (contratar) un nuevo empleado
+	//el metodo retorna el nuevo empleado aunque no es necesario asignar este retorno
+	public static Empleado nuevoEmpleado() {
+		String nombret;
+		int cedulat;
+		Cargos cargot;
+		int edadt;
+		String sexot;
+		int sueldot;
+
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("---NUEVO EMPLEADO---");
+		System.out.print("Por favor inserte el nombre del empleado: ");
+		nombret = entrada.nextLine();
+		System.out.print("Por favor elija el cargo del empleado:\n");
+		cargot = Cargos.elegirCargo();
+		System.out.print("Por favor inserte el sexo del empleado, (M) para hombres y (F) para mujeres: ");
+		sexot = entrada.nextLine();
+		System.out.print("Por favor inserte la cedula del empleado: ");
+		cedulat = entrada.nextInt();
+		System.out.print("Por favor inserte la edad del empleado: ");
+		edadt = entrada.nextInt();
+		System.out.print("Por favor inserte el sueldo del empleado: \n(Inserte 0 si desea asignarle el precio base): ");
+		sueldot = entrada.nextInt();
+
+		if (sueldot == 0) {
+			sueldot = cargot.getSueldoBase();
+		}
+		System.out.println("Se ha agragado al empleado " + nombret);
+		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
+	}
+
+	//metodo de clase que proporciona una interfaz para elegir un empleado y cambiarle el sueldo
+	public static void cambiarSueldo(Aeropuerto aeropuerto) {
+		try {
+			Scanner entrada = new Scanner(System.in);
+			List<Empleado> lempleados = aeropuerto.getEmpleados();
+
+			System.out.println("\nListado de empleados");
+			for (int i = 0; i < lempleados.size(); i++) {
+				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
+						+ ", sueldo = " + lempleados.get(i).getSueldo());
+			}
+			System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
+			int option = entrada.nextInt();
+
+			System.out.println("Empleado seleccionado: ");
+			System.out.println(lempleados.get(option - 1).getCargo() + ": " + lempleados.get(option - 1).getNombre()
+					+ ", sueldo = " + lempleados.get(option - 1).getSueldo());
+
+			System.out.println("\nIngresa el nuevo sueldo: ");
+			int option2 = entrada.nextInt();
+
+			lempleados.get(option - 1).setSueldo(option2);
+			System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
+					+ lempleados.get(option - 1).getSueldo());
+		}
+		catch(Exception e) {
+			System.out.println("numero incorrecto");
+		}
+	}
 
 	/* Metodo mostrarPasajeros
 	 * Permite ver los pasajeros activos en el aeropuerto.

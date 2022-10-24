@@ -114,13 +114,16 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 	}
 
 	//Metodo para desplegar el historial de transacciones al usuario
-	public void transacciones() {
+	public String transacciones() {
 		int acumulador = 0;
+		StringBuilder historial = new StringBuilder();
+
 		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {
-			System.out.println((i + 1) + ":  " + transaccionesKeys.get(i) + " --- " + transaccionesValues.get(i));
+			historial.append(i + 1).append(":  ").append(transaccionesKeys.get(i)).append(" --- ").append(transaccionesValues.get(i)).append("\n");
 			acumulador += transaccionesValues.get(i);
 		}
-		System.out.println("rendimiento total : --- " + acumulador);
+		historial.append("rendimiento total : --- ").append(acumulador);
+		return historial.toString();
 	}
 
 	public List<String> getTransaccionesKeys() {
