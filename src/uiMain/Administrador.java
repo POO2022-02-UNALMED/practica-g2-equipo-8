@@ -606,18 +606,32 @@ public class Administrador {
 		cargot = elegirCargo();
 		System.out.print("Por favor inserte el sexo del empleado, (M) para hombres y (F) para mujeres: ");
 		sexot = entrada.nextLine();
-		System.out.print("Por favor inserte la cedula del empleado: ");
-		cedulat = entrada.nextInt();
+		pedirCedula();
+
 		System.out.print("Por favor inserte la edad del empleado: ");
 		edadt = entrada.nextInt();
 		System.out.print("Por favor inserte el sueldo del empleado: \n(Inserte 0 si desea asignarle el precio base): ");
 		sueldot = entrada.nextInt();
 
+		int cedula = pedirCedula();
 		if (sueldot == 0) {
 			sueldot = cargot.getSueldoBase();
 		}
 		System.out.println("Se ha agragado al empleado " + nombret);
-		new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
+		new Empleado(nombret, sueldot, cedula, cargot, edadt, sexot, 0);
+	}
+
+	public static int pedirCedula() {
+		Scanner entrada = new Scanner(System.in);
+		System.out.print("Por favor inserte la cedula del empleado: ");
+		int c = entrada.nextInt();
+		for (Empleado empleado : AEROPUERTO.getEmpleados()) {
+			if (c == empleado.getCedula()) {
+				return pedirCedula();
+			}
+		}
+		return c;
+
 	}
 
 	// Metodo usado al crear un empleado para elegir uno de los cargos disponibles
