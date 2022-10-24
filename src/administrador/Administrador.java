@@ -31,6 +31,15 @@ public class Administrador {
 		opcionesPrincipales(aeropuerto);
 	}
 
+	public static void mostrarEmpleados(Aeropuerto aeropuerto) {
+		System.out.println("Estos son los empleados del aeropuerto:\n");
+		System.out.println("Cedula         Nombre");
+		for (Empleado empleado : aeropuerto.getEmpleados()) {
+			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
+					+ empleado.getNombre());
+		}
+	}
+
 	public static void inicializadorObjetos(Aeropuerto aeropuerto) {
 		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "10A");
 		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), LocalDateTime.now(), "Miami", 1500, "1B");
@@ -177,7 +186,7 @@ public class Administrador {
 	}
 
 	public static void gestionarEmpleadosInterfaz(Aeropuerto aeropuerto) {
-		Empleado.mostrarEmpleados();
+		mostrarEmpleados(aeropuerto);
 		System.out.println("Introduzca la cedula para ver mas opciones:");
 		System.out.println("0. Volver");
 		Scanner entrada = new Scanner(System.in);

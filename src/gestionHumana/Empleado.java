@@ -1,8 +1,5 @@
 package gestionHumana;
 
-import java.util.List;
-import java.util.Scanner;
-
 import gestionVuelos.Aeropuerto;
 import gestionVuelos.Vuelo;
 
@@ -37,15 +34,6 @@ public class Empleado extends Persona {
 		} else {
 			return "Nombre: " + nombre + ".\nCedula: " + cedula + "\nEdad: " + edad + "\nSexo: " + sexo + ".\nCargo: "
 					+ cargo + ".\nSueldo: " + sueldo + "$.\nVuelo: " + vuelo.toString();
-		}
-	}
-
-	public static void mostrarEmpleados() {
-		System.out.println("Estos son los empleados del aeropuerto:\n");
-		System.out.println("Cedula         Nombre");
-		for (Empleado empleado : aeropuerto.getEmpleados()) {
-			System.out.println(empleado.getCedula() + " ".repeat(15 - Integer.toString(empleado.getCedula()).length())
-					+ empleado.getNombre());
 		}
 	}
 
@@ -91,13 +79,13 @@ public class Empleado extends Persona {
 		return experiencia;
 	}
 
-	//Metodo de instancia que paga la nomina al empleado
+	// Metodo de instancia que paga la nomina al empleado
 	public int pagoNomina(Aeropuerto aeropuerto) {
 		int dineroapagar = this.getSueldo();
 		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
 
 		if (nuevosaldo < 0) {
-			return - 1;
+			return -1;
 		} else {
 			// Aeropuerto.setDinero(nuevosaldo);
 			aeropuerto.transaccion("Nomina " + this.getNombre(), dineroapagar * (-1));
