@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import gestionVuelos.Aeropuerto;
+import gestorAplicacion.gestionVuelos.Aeropuerto;
 
 public class Deserializador {
 	public static <E> void deserializar(Aeropuerto aeropuerto) {

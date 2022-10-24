@@ -1,7 +1,7 @@
-package gestionHumana;
+package gestorAplicacion.gestionHumana;
 
-import gestionVuelos.Aeropuerto;
-import gestionVuelos.Vuelo;
+import gestorAplicacion.gestionVuelos.Aeropuerto;
+import gestorAplicacion.gestionVuelos.Vuelo;
 
 public class Empleado extends Persona {
 

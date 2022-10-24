@@ -1,12 +1,12 @@
-package gestionVuelos;
+package gestorAplicacion.gestionVuelos;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import gestionHumana.Empleado;
-import gestionHumana.Pasajero;
+import gestorAplicacion.gestionHumana.Empleado;
+import gestorAplicacion.gestionHumana.Pasajero;
 
 public class Vuelo implements Serializable{
 	/**

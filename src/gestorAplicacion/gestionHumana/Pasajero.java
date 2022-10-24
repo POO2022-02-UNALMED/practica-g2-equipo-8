@@ -1,11 +1,11 @@
-package gestionHumana;
+package gestorAplicacion.gestionHumana;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import gestionVuelos.Asiento;
-import gestionVuelos.Equipaje;
-import gestionVuelos.Vuelo;
+import gestorAplicacion.gestionVuelos.Asiento;
+import gestorAplicacion.gestionVuelos.Equipaje;
+import gestorAplicacion.gestionVuelos.Vuelo;
 
 public class Pasajero extends Persona {
 	/**

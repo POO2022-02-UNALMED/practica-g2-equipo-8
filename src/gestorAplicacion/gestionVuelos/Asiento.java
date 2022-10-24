@@ -1,4 +1,4 @@
-package gestionVuelos;
+package gestorAplicacion.gestionVuelos;
 
 import java.io.Serializable;
 

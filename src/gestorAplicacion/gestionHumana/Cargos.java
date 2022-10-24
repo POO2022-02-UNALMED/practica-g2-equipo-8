@@ -1,4 +1,4 @@
-package gestionHumana;
+package gestorAplicacion.gestionHumana;
 
 import java.util.Scanner;
 

@@ -1,12 +1,12 @@
-package gestionVuelos;
+package gestorAplicacion.gestionVuelos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import basedatos.Deserializador;
-import gestionHumana.Empleado;
-import gestionHumana.Pasajero;
+import gestorAplicacion.gestionHumana.Empleado;
+import gestorAplicacion.gestionHumana.Pasajero;
 
 public class Aeropuerto implements Serializable, zonasEmbarque {
 	/**

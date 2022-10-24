@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import gestionVuelos.Aeropuerto;
+import gestorAplicacion.gestionVuelos.Aeropuerto;
 
 public class Serializador {
 	public static <E> void serializar(Aeropuerto aeropuerto) {

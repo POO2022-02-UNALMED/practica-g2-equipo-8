@@ -1,8 +1,8 @@
-package gestionHumana;
+package gestorAplicacion.gestionHumana;
 
 import java.io.Serializable;
 
-import gestionVuelos.Aeropuerto;
+import gestorAplicacion.gestionVuelos.Aeropuerto;
 
 public abstract class Persona implements Serializable {
 	/**

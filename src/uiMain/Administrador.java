@@ -1,4 +1,4 @@
-package administrador;
+package uiMain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import basedatos.Serializador;
-import gestionHumana.Cargos;
-import gestionHumana.Empleado;
-import gestionHumana.Pasajero;
-import gestionHumana.Persona;
-import gestionVuelos.Aeropuerto;
-import gestionVuelos.Asiento;
-import gestionVuelos.Avion;
-import gestionVuelos.Equipaje;
-import gestionVuelos.Vuelo;
-import gestionVuelos.zonasEmbarque;
+import gestorAplicacion.gestionHumana.Cargos;
+import gestorAplicacion.gestionHumana.Empleado;
+import gestorAplicacion.gestionHumana.Pasajero;
+import gestorAplicacion.gestionHumana.Persona;
+import gestorAplicacion.gestionVuelos.Aeropuerto;
+import gestorAplicacion.gestionVuelos.Asiento;
+import gestorAplicacion.gestionVuelos.Avion;
+import gestorAplicacion.gestionVuelos.Equipaje;
+import gestorAplicacion.gestionVuelos.Vuelo;
+import gestorAplicacion.gestionVuelos.zonasEmbarque;
 
 public class Administrador {
 	public static void main(String[] args) {
