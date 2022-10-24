@@ -88,6 +88,7 @@ public class Empleado extends Persona {
 		return experiencia;
 	}
 
+	//Metodo de instancia que paga la nomina al empleado
 	public void pagarNomina() {
 		int dineroapagar = this.getSueldo();
 		float nuevosaldo = aeropuerto.getDinero() - dineroapagar;
@@ -101,6 +102,7 @@ public class Empleado extends Persona {
 		}
 	}
 
+	//metodo de clase que paga la nomina al listado de empleados que le pasen por argumento
 	public static void pagarNomina(List<Empleado> empleados) {
 		int dineroapagar = 0;
 		for (Empleado empleado : empleados) {
@@ -117,6 +119,8 @@ public class Empleado extends Persona {
 		}
 	}
 
+	//metodo para crear (contratar) un nuevo empleado
+	//el metodo retorna el nuevo empleado aunque no es necesario asignar este retorno
 	public static Empleado nuevoEmpleado() {
 		String nombret;
 		int cedulat;
@@ -147,27 +151,33 @@ public class Empleado extends Persona {
 		return new Empleado(nombret, sueldot, cedulat, cargot, edadt, sexot, 0);
 	}
 
+	//metodo de clase que proporciona una interfaz para elegir un empleado y cambiarle el sueldo
 	public static void cambiarSueldo() {
-		Scanner entrada = new Scanner(System.in);
-		List<Empleado> lempleados = aeropuerto.getEmpleados();
+		try {
+			Scanner entrada = new Scanner(System.in);
+			List<Empleado> lempleados = aeropuerto.getEmpleados();
 
-		System.out.println("\nListado de empleados");
-		for (int i = 0; i < lempleados.size(); i++) {
-			System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
-					+ ", sueldo = " + lempleados.get(i).getSueldo());
+			System.out.println("\nListado de empleados");
+			for (int i = 0; i < lempleados.size(); i++) {
+				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": " + lempleados.get(i).getNombre()
+						+ ", sueldo = " + lempleados.get(i).getSueldo());
+			}
+			System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
+			int option = entrada.nextInt();
+
+			System.out.println("Empleado seleccionado: ");
+			System.out.println(lempleados.get(option - 1).getCargo() + ": " + lempleados.get(option - 1).getNombre()
+					+ ", sueldo = " + lempleados.get(option - 1).getSueldo());
+
+			System.out.println("\nIngresa el nuevo sueldo: ");
+			int option2 = entrada.nextInt();
+
+			lempleados.get(option - 1).setSueldo(option2);
+			System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
+					+ lempleados.get(option - 1).getSueldo());
 		}
-		System.out.println("Selecciona el numero del empleado a cambiar sueldo:");
-		int option = entrada.nextInt();
-
-		System.out.println("Empleado seleccionado: ");
-		System.out.println(lempleados.get(option - 1).getCargo() + ": " + lempleados.get(option - 1).getNombre()
-				+ ", sueldo = " + lempleados.get(option - 1).getSueldo());
-
-		System.out.println("\nIngresa el nuevo sueldo: ");
-		int option2 = entrada.nextInt();
-
-		lempleados.get(option - 1).setSueldo(option2);
-		System.out.println("Nuevo sueldo de " + lempleados.get(option - 1).getNombre() + " es de: "
-				+ lempleados.get(option - 1).getSueldo());
+		catch(Exception e) {
+			System.out.println("numero incorrecto");
+		}
 	}
 }

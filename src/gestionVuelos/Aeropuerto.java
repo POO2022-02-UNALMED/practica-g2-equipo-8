@@ -6,7 +6,7 @@ import java.util.List;
 
 import basedatos.Deserializador;
 
-public class Aeropuerto implements Serializable {
+public class Aeropuerto implements Serializable, zonasEmbarque {
 	/**
 	 * 
 	 */
@@ -15,7 +15,6 @@ public class Aeropuerto implements Serializable {
 	private List<Vuelo> vuelos = new ArrayList<>();
 	private List<Empleado> empleados = new ArrayList<>();
 	private List<Pasajero> pasajeros = new ArrayList<>();
-	private List<String> salas = new ArrayList<>();
 	private List<Avion> aviones = new ArrayList<>();
 	private List<String> transaccionesKeys = new ArrayList<>();
 	private List<Integer> transaccionesValues = new ArrayList<>();
@@ -53,10 +52,6 @@ public class Aeropuerto implements Serializable {
 		this.empleados.add(empleado);
 	}
 
-	public void agregarSalas(String sala) {
-		this.salas.add(sala);
-	}
-
 	public void agregarAvion(Avion avion) {
 		this.aviones.add(avion);
 	}
@@ -75,14 +70,6 @@ public class Aeropuerto implements Serializable {
 
 	public void setEmpleados(List<Empleado> empleados) {
 		this.empleados = empleados;
-	}
-
-	public List<String> getSalas() {
-		return salas;
-	}
-
-	public void setSalas(List<String> salas) {
-		this.salas = salas;
 	}
 
 	public List<Avion> getAviones() {
@@ -114,6 +101,11 @@ public class Aeropuerto implements Serializable {
 		empleados.remove(empleados.indexOf(empleado));
 	}
 
+	/*metodo para realizar una transaccion
+	primer argumento es un String con el concepto (breve descripcion) de la transaccion
+	segundo argumento es el valor de la transaccion (si es retiro de dinero debe ser negativo)
+	el metodo retira el dinero correspondiente del aeropuerto y añade la transaccion a la lista
+	 */
 	public void transaccion(String concepto, int valor) {
 		transaccionesKeys.add(concepto);
 		transaccionesValues.add(valor);
@@ -121,6 +113,7 @@ public class Aeropuerto implements Serializable {
 		ingresarDinero(valor);
 	}
 
+	//Metodo para desplegar el historial de transacciones al usuario
 	public void transacciones() {
 		int acumulador = 0;
 		for (int i = 0; i < Math.min(transaccionesKeys.size(), transaccionesValues.size()); i++) {
@@ -128,5 +121,21 @@ public class Aeropuerto implements Serializable {
 			acumulador += transaccionesValues.get(i);
 		}
 		System.out.println("rendimiento total : --- " + acumulador);
+	}
+
+	public List<String> getTransaccionesKeys() {
+		return transaccionesKeys;
+	}
+
+	public void setTransaccionesKeys(List<String> transaccionesKeys) {
+		this.transaccionesKeys = transaccionesKeys;
+	}
+
+	public List<Integer> getTransaccionesValues() {
+		return transaccionesValues;
+	}
+
+	public void setTransaccionesValues(List<Integer> transaccionesValues) {
+		this.transaccionesValues = transaccionesValues;
 	}
 }

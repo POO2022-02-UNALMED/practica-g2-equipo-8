@@ -398,43 +398,56 @@ public class Administrador {
 		} while (option != 3);
 	}
 
+	/*
+	Interfaz de el sistema de administración de finanzas para que el usuario pueda:
+	-pagar la nomina de los empleados
+	-ver el historial de transacciones
+	-modificar el sueldo de los empleados (tambien se puede realizar en el menu de gestionar empleados)
+	-crear un nuevo empleado
+	-*/
 	public static void interfazFinanzas(Aeropuerto aeropuerto) {
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Finanzas --");
 		System.out.println("Saldo actual = " + aeropuerto.getDinero());
 
 		int option;
-		do {
-			System.out.println("\nIngrese el numero de la opcion a elegir:");
-			System.out.print("""
-					1. Pagar Nomina de empleados.
-					2. ver historial de transacciones.
-					3. Otorgar un aumento o disminucion de sueldo a un empleado.
-					4. Contratar nuevo empleado.
-					5. Volver.
-					""");
+		System.out.println("\nIngrese el numero de la opcion a elegir:");
+		System.out.print("""
+				1. Pagar Nomina de empleados.
+				2. ver historial de transacciones.
+				3. Otorgar un aumento o disminucion de sueldo a un empleado.
+				4. Contratar nuevo empleado.
+				5. Colver.
+				0. Cerrar.
+				""");
 
-			option = entrada.nextInt();
-			switch (option) {
+		option = entrada.nextInt();
+		switch (option) {
 			case 1:
 				pagarNominaInterfaz(aeropuerto);
 				break;
 			case 2:
 				aeropuerto.transacciones();
-				break;
+				interfazFinanzas(aeropuerto);
 			case 3:
 				Empleado.cambiarSueldo();
-				break;
+				interfazFinanzas(aeropuerto);
 			case 4:
 				Empleado.nuevoEmpleado();
 			case 5:
-				break;
+				opcionesPrincipales(aeropuerto);
+			case 0:
+				salirDelSistema(aeropuerto);
 			default:
-				System.out.println("Opcion incorrecta, vuelva a intentarlo.");
-			}
-		} while (option != 5 && option != 0);
+					System.out.println("Opcion incorrecta, vuelva a intentarlo.");
+		}
 	}
 
+	/*
+	Interfaz de pago de nomina para que el usuario pueda:
+	-pagar la nomina de todos los empleados
+	-elegir empleados uno a uno para pagarles nomina
+	-*/
 	public static void pagarNominaInterfaz(Aeropuerto aeropuerto) {
 		int dineroapagar = 0;
 		List<Empleado> lempleados = aeropuerto.getEmpleados();
@@ -443,34 +456,42 @@ public class Administrador {
 
 		int option;
 		int option2;
-		do {
-			System.out.println("\nDesea pagarle a todos los empleados?");
-			System.out.print("""
+		System.out.println("\nDesea pagarle a todos los empleados?");
+		System.out.print("""
 					1. Pagar a todos los empleados
 					2. Elegir empleados
 					3. Finalizar y Volver.
 					""");
 
-			option = entrada.nextInt();
+		option = entrada.nextInt();
 
-			if (option == 1) {
-				Empleado.pagarNomina(aeropuerto.getEmpleados());
-			} else if (option == 2) {
-				System.out.println("\nListado de empleados");
-				for (int i = 0; i < lempleados.size(); i++) {
-					System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
-							+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
-				}
-				System.out.println("Selecciona el numero del empleado a pagar:");
-				option2 = entrada.nextInt();
-
-				if (option2 < 1 || option2 > lempleados.size()) {
-					System.out.println("Error: numero incorrecto");
-				} else {
-					lempleados.get(option2 - 1).pagarNomina();
-				}
+		if (option == 1) {
+			Empleado.pagarNomina(aeropuerto.getEmpleados());
+			pagarNominaInterfaz(aeropuerto);
+		} else if (option == 2) {
+			System.out.println("\nListado de empleados");
+			for (int i = 0; i < lempleados.size(); i++) {
+				System.out.println((i + 1) + ". " + lempleados.get(i).getCargo() + ": "
+						+ lempleados.get(i).getNombre() + ", sueldo = " + lempleados.get(i).getSueldo());
 			}
-		} while (option != 3);
+			System.out.println("Selecciona el numero del empleado a pagar o pulsa 0 para volver:");
+			option2 = entrada.nextInt();
+
+			if (option2 == 0) {
+				//pass
+			} else if (option2 < 1 || option2 > lempleados.size()) {
+				System.out.println("Error: numero incorrecto");
+			} else {
+				lempleados.get(option2 - 1).pagarNomina();
+			}
+			pagarNominaInterfaz(aeropuerto);
+
+		} else if (option == 3) {
+			interfazFinanzas(aeropuerto);
+		} else {
+			System.out.println("Opcion incorrecta, vuelva a intentarlo.");
+			pagarNominaInterfaz(aeropuerto);
+		}
 	}
 
 

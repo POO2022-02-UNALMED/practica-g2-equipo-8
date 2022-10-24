@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vuelo implements Serializable {
+public class Vuelo implements Serializable{
 	/**
 	 * 
 	 */
@@ -64,11 +64,6 @@ public class Vuelo implements Serializable {
 			System.out.println("\n" + "Ha elegido un puesto no disponible, por favor elija otro.");
 			return false;
 		}
-	}
-
-	// Este metodo servira para verificar los vuelos disponibles en el main
-	public boolean vueloLleno() {
-		return pesoActual < avion.getPesoMaximo() && pasajeros.size() < avion.getAsientos().size();
 	}
 
 	@Override
