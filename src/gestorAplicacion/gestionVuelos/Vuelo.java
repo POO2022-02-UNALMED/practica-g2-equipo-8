@@ -28,7 +28,6 @@ public class Vuelo implements Serializable {
 	private int costo;
 	private String salaEmbarque;
 	private double pesoActual;
-	private static int globalID = 1;
 	private final int id;
 	private static Aeropuerto aeropuerto;
 
@@ -38,9 +37,17 @@ public class Vuelo implements Serializable {
 		this.destino = destino;
 		this.costo = costo;
 		this.salaEmbarque = salaEmbarque;
+		this.id = nuevoID();
 		aeropuerto.agregarVuelo(this);
-		this.id = globalID;
-		Vuelo.globalID++;
+
+	}
+
+	public static int nuevoID() {
+		if (aeropuerto.getVuelos().size() != 0) {
+			return aeropuerto.getVuelos().get(aeropuerto.getVuelos().size() - 1).getId() + 1;
+		} else {
+			return 1;
+		}
 	}
 
 	public boolean agregarPasajero(Pasajero pasajero, int nroAsiento) {

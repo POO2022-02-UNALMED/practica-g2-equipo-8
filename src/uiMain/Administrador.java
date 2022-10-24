@@ -57,8 +57,8 @@ public class Administrador {
 	 */
 	public static void inicializadorObjetos() {
 		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "10A");
+
 		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), LocalDateTime.now(), "Miami", 1500, "1B");
-		System.out.println(vuelo1);
 		for (Asiento asiento : vuelo1.getAvion().getAsientos())
 			System.out.println(asiento);
 		List<Equipaje> equipaje = new ArrayList<>();
@@ -673,8 +673,8 @@ public class Administrador {
 				2. Cancelar vuelo.
 				3. Eliminar avion.
 				4. Ingresar nuevo avion.
-				4. Volver.
-				5. Finalizar.
+				5. Volver.
+				6. Finalizar.
 				""");
 
 		option = entrada.nextInt();
@@ -1031,7 +1031,6 @@ public class Administrador {
 
 		System.out.println("Por favor ingrese el precio del avion: ");
 		int valor = entradas.nextInt();
-		System.out.println("idmax" + idMax);
 
 		if (valor > AEROPUERTO.getDinero()) {
 			System.out.println("No hay fondos suficientes para comprar este avion, intentelo de nuevo.");
