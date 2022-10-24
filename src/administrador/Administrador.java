@@ -7,15 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import basedatos.Serializador;
-import gestionVuelos.Aeropuerto;
-import gestionVuelos.Asiento;
-import gestionVuelos.Avion;
-import gestionVuelos.Cargos;
-import gestionVuelos.Empleado;
-import gestionVuelos.Equipaje;
-import gestionVuelos.Pasajero;
-import gestionVuelos.Persona;
-import gestionVuelos.Vuelo;
+import gestionVuelos.*;
 
 public class Administrador {
 	public static void main(String[] args) {
@@ -122,9 +114,17 @@ public class Administrador {
 			String destino = entrada.nextLine();
 			System.out.print("Ingrese el costo por pasajero del vuelo: ");
 			int costo = entrada.nextInt();
-			System.out.print("Ingrese la sala de embarque del vuelo: ");
+			System.out.print("Ingrese la sala de embarque del vuelo, las disponibles son las siguientes: ");
+			zonasEmbarque.mostrarZonas();
 			entrada.nextLine();
 			String salaEmb = entrada.nextLine();
+
+			if(!Aeropuerto.conjunto.contains(salaEmb)){
+				System.out.println("Por favor ingrese una sala de embarque valida.");
+				programarVuelos(aeropuerto);
+				return;
+			}
+
 			System.out.print("El vuelo es internacional? (y/n): ");
 			String internacional = entrada.nextLine();
 
@@ -137,17 +137,21 @@ public class Administrador {
 			System.out.println("El vuelo ha sido creado exitosamente.\n");
 			System.out.println("Se recomiendan los siguiente empleados segun las caracteristicas del vuelo: ");
 
+			boolean hayEmpleados = false;
 			if (internacional.equals("y")) {
 				for (Empleado empleado : aeropuerto.getEmpleados()) {
-					if (empleado.getExperiencia() >= 5)
+					if (empleado.getExperiencia() >= 5){
 						System.out.println(empleado);
+						hayEmpleados = true;
+					}
 				}
+				if(!hayEmpleados) System.out.println("por el momento se considera que no hay personal calificado para el vuelo.");
 			} else {
 				System.out.println("Cualquier empleado puede cumplir las expectativas de calidad.");
 			}
-			System.out
-					.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
-							+ "Ingrese 1 para ir a la gestion de empleado o 0 para regresar al menu principal:");
+			System.out.print("\nPara la asignacion de los empleados por favor ingrese al menu de gestion de empleados.\n"
+							+ "Ingrese 1 para ir a la opcion de gestion de empleados o 0 para regresar al menu principal: ");
+
 			int des = entrada.nextInt();
 
 			if (des == 1)
@@ -263,7 +267,7 @@ public class Administrador {
 	public static void cambiarCargo(Empleado empleado, Aeropuerto aeropuerto) {
 
 		System.out.println("El cargo actual de " + empleado.getNombre() + " es " + empleado.getCargo());
-		System.out.println("�A que cargo quieres asignarle? Los cargos disponibles son: ");
+		System.out.println("A que cargo quieres asignarle? Los cargos disponibles son: ");
 
 		for (int i = 0; i < Cargos.values().length; i++) {
 			System.out.println((i + 1) + ". " + Cargos.values()[i].getCargo());
@@ -329,7 +333,7 @@ public class Administrador {
 			for (Vuelo vuelo : vuelosDisp)
 				System.out.print(vuelo);
 		else {
-			System.out.println("Lo sentimos, no hay vuelos disponibles desde ese origen para el destino indicado");
+			System.out.println("Lo sentimos, no hay vuelos disponibles desde Medellin para el destino indicado");
 			opcionesPrincipales(aeropuerto);
 		}
 		System.out.print("Inserte el ID del vuelo de su preferencia: ");
