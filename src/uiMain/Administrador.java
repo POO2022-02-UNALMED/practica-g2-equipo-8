@@ -860,13 +860,10 @@ public class Administrador {
 	}
 
 	/*
-	 * Metodo cancelarVuelo Este metodo recibe como parametro un objeto de tipo
-	 * aeropuerto. Es invocado desde el metodo Modificaciones. Se pide el ID del
-	 * vuelo con el fin de revisar en la lista de vuelos que se encuentra en
-	 * aeropuerto, con el fin de que si coinciden valores primero va a buscar en la
-	 * lista de pasajeros para ver su respectivo vuelo, si coincide se elimina el
-	 * pasajero y despues de esto se elimina el vuelo Se mostrara los vuelos
-	 * disponibles actualizados
+	 * Metodo cancelarVuelo
+	 * Es invocado desde el metodo Modificaciones. Se pide el ID del vuelo con el fin de revisar que el vuelo correspondiente
+	 * se eliminen los pasajeros correspondientes.
+	 * Se mostrara los vuelos disponibles actualizados
 	 */
 	private static void cancelarVuelo() {
 		mostrarVuelos();
@@ -908,24 +905,20 @@ public class Administrador {
 	}
 
 	/*
-	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un
-	 * objeto de tipo vuelo y un objeto de tipo aeropuerto. Es invocado por el
-	 * metodo eliminarAvion. Este metodo está pensando para que cuando se elimine
+	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un objeto de tipo vuelo.
+	 * Es invocado por el metodo eliminarAvion. Este metodo está pensando para que cuando se elimine
 	 * el avion se pueda eliminar el vuelo el cual tenia asignado dicho avion
 	 */
 	private static void cancelarVuelo(Vuelo vuelo) {
 		Scanner entradas = new Scanner(System.in);
-		for (int i = 0; i < AEROPUERTO.getVuelos().size(); i++) {
-			if (vuelo.getId() == AEROPUERTO.getVuelos().get(i).getId()) {
 
-				for (int j = 0; j < AEROPUERTO.getPasajeros().size(); j++) {
-					if (AEROPUERTO.getPasajeros().get(j).getVuelo() == AEROPUERTO.getVuelos().get(i)) {
-						AEROPUERTO.getPasajeros().remove(AEROPUERTO.getPasajeros().get(j));
-					}
-				}
-				AEROPUERTO.getVuelos().remove(AEROPUERTO.getVuelos().get(i));
-			}
+		Vuelo vueloCancelado = Vuelo.encontrarVuelo(vuelo.getId());
+
+		for (Pasajero pasajero : vueloCancelado.getPasajeros()) {
+			AEROPUERTO.getPasajeros().remove(pasajero);
 		}
+
+		AEROPUERTO.getVuelos().remove(vueloCancelado);
 
 		System.out.println("\nLa lista de vuelos ha sido actualizada.\n");
 		mostrarVuelos();
