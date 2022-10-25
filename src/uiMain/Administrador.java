@@ -342,6 +342,11 @@ public class Administrador {
 		} else {
 			empleado.setVuelo(Vuelo.encontrarVuelo(idVuelo));
 			System.out.println("Ahora el vuelo del empleado es:\n" + empleado.getVuelo());
+			System.out.println("Los empleados de este vuelo son:\n");
+			for (Empleado empleado2 : empleado.getVuelo().getEmpleados()) {
+				System.out.println(empleado2);
+			}
+			System.out.println("Verifique manualmente que el vuelo solo tenga un piloto y un copiloto.");
 			opcionesPrincipales();
 		}
 	}
