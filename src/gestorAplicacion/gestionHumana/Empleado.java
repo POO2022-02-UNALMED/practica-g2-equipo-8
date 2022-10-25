@@ -43,7 +43,7 @@ public class Empleado extends Persona {
 	}
 
 	public String imprimirLista(){
-		return "Nombre: " + nombre + ".\nCedula: " + cedula + ".\nCargo: " + cargo;
+		return "Nombre: " + nombre + " Cedula: " + cedula + " Cargo: " + cargo + " anios de experiencia: " + experiencia;
 	}
 
 	/*

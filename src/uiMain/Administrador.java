@@ -214,7 +214,7 @@ public class Administrador {
 			if (internacional.equals("y")) {
 				for (Persona empleado : AEROPUERTO.getEmpleados()) {
 					if (((Empleado)empleado).getExperiencia() >= 5) {
-						System.out.println(empleado);
+						System.out.println(empleado.imprimirLista());
 						hayEmpleados = true;
 					}
 				}
