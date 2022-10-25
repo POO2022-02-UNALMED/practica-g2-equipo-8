@@ -25,7 +25,7 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 	private List<Avion> aviones = new ArrayList<>();
 	private List<String> transaccionesKeys = new ArrayList<>();
 	private List<Integer> transaccionesValues = new ArrayList<>();
-	private float dinero;
+	private long dinero;
 
 	public Aeropuerto() {
 		Deserializador.deserializar(this);
@@ -35,11 +35,11 @@ public class Aeropuerto implements Serializable, zonasEmbarque {
 		dinero += pago;
 	}
 
-	public float getDinero() {
+	public long getDinero() {
 		return dinero;
 	}
 
-	public void setDinero(float dinero) {
+	public void setDinero(long dinero) {
 		this.dinero = dinero;
 	}
 
