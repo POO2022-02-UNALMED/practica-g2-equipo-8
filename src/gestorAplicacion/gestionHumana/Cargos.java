@@ -4,8 +4,6 @@
  */
 package gestorAplicacion.gestionHumana;
 
-import java.util.Scanner;
-
 public enum Cargos {
 	AZAFATA("Azafata", 1000), CONTROL_DE_PISTA("Control de pista", 1500), PILOTO("Piloto", 2000),
 	COPILOTO("Copiloto", 1800);

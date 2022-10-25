@@ -14,7 +14,9 @@ import gestorAplicacion.gestionVuelos.Equipaje;
 import gestorAplicacion.gestionVuelos.Vuelo;
 
 public class Pasajero extends Persona {
-
+	/*
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private Asiento asiento;
 	private Vuelo vuelo;
