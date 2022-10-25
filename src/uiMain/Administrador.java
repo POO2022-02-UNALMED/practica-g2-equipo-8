@@ -312,7 +312,7 @@ public class Administrador {
 			cambiarSueldo(empleado);
 		}
 		empleado.setSueldo(empleado.getSueldo() + valor);
-		System.out.println("El nuevo saldo de " + empleado.getNombre() + " es " + empleado.getSueldo());
+		System.out.println("El nuevo sueldo de " + empleado.getNombre() + " es " + empleado.getSueldo());
 		opcionesPrincipales();
 	}
 
