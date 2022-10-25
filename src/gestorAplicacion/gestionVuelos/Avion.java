@@ -104,24 +104,6 @@ public class Avion implements Serializable {
 		this.valor = valor;
 	}
 
-	/*
-	 * public static Avion comprarAvion() { String modelot; int pesoMaximot; int
-	 * valort;
-	 * 
-	 * Scanner entrada = new Scanner(System.in);
-	 * System.out.println("---COMPRAR NUEVO AVION---");
-	 * System.out.print("Por favor inserte el modelo del Avion: "); modelot =
-	 * entrada.nextLine();
-	 * System.out.print("Por favor inserte el peso maximo del Avion: "); pesoMaximot
-	 * = entrada.nextInt();
-	 * System.out.print("Por favor inserte el valor a pagar por el Avion: "); valort
-	 * = entrada.nextInt();
-	 * 
-	 * aeropuerto.transaccion("Compra de avion " + modelot, valort * (-1)); //
-	 * Aeropuerto.retirarDinero(valort); return new Avion(modelot, pesoMaximot,
-	 * valort); }
-	 */
-
 	public static void setAeropuerto(Aeropuerto aeropuerto) {
 		Avion.aeropuerto = aeropuerto;
 	}

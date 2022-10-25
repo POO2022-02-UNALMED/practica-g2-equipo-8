@@ -66,24 +66,16 @@ public class Vuelo implements Serializable {
 			asientoElegido.setOcupado(true);
 			if (asientoElegido.getClase().equals("Primera clase")) {
 				aeropuerto.transaccion("Boleto Primera Clase", 3 * costo);
-				//aeropuerto.ingresarDinero(3 * costo);
 				pasajero.setInversion(3 * costo);
 			} else if (asientoElegido.getClase().equals("Ejecutiva")) {
 				aeropuerto.transaccion("Boleto Clase Ejecutiva", 2 * costo);
-				//aeropuerto.ingresarDinero(2 * costo);
 				pasajero.setInversion(2 * costo);
 			} else {
 				aeropuerto.transaccion("Boleto Clase Turista", costo);
-				//aeropuerto.ingresarDinero(costo);
 				pasajero.setInversion(costo);
 			}
 			return true;
-		} else if (pesoActual + pesoEquipajePasajero > avion.getPesoMaximo()) {
-			System.out.println("\n"
-					+ "No queda espacio suficiente en este vuelo para su equipaje, por favor elija otro vuelo o reduzca el peso.");
-			return false;
 		} else {
-			System.out.println("\n" + "Ha elegido un puesto no disponible, por favor elija otro.");
 			return false;
 		}
 	}

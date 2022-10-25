@@ -56,7 +56,7 @@ public class Administrador {
 	 * guardados ciertos datos
 	 */
 	public static void inicializadorObjetos() {
-		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "10A");
+		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "1A");
 
 		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), LocalDateTime.now(), "Miami", 1500, "1B");
 		for (Asiento asiento : vuelo1.getAvion().getAsientos())
@@ -442,12 +442,13 @@ public class Administrador {
 
 		System.out.print("\nIngrese el numero de asiento de su preferencia: ");
 		int nroAsiento = entradas.nextInt();
-		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento) == true) {
+		if (vueloElegido.agregarPasajero(nuevoPasajero, nroAsiento)) {
 			System.out.println(vueloElegido.tiquete(nuevoPasajero)); // Imprime el tiquete
 		} else {
-			vueloElegido.getPasajeros().remove(nuevoPasajero); // Por si no se hace efectiva la reserva dado el peso del
-																// equipaje
+			vueloElegido.getPasajeros().remove(nuevoPasajero); // Por si no se hace efectiva la reserva dado el peso del equipaje
 			AEROPUERTO.getPasajeros().remove(nuevoPasajero);
+			System.out.println("\nNo queda espacio suficiente en este vuelo para su equipaje o ha elegido un asiento no disponible, " +
+					"por favor elija otro vuelo (o asiento) o reduzca el peso.");
 		}
 
 		int option;
