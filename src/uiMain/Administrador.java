@@ -993,7 +993,7 @@ public class Administrador {
 	/*
 	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un
 	 * objeto de tipo vuelo. Es invocado por el metodo eliminarAvion. Este metodo
-	 * está pensado para que cuando se elimine el avion se pueda eliminar el vuelo
+	 * esta pensado para que cuando se elimine el avion se pueda eliminar el vuelo
 	 * el cual tenia asignado dicho avion
 	 */
 	private static void cancelarVuelo(Vuelo vuelo) {
@@ -1075,7 +1075,7 @@ public class Administrador {
 		}
 
 		if (v == null) {
-			System.out.println("El avion se eliminó");
+			System.out.println("El avion se elimino");
 			int option;
 			do {
 				System.out.println("Ingrese el numero de la opcion a elegir:");
