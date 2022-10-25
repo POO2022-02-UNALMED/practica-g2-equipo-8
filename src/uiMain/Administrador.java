@@ -31,7 +31,6 @@ public class Administrador {
 
 		inicializarStatics();
 		// inicializadorObjetos();
-		System.out.println(AEROPUERTO.getVuelos());
 		Scanner entrada = new Scanner(System.in);
 		System.out.println("\n-- Bienvenido al sistema de administracion de Vuelos --");
 
@@ -56,26 +55,55 @@ public class Administrador {
 	 * guardados ciertos datos
 	 */
 	public static void inicializadorObjetos() {
-		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 1000), LocalDateTime.now(), "Bogota", 1000, "1A");
+		Vuelo vuelo1 = new Vuelo(new Avion("X", 100, 30000), LocalDateTime.now(), "Bogota", 2000, "1A");
+		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 10000), LocalDateTime.now(), "Miami", 1500, "1B");
+		Vuelo vuelo3 = new Vuelo(new Avion("X35", 150, 45000), LocalDateTime.now(), "Barranquilla", 2500, "2C");
+		Vuelo vuelo4 = new Vuelo(new Avion("Y3", 65, 20000), LocalDateTime.now(), "Cucuta", 1700, "3C");
 
-		Vuelo vuelo2 = new Vuelo(new Avion("A", 50, 3000), LocalDateTime.now(), "Miami", 1500, "1B");
-		for (Asiento asiento : vuelo1.getAvion().getAsientos())
-			System.out.println(asiento);
 		List<Equipaje> equipaje = new ArrayList<>();
-		Pasajero pasajero = new Pasajero("Pepito", 897915, 15, "M", 0);
+		Pasajero pasajero1 = new Pasajero("Pepito", 897915, 68, "M", 0);
+		Pasajero pasajero2 = new Pasajero("Camilo", 345364, 70, "M", 0);
+		Pasajero pasajero3 = new Pasajero("Carlos", 343543, 89, "M", 0);
+		Pasajero pasajero4 = new Pasajero("Juan", 785234, 26, "M", 0);
+		Pasajero pasajero5 = new Pasajero("Pedro", 53746, 35, "M", 0);
+		Pasajero pasajero6 = new Pasajero("Sara", 43786, 67, "F", 0);
+		Pasajero pasajero7 = new Pasajero("Camila", 34387, 39, "F", 0);
+		Pasajero pasajero8 = new Pasajero("Carla", 0752375, 21, "F", 0);
+		Pasajero pasajero9 = new Pasajero("Maria", 575207, 8, "F", 0);
+		Pasajero pasajero10 = new Pasajero("Manuela", 397357, 17, "F", 0);
+		Pasajero pasajero11 = new Pasajero("Juanita", 7873087, 19, "F", 0);
+		Pasajero pasajero12 = new Pasajero("Carmen", 786930, 30, "F", 0);
 
-		equipaje.add(new Equipaje(12.4, pasajero));
-		pasajero.setEquipajes(equipaje);
-		vuelo1.agregarPasajero(pasajero, 10);
-		System.out.println(equipaje);
+		for (Pasajero pasajero : AEROPUERTO.getPasajeros()) {
+			equipaje = new ArrayList<>();
+			equipaje.add(new Equipaje(Math.random() * 10, pasajero));
+			pasajero.setEquipajes(equipaje);
+		}
 
-		AEROPUERTO.setDinero((float) Math.pow(10, 7));
+		for (int i = 0; i < AEROPUERTO.getPasajeros().size(); i++) {
+			if (i <= 3) {
+				vuelo1.agregarPasajero(AEROPUERTO.getPasajeros().get(i), i + 1);
+			} else if (i <= 6) {
+				vuelo2.agregarPasajero(AEROPUERTO.getPasajeros().get(i), i);
+			} else if (i <= 9) {
+				vuelo3.agregarPasajero(AEROPUERTO.getPasajeros().get(i), i);
+			} else {
+				vuelo4.agregarPasajero(AEROPUERTO.getPasajeros().get(i), i);
+			}
+		}
+
+		AEROPUERTO.setDinero((long) Math.pow(10, 7));
 		Empleado e1 = new Empleado("Juan Carlos", 1200000, 10023031, Cargos.PILOTO, 45, "M", 10);
 		Empleado e2 = new Empleado("Felipe", 900000, 4553031, Cargos.COPILOTO, 37, "M", 4);
 		Empleado e3 = new Empleado("Andrea", 456174, Cargos.AZAFATA, 31, "F");
-		Empleado e4 = new Empleado("Sara", 1, Cargos.COPILOTO, 38, "F");
+		Empleado e4 = new Empleado("Sara", 1841587, Cargos.COPILOTO, 38, "F");
+		Empleado e5 = new Empleado("Sofia", 123456, Cargos.PILOTO, 48, "F");
 
 		e4.setVuelo(vuelo1);
+		e5.setVuelo(vuelo2);
+		e3.setVuelo(vuelo2);
+		e1.setVuelo(vuelo3);
+		e2.setVuelo(vuelo1);
 
 		Serializador.serializar(AEROPUERTO);
 	}
@@ -314,6 +342,11 @@ public class Administrador {
 		} else {
 			empleado.setVuelo(Vuelo.encontrarVuelo(idVuelo));
 			System.out.println("Ahora el vuelo del empleado es:\n" + empleado.getVuelo());
+			System.out.println("Los empleados de este vuelo son:\n");
+			for (Empleado empleado2 : empleado.getVuelo().getEmpleados()) {
+				System.out.println(empleado2);
+			}
+			System.out.println("Verifique manualmente que el vuelo solo tenga un piloto y un copiloto.");
 			opcionesPrincipales();
 		}
 	}
