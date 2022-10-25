@@ -1,6 +1,8 @@
-// Autores: 
+// Autores: Juan Camilo Molina Roncancio
 /*
- * 
+ * En esta clase se agrupa la informacion de los aviones que posea el aeropuerto, se asigna el id automaticamente
+ * los demas atributos como modelo, peso maximo que soporta y valor esta definido por el usuario, la cantidad de asientos
+ * puede ser una cantidad aleatoria entre 15 o 20 o el usuario puede elegir la cantidad de los mismos.
  */
 package gestorAplicacion.gestionVuelos;
 
@@ -50,6 +52,10 @@ public class Avion implements Serializable {
 		}
 	}
 
+	/*
+	 * Con esta funcion genero la cantidad de asientos y su clase aleatoriamente, aunque dependiendo del constructor que se use
+	 * la cantidad de asientos puede ser fijada por el usuario, solo se asigna aleatoriamente la clase.
+	 */
 	public void genAsientos(int min, int max) {
 		List<String> tipoAsiento = new ArrayList<>();
 		tipoAsiento.add("Turista");

@@ -1,6 +1,7 @@
-// Autores: 
+// Autores: Juan Camilo Molina Roncancio
 /*
- * 
+ * Esta clase agrupa las caracteristicas de un equipaje (peso y propietario), se usa principalmente
+ * para asignarlo a determinado pasajero.
  */
 package gestorAplicacion.gestionVuelos;
 
@@ -13,21 +14,12 @@ public class Equipaje implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private double peso;
 	private Pasajero propietario;
 
 	public Equipaje(double peso, Pasajero propietario) {
 		this.peso = peso;
 		this.propietario = propietario;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public double getPeso() {

@@ -1,4 +1,4 @@
-// Autores: Maria Camila Zapata Arrubla
+// Autores: Maria Camila Zapata Arrubla, Juan Camilo Molina Roncancio
 /* Descripcion: crea un objeto de tipo persona, en el cual se le agrega atributos como el nombre, cedula, edad y sexo
  * estos son para identificar a la persona y el atributo inversion, es para saber cuanto debe de pagar por la reserva
  * de vuelo

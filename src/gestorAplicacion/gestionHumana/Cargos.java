@@ -1,4 +1,4 @@
-// Autores: Juan Jose Zapata Cadavid
+// Autores: Juan Jose Zapata Cadavid, Juan Camilo Molina Roncancio
 /*
  * Cargos asociados a la clase Empleado, junto con su sueldo base
  */

@@ -1,4 +1,4 @@
-// Autores: Juan Jose Zapata Cadavid
+// Autores: Juan Jose Zapata Cadavid, Juan Camilo Molina Roncancio
 /*
  * Empleados del aeropuerto, quienes estan asociados a un vuelo y tiene los datos para poder pagarles, 
  * hereda de persona

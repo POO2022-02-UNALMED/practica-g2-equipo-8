@@ -1,6 +1,6 @@
-// Autores: Juan Jose Zapata Cadavid
+// Autores: Juan Jose Zapata Cadavid, Juan Camilo Molina Roncancio
 /*
- * Clase abstracta para implementar información y metodos comunes en Pasajero y Empleado
+ * Clase abstracta para implementar informacion y metodos comunes en Pasajero y Empleado
  */
 package gestorAplicacion.gestionHumana;
 

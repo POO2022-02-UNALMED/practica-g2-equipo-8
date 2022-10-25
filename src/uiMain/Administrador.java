@@ -1,4 +1,4 @@
-// Autores: Juan Jose Zapata Cadavid, Maria Camila Zapata Arrubla
+// Autores: Juan Jose Zapata Cadavid, Maria Camila Zapata Arrubla, Juan Camilo Molina Roncancio
 /* Esta clase sera la encargada de la interaccion entre el sistema y el administrador
  * del aeropuerto, en ella se haran todos los prints e inputs necesarios para esto.
  * A su vez hay varios metodos que comunican los objetos de los demas paquetes entre si.
@@ -154,7 +154,11 @@ public class Administrador {
 			opcionesPrincipales();
 		}
 	}
-
+	/*
+	 * Con este metodo que no recibe nada como parametro se despliega el menu para la creacion de nuevos
+	 * vuelos, con elementos como avion, fecha (la cual se parsea con la libreria LocalDateTime, destino entre otros elementos.
+	 * Ademas se implementa un pequeno sistema de recomendacion de empleados para el vuelo segun las caracteristicas del mismo.
+	 */
 	public static void programarVuelos() {
 		Scanner entrada = new Scanner(System.in);
 		try {
@@ -316,6 +320,9 @@ public class Administrador {
 		opcionesPrincipales();
 	}
 
+	/*
+	 * Recibe como parametro un empleado, al cual se le asigna un vuelo determinado.
+	 */
 	public static void asignarVuelo(Empleado empleado) {
 
 		if (empleado.getVuelo() == null) {
@@ -412,6 +419,11 @@ public class Administrador {
 		System.exit(0);
 	}
 
+	/*
+	 * Es el metodo principal de la funcionalidad de reservas de vuelos, dado un destino
+	 * indicado por el usuario se hace la busqueda de los posibles vuelos, se piden todos los
+	 * datos para la creacion de los objetos necesarios.
+	 */
 	public static void reservaDeVuelo() {
 		Scanner entradas = new Scanner(System.in);
 		System.out.print("Por favor inserte la ciudad de destino: \n0. Volver.\n");

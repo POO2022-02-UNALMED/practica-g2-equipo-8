@@ -1,6 +1,7 @@
-// Autores: 
+// Autores: Juan Camilo Molina Roncancio
 /*
- * 
+ * Esta interfaz es implementada por Aeropuerto, aqui se agrupan todas las salas de embarque disponibles
+ * en el aeropuerto guardadas como constantes.
  */
 package gestorAplicacion.gestionVuelos;
 
@@ -26,6 +27,10 @@ public interface zonasEmbarque {
 	List<String> conjunto = new ArrayList<>(
 			Arrays.asList(sala1, sala2, sala3, sala4, sala5, sala6, sala7, sala8, sala9, sala10, sala11, sala12));
 
+	/*
+	 * Este metodo retorna un String con toda la informacion de las salas formateadas para posteriormente
+	 * ser imprimida en uiMain para la creacion de vuelos.
+	 */
 	static String mostrarZonas() {
 		String zondisp = "";
 		zondisp += "\n\t\tZona A\n";

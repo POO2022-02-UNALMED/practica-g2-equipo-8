@@ -1,4 +1,4 @@
-// Autores: Juan Jose Zapata Cadavid
+// Autores: Juan Jose Zapata Cadavid, Juan Camilo Molina Roncancio
 /* Se encarga del manejo de los atributos del aeropuerto, como su nombre indica
  * es donde se van a almacenar todos los datos del sistema.
  */

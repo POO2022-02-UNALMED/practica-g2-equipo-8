@@ -1,6 +1,7 @@
-// Autores: 
+// Autores: Juan Camilo Molina Roncancio
 /*
- * 
+ * Clase que agrupa toda la informacion de un asiento de un avion determinado tales como
+ * clase, numero y un dato tipo booleano llamado ocupado que indica si actualmente un pasajero ya posee el asiento.
  */
 package gestorAplicacion.gestionVuelos;
 
