@@ -1036,6 +1036,30 @@ public class Administrador {
 			}
 
 		}
+
+		if(v==null){
+			System.out.println("El avion se eliminó");
+			int option;
+			do {
+			System.out.println("Ingrese el numero de la opcion a elegir:");
+			System.out.print("""
+					1. Volver.
+					2. Finalizar.
+					""");
+
+			option = entradas.nextInt();
+			switch (option) {
+				case 1:
+					opcionesPrincipales();
+					break;
+				case 2:
+					salirDelSistema();
+					break;
+			}
+		} while (option != 3);
+
+		}
+
 		int option;
 		do {
 			System.out.println("Desea agregar un avion al vuelo " + v);
