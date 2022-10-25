@@ -15,7 +15,10 @@ import gestorAplicacion.gestionHumana.Pasajero;
 
 public class Vuelo implements Serializable {
 	/**
-	 * 
+	 * Autores:
+	 * Maria Camila Zapata Arrubla
+	 * Descripcion: Esta clase permite la creacion de aviones, generar un tiquete y agregar un pasajero a un determinado vuelo,
+	 * se dispone de la opcion de encontrar un vuelo
 	 */
 	private static final long serialVersionUID = 1L;
 	private Avion avion;

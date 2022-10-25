@@ -24,6 +24,12 @@ import gestorAplicacion.gestionVuelos.Equipaje;
 import gestorAplicacion.gestionVuelos.Vuelo;
 import gestorAplicacion.gestionVuelos.zonasEmbarque;
 
+/*
+ * Autores:
+ * Maria Camila Zapata Arrubla
+ * Descripcion:
+ */
+
 public class Administrador {
 	public static final Aeropuerto AEROPUERTO = new Aeropuerto();
 
