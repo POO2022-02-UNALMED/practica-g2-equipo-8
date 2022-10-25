@@ -1,4 +1,4 @@
-// Autores: Juan Jose Zapata Cadavid
+// Autores: Juan Jose Zapata Cadavid, Maria Camila Zapata Arrubla
 /* Esta clase sera la encargada de la interaccion entre el sistema y el administrador
  * del aeropuerto, en ella se haran todos los prints e inputs necesarios para esto.
  * A su vez hay varios metodos que comunican los objetos de los demas paquetes entre si.
@@ -23,12 +23,6 @@ import gestorAplicacion.gestionVuelos.Avion;
 import gestorAplicacion.gestionVuelos.Equipaje;
 import gestorAplicacion.gestionVuelos.Vuelo;
 import gestorAplicacion.gestionVuelos.zonasEmbarque;
-
-/*
- * Autores:
- * Maria Camila Zapata Arrubla
- * Descripcion:
- */
 
 public class Administrador {
 	public static final Aeropuerto AEROPUERTO = new Aeropuerto();
@@ -993,7 +987,7 @@ public class Administrador {
 	/*
 	 * Metodo cancelarVuelo (Sobrecarga) Este metodo recibe como parametros un
 	 * objeto de tipo vuelo. Es invocado por el metodo eliminarAvion. Este metodo
-	 * está pensado para que cuando se elimine el avion se pueda eliminar el vuelo
+	 * esta pensado para que cuando se elimine el avion se pueda eliminar el vuelo
 	 * el cual tenia asignado dicho avion
 	 */
 	private static void cancelarVuelo(Vuelo vuelo) {
@@ -1075,7 +1069,7 @@ public class Administrador {
 		}
 
 		if (v == null) {
-			System.out.println("El avion se eliminó");
+			System.out.println("El avion se elimino");
 			int option;
 			do {
 				System.out.println("Ingrese el numero de la opcion a elegir:");

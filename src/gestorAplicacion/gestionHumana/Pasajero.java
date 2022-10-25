@@ -1,6 +1,8 @@
-// Autores: 
-/*
- * 
+// Autores: Maria Camila Zapata Arrubla
+/* Descripcion: crea un objeto de tipo persona, en el cual se le agrega atributos como el nombre, cedula, edad y sexo
+ * estos son para identificar a la persona y el atributo inversion, es para saber cuanto debe de pagar por la reserva
+ * de vuelo
+ * Se maneja la opcion de buscar un pasajero
  */
 package gestorAplicacion.gestionHumana;
 
@@ -12,14 +14,7 @@ import gestorAplicacion.gestionVuelos.Equipaje;
 import gestorAplicacion.gestionVuelos.Vuelo;
 
 public class Pasajero extends Persona {
-	/**
-	 * Autores:
-	 * Maria Camila Zapata Arrubla
-	 * Descripcion: crea un objeto de tipo persona, en el cual se le agrega atributos como el nombre, cedula, edad y sexo
-	 * estos son para identificar a la persona y el atributo inversion, es para saber cuanto debe de pagar por la reserva
-	 * de vuelo
-	 * Se maneja la opcion de buscar un pasajero
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Asiento asiento;
 	private Vuelo vuelo;
