@@ -59,4 +59,6 @@ public abstract class Persona implements Serializable {
 	}
 
 	public abstract String toString();
+
+	public abstract String imprimirLista();
 }

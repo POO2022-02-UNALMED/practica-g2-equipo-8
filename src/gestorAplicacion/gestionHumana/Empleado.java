@@ -42,6 +42,10 @@ public class Empleado extends Persona {
 		}
 	}
 
+	public String imprimirLista(){
+		return "Nombre: " + nombre + ".\nCedula: " + cedula + ".\nCargo: " + cargo;
+	}
+
 	/*
 	 * Retorna el empleado con el numero de cedula que se pasa por parametro
 	 */

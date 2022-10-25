@@ -74,4 +74,8 @@ public class Pasajero extends Persona {
 		}
 		return null;
 	}
+
+	public String imprimirLista() {
+		return this.getCedula() + " ".repeat(15 - Integer.toString(this.getCedula()).length()) + this.getNombre();
+	}
 }

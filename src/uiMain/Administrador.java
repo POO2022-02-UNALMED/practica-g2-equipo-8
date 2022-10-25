@@ -154,6 +154,7 @@ public class Administrador {
 			opcionesPrincipales();
 		}
 	}
+
 	/*
 	 * Con este metodo que no recibe nada como parametro se despliega el menu para la creacion de nuevos
 	 * vuelos, con elementos como avion, fecha (la cual se parsea con la libreria LocalDateTime, destino entre otros elementos.
@@ -211,8 +212,8 @@ public class Administrador {
 
 			boolean hayEmpleados = false;
 			if (internacional.equals("y")) {
-				for (Empleado empleado : AEROPUERTO.getEmpleados()) {
-					if (empleado.getExperiencia() >= 5) {
+				for (Persona empleado : AEROPUERTO.getEmpleados()) {
+					if (((Empleado)empleado).getExperiencia() >= 5) {
 						System.out.println(empleado);
 						hayEmpleados = true;
 					}
@@ -750,9 +751,8 @@ public class Administrador {
 	public static void mostrarPasajeros() {
 		System.out.println("Estos son los pasajeros del aeropuerto:\n");
 		System.out.println("Cedula         Nombre");
-		for (Pasajero pasajero : AEROPUERTO.getPasajeros()) {
-			System.out.println(pasajero.getCedula() + " ".repeat(15 - Integer.toString(pasajero.getCedula()).length())
-					+ pasajero.getNombre());
+		for (Persona pasajero : AEROPUERTO.getPasajeros()) {
+			System.out.println(pasajero.imprimirLista());
 		}
 	}
 
@@ -845,7 +845,7 @@ public class Administrador {
 		Scanner entradas = new Scanner(System.in);
 		System.out.println("Ingrese su documento de identidad.");
 		int documento = entradas.nextInt();
-		Pasajero pasajero = Pasajero.buscarPasajero(documento); // Verifica si el pasajero se encuentra registrado
+		Persona pasajero = Pasajero.buscarPasajero(documento); // Verifica si el pasajero se encuentra registrado
 		if (pasajero == null) {
 			System.out.println("El usuario no se encuentra registrado.\n");
 			int option;
@@ -872,8 +872,8 @@ public class Administrador {
 			} while (option != 4);
 
 		} else {
-			pasajero.getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
-			reservaDeVuelo2(pasajero); // Proceso de reserva de vuelo, es diferente a la primera reserva que se hace
+			((Pasajero) pasajero).getAsiento().setOcupado(false); // Se habilita el asiento que tenia el pasajero
+			reservaDeVuelo2((Pasajero)pasajero); // Proceso de reserva de vuelo, es diferente a la primera reserva que se hace
 		}
 	}
 
