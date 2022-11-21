@@ -31,9 +31,6 @@ class ventanaInicio(Tk):
         self.bienvenida = Label(self.P3, text="Bienvenido al sistema de administración de vuelos\n""Hacer click en la imagen para empezar", font=("Courier", 10))
         self.P4 = Frame(self.P1, width=500, height=450)
         self.P4.grid(row = 1, column = 0)
-        self.Imagen = Label(self.P4)
-        self.ImagenAplicacion =PhotoImage(file='./imagenes/a1.png')
-        self.Imagen["image"] = self.ImagenAplicacion
         self.P2 = Frame(self, width=500, height=600)
         self.P2.pack(side=RIGHT)
         self.P5 = Frame(self.P2, width=500, height=150, bg="#B2BEBF")
