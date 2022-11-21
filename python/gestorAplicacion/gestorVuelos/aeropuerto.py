@@ -1,4 +1,4 @@
-import baseDatos.deserializador as deserializador
+from ...baseDatos import deserializador
 class Aeropuerto:
     def __init__(self,nombre=None):
         self._nombre=nombre
