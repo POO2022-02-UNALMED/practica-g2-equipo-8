@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from ventanaPrincipal import VentanaUsuario
 
 class ventanaInicio(Tk):
@@ -7,13 +8,11 @@ class ventanaInicio(Tk):
         # Configuración parámetros de la ventana
         self.geometry("1000x600")
         self.resizable(False,False)
-        self.title("Inicio")
+        self.title("Ventana inicial")
         self.option_add("*tearOff", False)  #Eliminar underline
         self.iconbitmap('./imagenes/icono.ico')
         # Configuración texto hoja de vida desarrolladores
         self.HDV = StringVar()
-        #variable para agregar la descripcion de la aplicacion
-        self.description =StringVar()
         # Configuración menú
         self.menubar = Menu(self)
         self.menuInicio = Menu(self.menubar)
@@ -27,20 +26,28 @@ class ventanaInicio(Tk):
 
         self.P1 = Frame(self, width=500, height=600,bg="#889C9B")
         self.P1.pack(side=LEFT)
+
         self.P3 = Frame(self.P1, width=500, height=150,bg="#889C9B")
         self.P3.grid(row=0, column=0)
-        self.bienvenida = Label(self.P3, text="Bienvenido al sistema de administración de vuelos\n""Hacer click en la imagen para empezar", font=("Courier", 10))
+
+        self.bienvenida = Label(self.P3, text="Bienvenido al sistema de administración de vuelos\n""Hacer click en la imagen para comenzar", 
+                        font=("Courier", 10), highlightthickness=2, highlightbackground = "black", highlightcolor= "black")
         self.P4 = Frame(self.P1, width=500, height=450)
         self.P4.grid(row = 1, column = 0)
+
         self.P2 = Frame(self, width=500, height=600)
         self.P2.pack(side=RIGHT)
+
         self.P5 = Frame(self.P2, width=500, height=150, bg="#B2BEBF")
         self.P5.grid(row=0, column=0)
-        self.botonHDV = Button(self.P5,text='Desarrolladores', command=lambda:self.cambioHDV(0))
-        self.botonHDV.place(x=200,y=75)
+
+        self.botonHDV = Button(self.P5,text='Haga click para conocer a los desarrolladores', command=lambda:self.cambioHDV(0))
+        self.botonHDV.place(relx=0.5,rely=0.5,anchor="center")
+
         self.P6 = Frame(self.P2, width=500, height=450, bg="Gray")
         self.P6.grid(row = 1, column = 0)
-        self.bienvenida.place(x=250, y=50, anchor="center")
+
+        self.bienvenida.place(relx=0.5, rely=0.5, anchor="center")
 
         # Espacios para poner imagenes de los desarrolladores son 4
         self.F1 = Frame(self.P6, width=250, height=220)
@@ -51,8 +58,6 @@ class ventanaInicio(Tk):
         self.F3.place(x=0, y=225)
         self.F4 = Frame(self.P6, width=250, height=220)
         self.F4.place(x=250, y=225)
-        self.descri = Label(self.P3, textvariable=self.description, font=("Courier", 10))
-        self.descri.place(x=250, y=100, anchor="center")
 
         # Lista imagenes de los desarrolladores
         self.desarrolladores = ['./imagenes/cami1.png', './imagenes/cami2.png', './imagenes/cami3.png', './imagenes/cami4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/sf.png']
@@ -97,13 +102,13 @@ class ventanaInicio(Tk):
 
     # Genera el texto de la descripcion
     def descripcion(self):
-        self.description.set("Permite reservar un vuelo, con seleccion de silla, además\n permite la ejecucion de opciones de administrador.")
+        messagebox.showinfo("Descripcion del sistema", "La principal utilidad de la aplicación de gestión del aeropuerto es la administración de los aspectos principales de esta misma, en donde se guardará la información de los pasajeros, de los vuelos, aviones, empleados y finanzas, también se implementan funcionalidades para la gestión, modificación y adición de estos elementos.")
 
     # Informacion desarrolladores y asignacion de sus respectivas imagenes atraves del metodo asignar
     def cambioHDV(self,relleno):
         self.clicks += 1
         self.botonHDV.place_forget()
-        self.textoHDV = Label(self.P5, textvariable=self.HDV, font = ("Courier", 10))
+        self.textoHDV = Label(self.P5, textvariable=self.HDV, font = ("Courier", 10), highlightthickness=2, highlightbackground = "black", highlightcolor= "black")
         self.textoHDV.bind('<ButtonPress-1>', self.cambioHDV)
         self.textoHDV.place(x=250, y=75, anchor="center")
         if (self.clicks == 1):
