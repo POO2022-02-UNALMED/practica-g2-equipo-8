@@ -6,6 +6,7 @@ class ventanaInicio(Tk):
         super().__init__(*args,**kwargs)
         # Configuración parámetros de la ventana
         self.geometry("1000x600")
+        self.resizable(False,False)
         self.title("Inicio")
         self.option_add("*tearOff", False)  #Eliminar underline
         self.iconbitmap('./imagenes/icono.ico')
@@ -106,16 +107,16 @@ class ventanaInicio(Tk):
         self.textoHDV.bind('<ButtonPress-1>', self.cambioHDV)
         self.textoHDV.place(x=250, y=75, anchor="center")
         if (self.clicks == 1):
-            self.HDV.set("Nombre: Maria Camila Zapata Arrubla \n""Edad : 20 años \n""Programa: Ingeniería de sistemas\n")
+            self.HDV.set("Nombre: Maria Camila Zapata Arrubla \n""Edad: 20 años \n""Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 2):
-            self.HDV.set("Nombre: \n""Edad: años \n" "Programa: Ingeniería de sistemas\n")
+            self.HDV.set("Nombre: Juan Camilo Molina Roncancio \n""Edad: 20 años \n" "Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 3):
-            self.HDV.set("Nombre: \n""Edad : años \n""Programa: Ingeniería de sistemas\n")
+            self.HDV.set("Nombre: \n""Edad: años \n""Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 4):
-            self.HDV.set("Nombre: \n""Edad : años \n""Programa: Ingeniería de sistemas\n")
+            self.HDV.set("Nombre: \n""Edad: años \n""Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
             self.clicks = 0
 
@@ -173,6 +174,7 @@ class ventanaInicio(Tk):
             self.ventanaUsu.ventanaInicio = self
             self.iconify()
             self.deiconify()
+            self.destroy()
 
 if __name__ == "__main__":
     ventana_inicios = ventanaInicio()
