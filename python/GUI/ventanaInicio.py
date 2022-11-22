@@ -174,12 +174,8 @@ class ventanaInicio(Tk):
 
     # Ventana principal
     def abrirVentanaSecundaria(self):
-         if not VentanaUsuario.abierta:
-            self.ventanaUsu = VentanaUsuario()
-            self.ventanaUsu.ventanaInicio = self
-            self.iconify()
-            self.deiconify()
-            self.destroy()
+        VentanaUsuario()
+        self.destroy()
 
 if __name__ == "__main__":
     ventana_inicios = ventanaInicio()
