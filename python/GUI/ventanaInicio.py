@@ -60,7 +60,7 @@ class ventanaInicio(Tk):
         self.F4.place(x=250, y=225)
 
         # Lista imagenes de los desarrolladores
-        self.desarrolladores = ['./imagenes/cami1.png', './imagenes/cami2.png', './imagenes/cami3.png', './imagenes/cami4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/sf.png']
+        self.desarrolladores = ['./imagenes/cami1.png', './imagenes/cami2.png', './imagenes/cami3.png', './imagenes/cami4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/JuanZapata1.png','./imagenes/JuanZapata2.png','./imagenes/JuanZapata3.png','./imagenes/JuanZapata4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/sf.png']
         self.posiciones = []
 
         # Lista imagenes relacionadas al sistema
@@ -118,7 +118,7 @@ class ventanaInicio(Tk):
             self.HDV.set("Nombre: Juan Camilo Molina Roncancio \n""Edad: 20 años \n" "Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 3):
-            self.HDV.set("Nombre: \n""Edad: años \n""Programa: Ingenieria de sistemas e informatica\n")
+            self.HDV.set("Nombre: Juan José Zapata Cadavid \n""Edad: 19 años \n""Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 4):
             self.HDV.set("Nombre: \n""Edad: años \n""Programa: Ingenieria de sistemas e informatica\n")
@@ -175,7 +175,7 @@ class ventanaInicio(Tk):
     # Ventana principal
     def abrirVentanaSecundaria(self):
         VentanaUsuario()
-        self.destroy()
+        #self.destroy()
 
 if __name__ == "__main__":
     ventana_inicios = ventanaInicio()
