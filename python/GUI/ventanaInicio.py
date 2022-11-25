@@ -8,7 +8,7 @@ class ventanaInicio(Tk):
         # Configuración parámetros de la ventana
         self.geometry("1000x600")
         self.resizable(False,False)
-        self.title("Ventana inicial")
+        self.title("Inicio")
         self.option_add("*tearOff", False)  #Eliminar underline
         self.iconbitmap('./imagenes/icono.ico')
         # Configuración texto hoja de vida desarrolladores
@@ -174,8 +174,9 @@ class ventanaInicio(Tk):
 
     # Ventana principal
     def abrirVentanaSecundaria(self):
-        VentanaUsuario()
-        #self.destroy()
+        ventana_inicios.withdraw()
+        VentanaUsuario().ventanaInicio = self
+            
 
 if __name__ == "__main__":
     ventana_inicios = ventanaInicio()
