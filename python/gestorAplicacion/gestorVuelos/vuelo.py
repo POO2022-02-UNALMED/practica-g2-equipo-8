@@ -29,15 +29,15 @@ class Vuelo:
         else:
             return 1
 
-    #def tiquete(self):
-     #   tique = "\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
-	#			+ "             Tiquete " + "\n" + "------------------------------------\n"
-	#			+ "Nombre Pasajero: " + Pasajero.getNombre() + "\n" + "Fecha: " + self._fecha + "\n" + "Vuelo: " + getId()
-	#			+ "\n" + "Sala de embarque: " + Pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
-	#			+ Pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + Pasajero.getAsiento().getNumero() + "\n"
-	#			+ "Origen: " + self._origen + "\n" + "Destino: " + getDestino() + "\n" + "Precio Total: "
-	#			+ Pasajero.getInversion() + "\n" + "------------------------------------\n"
-     #   return tique
+    def tiquete(self,pasajero):
+       tique = str("\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
+				+ "             Tiquete " + "\n" + "------------------------------------\n"
+				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + self._fecha + "\n" + "Vuelo: " + self.getId()
+				+ "\n" + "Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
+				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n"
+				+ "Origen: " + self._origen + "\n" + "Destino: " + self.getDestino() + "\n" + "Precio Total: "
+				+ pasajero.getInversion() + "\n" + "------------------------------------\n")
+       return tique
 
     def getAvion(self):
         return self._avion
