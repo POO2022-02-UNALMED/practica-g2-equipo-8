@@ -118,7 +118,7 @@ class ventanaInicio(Tk):
             self.HDV.set("Nombre: Juan Camilo Molina Roncancio \n""Edad: 20 años \n" "Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 3):
-            self.HDV.set("Nombre: Juan José Zapata Cadavid \n""Edad: 19 años \n""Programa: Ingenieria de sistemas e informatica\n")
+            self.HDV.set("Nombre: Juan Jose Zapata Cadavid \n""Edad: 19 años \n""Programa: Ingenieria de sistemas e informatica\n")
             self.asignar()
         elif (self.clicks == 4):
             self.HDV.set("Nombre: \n""Edad: años \n""Programa: Ingenieria de sistemas e informatica\n")

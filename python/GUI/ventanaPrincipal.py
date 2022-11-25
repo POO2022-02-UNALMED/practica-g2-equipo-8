@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import Menu
+from tkinter import messagebox
 
 
 class VentanaUsuario(Tk):
@@ -14,6 +15,9 @@ class VentanaUsuario(Tk):
         
         def prueba():
             pass
+        
+        def info():
+            messagebox.showinfo("Desarrolladores del aplicativo","Maria Camila Zapata Arrubla\nJuan Camilo Molina Roncancio\nJuan Jose Zapata Cadavid\nNombre4")
 
         self._barraMenu = Menu(self)
 
@@ -32,7 +36,7 @@ class VentanaUsuario(Tk):
 
         ayuda = Menu(self._barraMenu)
         self._barraMenu.add_cascade(label="Ayuda", menu=ayuda)
-        ayuda.add_command(label="Acerca de", command = prueba)
+        ayuda.add_command(label="Acerca de", command = info)
 
         self.config(menu=self._barraMenu)
 
@@ -44,15 +48,46 @@ class VentanaUsuario(Tk):
         self.fd = Frame(self.frame)
         self.fd.pack(ipadx=2, padx=2,ipady=2,pady=2,fill = X)
         self.ventanaOpera = Frame(self.frame,bd=2)
-        self.ventanaOpera.pack(padx = 10, pady= 20,fill=BOTH,expand = True)
+        self.ventanaOpera.pack(padx = 5, pady= 5,fill=BOTH,expand = True)
+
+        descripcion = '''Bienvenidos a la aplicacion de gestion y modificacion de aeropuerto, aqui podra realizar diferentes funciones
+        relacionadas a la administracion del aeropuerto.
+
+        En la parte superior en el menu de procesos y consultas se listan Las principales funcionalidades, las cuales son:
+
+        1. Reserva de vuelo
+        En esta opcion esta disponible lo necesario para agendar un vuelo a determinado pasajero, se muestran en pantalla
+        todos los vuelos disponibles que se dirijan hacia la ciudad de destino deseada, luego se muestran los diferentes
+        vuelos disponibles. En el mismo apartado se implementa un pequeño formulario de datos personales para la
+        identificación del pasajero y así mismo la cantidad de equipajes que desea transportar. Tambien se le da la
+        posibilidad de elegir el asiento que desea, los cuales están separados por turista, ejecutiva y primera clase, 
+        esta elección influirá directamente en el costo del tiquete.
+        
+        2. Programar vuelos
+        Esta funcionalidad permite programar nuevos vuelos que se llevarán a cabo en el aeropuerto, para posteriormente
+        interactuar con ellos mediante otras funcionalidades, además de que implementa un sistema de recomendación de
+        empleados asignados al vuelo seguidamente de su creación, basándose en la experiencia del empleado.
+
+        3. Gestionar empleados
+        Esta funcionalidad imprime los múltiples empleados que trabajan en el aeropuerto, junto a su cédula para poder 
+        seleccionarlo y elegir entre opciones como cambiar de cargo, cambiar sueldo, asignar un vuelo y despedir empleados.
+        
+        4. Informacion sobre finanzas
+        Esta funcionalidad muestra el saldo actual del aeropuerto y reúne las siguientes opciones, pagar nomina, consultar
+        el historial de transacciones, contratar nuevos empleados e ingresar fondos al aeropuerto.
+
+        5. Modificaciones generales
+        Esta funcionalidad agrupa ciertas modificaciones posibles en dentro del sistema tales como cambiar de asiento de un
+        pasajero, cancelar un vuelo, eliminar un avion e ingresar nuevos aviones al aeropuerto.E
+        '''
 
         #Labels
-        self.lp = Label(self.fp,text= "Nombre proceso", font = ("Courier", 12),height=2, bg="gray80")
+        self.lp = Label(self.fp,text= "Pantalla principal", font = ("Courier", 12),height=2, bg="gray80")
         self.lp.pack()
-        self.ld = Label(self.fd, text = "Descripción", font = ("Courier", 10))
+        self.ld = Label(self.fd, text = "Descripción de funcionalidades", font = ("Courier", 10))
         self.ld.pack()
-        self.label = Label(self.ventanaOpera, text = "Resultado", font = ("Courier", 10))
-        self.label.pack()
+        self.label = Label(self.ventanaOpera, text = descripcion, font = ("Courier", 10))
+        self.label.pack(ipadx=8, padx=8,ipady=8,pady=8,fill = X, anchor="w")
     
     def salir(self):
         self.__class__.VSabierta = False
