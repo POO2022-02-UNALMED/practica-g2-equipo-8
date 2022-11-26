@@ -9,7 +9,7 @@ class VentanaUsuario(Tk):
         super().__init__()
         self.title("Sistema de administracion de aeropuertos")
         self.option_add("*tearOff",  False)
-        self.geometry("1000x600")
+        self.geometry("1280x720")
         self.ventanaInicio = None
         self.iconbitmap('./imagenes/icono.ico')
         
@@ -58,6 +58,7 @@ class VentanaUsuario(Tk):
 
         En la parte superior en el menu de procesos y consultas se listan Las principales funcionalidades, las cuales son:
 
+
         1. Reserva de vuelo
         En esta opcion esta disponible lo necesario para agendar un vuelo a determinado pasajero, se muestran en pantalla
         todos los vuelos disponibles que se dirijan hacia la ciudad de destino deseada, luego se muestran los diferentes
@@ -66,22 +67,26 @@ class VentanaUsuario(Tk):
         posibilidad de elegir el asiento que desea, los cuales están separados por turista, ejecutiva y primera clase, 
         esta elección influirá directamente en el costo del tiquete.
         
+
         2. Programar vuelos
         Esta funcionalidad permite programar nuevos vuelos que se llevarán a cabo en el aeropuerto, para posteriormente
         interactuar con ellos mediante otras funcionalidades, además de que implementa un sistema de recomendación de
         empleados asignados al vuelo seguidamente de su creación, basándose en la experiencia del empleado.
 
+
         3. Gestionar empleados
         Esta funcionalidad imprime los múltiples empleados que trabajan en el aeropuerto, junto a su cédula para poder 
         seleccionarlo y elegir entre opciones como cambiar de cargo, cambiar sueldo, asignar un vuelo y despedir empleados.
         
+
         4. Informacion sobre finanzas
         Esta funcionalidad muestra el saldo actual del aeropuerto y reúne las siguientes opciones, pagar nomina, consultar
         el historial de transacciones, contratar nuevos empleados e ingresar fondos al aeropuerto.
 
+
         5. Modificaciones generales
         Esta funcionalidad agrupa ciertas modificaciones posibles en dentro del sistema tales como cambiar de asiento de un
-        pasajero, cancelar un vuelo, eliminar un avion e ingresar nuevos aviones al aeropuerto.E
+        pasajero, cancelar un vuelo, eliminar un avion e ingresar nuevos aviones al aeropuerto.
         '''
 
         #Labels
