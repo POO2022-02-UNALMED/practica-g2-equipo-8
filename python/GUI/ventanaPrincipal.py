@@ -15,14 +15,17 @@ class VentanaUsuario(Tk):
         
         def prueba():
             pass
-        
+
+        def descripcion():
+            messagebox.showinfo("Descripcion del sistema", "La principal utilidad de la aplicación de gestión del aeropuerto es la administración de los aspectos principales de esta misma, en donde se guardará la información de los pasajeros, de los vuelos, aviones, empleados y finanzas, también se implementan funcionalidades para la gestión, modificación y adición de estos elementos.")
+
         def info():
             messagebox.showinfo("Desarrolladores del aplicativo","Maria Camila Zapata Arrubla\nJuan Camilo Molina Roncancio\nJuan Jose Zapata Cadavid\nNombre4")
 
         self._barraMenu = Menu(self)
 
         archivo = Menu(self._barraMenu)
-        archivo.add_command(label = "Aplicacion", command = prueba)
+        archivo.add_command(label = "Aplicacion", command = descripcion)
         archivo.add_command(label = "Salir y guardar", command = self.salir)
         self._barraMenu.add_cascade(label = "Archivo", menu = archivo)
 
