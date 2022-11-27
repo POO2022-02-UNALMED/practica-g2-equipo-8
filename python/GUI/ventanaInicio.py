@@ -60,7 +60,7 @@ class ventanaInicio(Tk):
         self.F4.place(x=250, y=225)
 
         # Lista imagenes de los desarrolladores
-        self.desarrolladores = ['./imagenes/cami1.png', './imagenes/cami2.png', './imagenes/cami3.png', './imagenes/cami4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/JuanZapata1.png','./imagenes/JuanZapata2.png','./imagenes/JuanZapata3.png','./imagenes/JuanZapata4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/sf.png']
+        self.desarrolladores = ['./imagenes/cami1.png', './imagenes/cami2.png', './imagenes/cami3.png', './imagenes/cami4.png','./imagenes/camilo1.png','./imagenes/camilo2.png','./imagenes/camilo3.png','./imagenes/camilo4.png','./imagenes/JuanZapata1.png','./imagenes/JuanZapata2.png','./imagenes/JuanZapata3.png','./imagenes/JuanZapata4.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/a2.png','./imagenes/sf.png']
         self.posiciones = []
 
         # Lista imagenes relacionadas al sistema
