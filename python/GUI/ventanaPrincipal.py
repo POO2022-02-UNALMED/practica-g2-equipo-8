@@ -1,7 +1,8 @@
 from tkinter import *
 from tkinter import Menu
 from tkinter import messagebox
-
+from tkinter import ttk
+#from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto        NO ME FUNCIONA :(
 
 class VentanaUsuario(Tk):
     VSabierta = False
@@ -13,6 +14,7 @@ class VentanaUsuario(Tk):
         self.ventanaInicio = None
         self.iconbitmap('./imagenes/icono.ico')
         self.widgetsActuales = []
+        #self.aeropuerto = Aeropuerto()
 
         #Funciones
         def prueba():
@@ -75,15 +77,26 @@ class VentanaUsuario(Tk):
             self.label.pack(ipadx=8, padx=8,ipady=8,pady=8,fill = X, anchor="w")
             self.widgetsActuales.extend([self.lp, self.ld, self.label])
 
-        def reservaDeVuelo():
+        def pantallaReservaDeVuelo():
             borrarElementos()
             self.lp = Label(self.fp,text= "Reserva de vuelo", font = ("Courier", 12),height=2, bg="gray80")
             self.lp.pack()
             self.ld = Label(self.fd, text = "En este apartado puede realizar el agendamiento de un vuelo para un pasajero", font = ("Courier", 10))
             self.ld.pack()
-            self.label = Label(self.ventanaOpera, text = "pruebita", font = ("Courier", 10))
-            self.label.pack(ipadx=8, padx=8,ipady=8,pady=8,fill = X, anchor="w")            
-            self.widgetsActuales.extend([self.lp, self.ld, self.label])
+            
+            self.destino = Label(self.ventanaOpera, text = "Ingrese el destino deseado", font = ("Courier", 10))
+            self.destino.grid(ipadx=8, padx=8, row=0, column=0, sticky="w")
+            
+            destinos = ["ejemplo 1", "ejemplo 2"]
+            #for vuelo in self.aeropuerto.getVuelos():
+            #    destino = vuelo.getDestino()
+            #    destinos.append(destino)
+
+            self.listaDestinos = ttk.Combobox(self.ventanaOpera, values=destinos, textvariable=StringVar(value=""))
+            self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, sticky="w")
+
+
+            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.textoDestino])
 
         #Menus
         self._barraMenu = Menu(self)
@@ -94,8 +107,8 @@ class VentanaUsuario(Tk):
         archivo.add_command(label = "Salir y guardar", command = self.salir)
 
         procesosYConsultas = Menu(self._barraMenu)
-        self._barraMenu.add_cascade(label="Procesos y consultas", menu=procesosYConsultas)
-        procesosYConsultas.add_command(label = "Funcionalidad 1", command = reservaDeVuelo)
+        self._barraMenu.add_cascade(label="Procesos y consultas", menu = procesosYConsultas)
+        procesosYConsultas.add_command(label = "Funcionalidad 1", command = pantallaReservaDeVuelo)
         procesosYConsultas.add_command(label = "Funcionalidad 2", command = pantallaPrincipal)
         procesosYConsultas.add_command(label = "Funcionalidad 3", command = prueba)
         procesosYConsultas.add_command(label = "Funcionalidad 4", command = prueba)
