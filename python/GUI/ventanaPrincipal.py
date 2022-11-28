@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import Menu
 from tkinter import messagebox
 from tkinter import ttk
+from ..baseDatos import serializador
 #from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto        NO ME FUNCIONA :(
 
 class VentanaUsuario(Tk):
@@ -28,7 +29,8 @@ class VentanaUsuario(Tk):
 
         def borrarElementos():
             for i in self.widgetsActuales:
-                i.forget()
+                i.destroy()
+            self.widgetsActuales=[]
 
         #Pantallas
         def pantallaPrincipal():
@@ -96,8 +98,13 @@ class VentanaUsuario(Tk):
             self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, sticky="w")
 
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.textoDestino])
-
+            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos])
+        
+        def pantallaEmpleados():
+            borrarElementos()
+            self.lp=Label(self.fp,text="Gestor de empleados", font = ("Courier", 12),height=2, bg="gray80")
+            self.lp.pack()
+            self.widgetsActuales.extend([self.lp])
         #Menus
         self._barraMenu = Menu(self)
 
@@ -109,8 +116,8 @@ class VentanaUsuario(Tk):
         procesosYConsultas = Menu(self._barraMenu)
         self._barraMenu.add_cascade(label="Procesos y consultas", menu = procesosYConsultas)
         procesosYConsultas.add_command(label = "Funcionalidad 1", command = pantallaReservaDeVuelo)
-        procesosYConsultas.add_command(label = "Funcionalidad 2", command = pantallaPrincipal)
-        procesosYConsultas.add_command(label = "Funcionalidad 3", command = prueba)
+        procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
+        procesosYConsultas.add_command(label = "Funcionalidad 3", command = pantallaEmpleados)
         procesosYConsultas.add_command(label = "Funcionalidad 4", command = prueba)
         procesosYConsultas.add_command(label = "Funcionalidad 5", command = prueba)
 
