@@ -19,12 +19,12 @@ class Vuelo:
         self._salaEmbarque = salaEmbarque
         self._pesoActual = 0
         self._id = 0
-        Aeropuerto.addVuelo(self)
+        self._aeropuerto.addVuelo(self)
     
-    @staticmethod
-    def nuevoID():
-        if len(Aeropuerto.getVuelos()) != 0:
-            return Aeropuerto.getVuelos().get(len(Aeropuerto.getVuelos())-1).getId() + 1
+    @classmethod
+    def nuevoID(cls):
+        if len(cls._aeropuerto.getVuelos()) != 0:
+            return cls._aeropuerto.getVuelos().get(len(cls._aeropuerto.getVuelos())-1).getId() + 1
 
         else:
             return 1
@@ -51,11 +51,17 @@ class Vuelo:
     def setEmpleados(self,empleados):
         self._empleados = empleados
 
+    def addEmpleado(self,e):
+        self._empleados.append(e)
+
     def getPasajeros(self):
         return self._pasajeros
 
     def setPasajeros(self,pasajeros):
         self._pasajeros = pasajeros
+    
+    def addPasajero(self,pasajero):
+        self._pasajeros.append(pasajero)
 
     def getFecha(self):
         return self._fecha
@@ -95,12 +101,12 @@ class Vuelo:
 
     def getId(self):
         return self._id
-
-    def setAeropuerto(self,aeropuerto):
-        Vuelo._aeropuerto = aeropuerto
+    @classmethod
+    def setAeropuerto(cls,aeropuerto):
+        cls._aeropuerto = aeropuerto
 
     def encontrarVuelo(self,id):
-        if id - 1 <= len(Aeropuerto.getVuelos()):
-            return Aeropuerto.getVuelos().get(id-1)
+        if id - 1 <= len(Vuelo._aeropuerto.getVuelos()):
+            return Vuelo._aeropuerto.getVuelos().get(id-1)
 
         return None

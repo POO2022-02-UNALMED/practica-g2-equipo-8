@@ -1,5 +1,5 @@
 import random
-from asiento import Asiento
+from .asiento import *
 class Avion():
     _aeropuerto=None
     def __init__(self,modelo,pesoMaximo,valor,cantidadAsientos=0):

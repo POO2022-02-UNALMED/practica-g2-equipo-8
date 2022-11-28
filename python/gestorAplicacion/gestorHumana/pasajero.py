@@ -25,6 +25,7 @@ class Pasajero(Persona):
 
     def setVuelo(self,vuelo):
         self._vuelo=vuelo
+        self._vuelo.addPasajero(self)
 
     def getEquipaje(self):
         return self._equipaje

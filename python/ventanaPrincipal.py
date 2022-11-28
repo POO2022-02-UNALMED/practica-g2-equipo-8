@@ -4,10 +4,13 @@ from tkinter import messagebox
 from tkinter import ttk
 from fieldFrame import FieldFrame
 
+from datetime import datetime
+
 from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto
 from gestorAplicacion.gestorVuelos.asiento import Asiento
 from gestorAplicacion.gestorVuelos.equipaje import Equipaje
 from gestorAplicacion.gestorVuelos.vuelo import Vuelo
+from gestorAplicacion.gestorVuelos.avion import Avion
 
 from gestorAplicacion.gestorHumana.cargos import Cargos
 from gestorAplicacion.gestorHumana.empleado import Empleado
@@ -29,11 +32,17 @@ class VentanaUsuario(Tk):
         self.widgetsActuales = []
         self.aeropuerto = Aeropuerto()
         Persona.setAeropuerto(self.aeropuerto)
-        #deserializar(self.aeropuerto)
+        Avion.setAeropuerto(self.aeropuerto)
+        Vuelo.setAeropuerto(self.aeropuerto)
+        #self.valoresIniciales()
+        deserializar(self.aeropuerto)
 
         #Funciones
         def prueba():
             pass
+        
+
+        self.bind('<Destroy>',lambda x:serializar(self.aeropuerto))
 
         def descripcion():
             messagebox.showinfo("Descripcion del sistema", "La principal utilidad de la aplicación de gestión del aeropuerto es la administración de los aspectos principales de esta misma, en donde se guardará la información de los pasajeros, de los vuelos, aviones, empleados y finanzas, también se implementan funcionalidades para la gestión, modificación y adición de estos elementos.")
@@ -199,18 +208,68 @@ class VentanaUsuario(Tk):
         #Llamado a pantalla principal
         pantallaPrincipal()
 
+   
+
+    def valoresIniciales(self):
+
+        self.aeropuerto.setDinero(10000000)
+
+        vuelo1=Vuelo(Avion("XYZ",100,50000),datetime(2022,11,30,10,0,0),"Cancun",1500,"A1")
+        vuelo2=Vuelo(Avion("YY3X",150,75000),datetime(2022,12,5,10,0,0),"Madrid",5500,"A2")
+        vuelo3=Vuelo(Avion("XCF",75,25000),datetime(2022,12,5,10,0,0),"Madrid",5500,"A2")
+        e1=Empleado("Juan",12345,30,"M",2300,Cargos.PILOTO.getCargo())
+        e2=Empleado("Pedro",543657,35,"M",1800,Cargos.COPILOTO.getCargo())
+        e3=Empleado("Sara",4235246,66,"F",1500,Cargos.CONTROL_DE_PISTA.getCargo())
+        e4=Empleado("Carla",67436653,35,"F",1500,Cargos.AZAFATA.getCargo())
+        e5=Empleado("Federico",9787845,40,"M",1800,Cargos.AZAFATA.getCargo())
+        e6=Empleado("Andrea",2425,38,"F",1800,Cargos.PILOTO.getCargo())
+        e7=Empleado("Camilo",27354235,60,"M",1800,Cargos.PILOTO.getCargo())
+        e8=Empleado("Maria",14136,55,"F",1800,Cargos.CONTROL_DE_PISTA.getCargo())
+        e9=Empleado("Fernando",64378,23,"M",1800,Cargos.AZAFATA.getCargo())
+        Empleado("Paco",451675,48,"M",1800,Cargos.CONTROL_DE_PISTA.getCargo())
+        Empleado("Camila",2565324,19,"F",1800,Cargos.COPILOTO.getCargo())
+        Empleado("Luisa",47594,34,"F",1800,Cargos.PILOTO.getCargo())
+        Empleado("Jose",11055,45,"M",1800,Cargos.AZAFATA.getCargo())
+
+        e1.setVuelo(vuelo1)
+        e2.setVuelo(vuelo1)
+        e3.setVuelo(vuelo1)
+        e4.setVuelo(vuelo2)
+        e5.setVuelo(vuelo2)
+        e6.setVuelo(vuelo2)
+        e7.setVuelo(vuelo3)
+        e8.setVuelo(vuelo3)
+        e9.setVuelo(vuelo3)
+
+        p1=Pasajero("Samara",4535436,18,"F")
+        p2=Pasajero("Carolina",14364535,20,"F")
+        p3=Pasajero("Catalina",654623562,27,"F")
+        p4=Pasajero("Ana",1443524,56,"F")
+        p5=Pasajero("Sofia",13424565,31,"F")
+        p6=Pasajero("Valentina",348764,43,"F")
+        p7=Pasajero("Felipe",534556,64,"M")
+        p8=Pasajero("Sebastian",37467,46,"M")
+        p9=Pasajero("Cristian",453786,36,"M")
+        p10=Pasajero("Andres",237237,36,"M")
+        p11=Pasajero("Julian",764521,65,"M")
+        p12=Pasajero("Julio",7868754,35,"M")
+
+        p1.setVuelo(vuelo1)
+        p2.setVuelo(vuelo1)
+        p3.setVuelo(vuelo1)
+        p4.setVuelo(vuelo1)
+        p5.setVuelo(vuelo2)
+        p6.setVuelo(vuelo2)
+        p7.setVuelo(vuelo2)
+        p8.setVuelo(vuelo2)
+        p9.setVuelo(vuelo3)
+        p10.setVuelo(vuelo3)
+        p11.setVuelo(vuelo3)
+        p12.setVuelo(vuelo3)
+
     def salir(self):
         self.__class__.VSabierta = False
         self.ventanaInicio.iconify()
         self.ventanaInicio.deiconify()
-        #serializar(self.aeropuerto)
+        serializar(self.aeropuerto)
         self.destroy()
-    
-a=Aeropuerto()
-Persona.setAeropuerto(a)
-deserializar(a)
-
-for i in a.getEmpleados():
-    print(i)
-serializar(a)
-
