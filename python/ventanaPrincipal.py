@@ -232,6 +232,25 @@ class VentanaUsuario(Tk):
             self.ld = Label(self.fd, text = "En este apartado puede realizar la compra de un avión y asignarle un determinado vuelo", font = ("Courier", 10))
             self.ld.pack()
             self.widgetsActuales.extend([self.lp,self.ld])
+
+        def pantallaFinanzas():
+            borrarElementos()
+            empleados = self.aeropuerto.getEmpleados()
+            # print(map(lambda x: x.))
+            self.lp = Label(self.fp, text="Gestor de Finanzas", font=("Courier", 12), height=2, bg="gray80")
+            self.ld = Label(self.fd,
+                            text="En este apartado puede realizar el pago de nomina a los empleados, registrar los "
+                                 "cambios con el dinero del aeropuerto, y ver el historial de transacciones",
+                            font=("Courier", 10))
+            self.bnomina = Button(self.ventanaOpera, text='Nomina', command=prueba())
+            self.btrans = Button(self.ventanaOpera, text='Transacciones', command=prueba())
+            # self.checkemp = ChecklistBox(self.ventanaOpera)
+            self.lp.pack()
+            self.ld.pack()
+            self.bnomina.grid(ipadx=80, padx=80, pady=30, row=0, column=0, sticky="w")
+            self.btrans.grid(ipadx=80, padx=80, pady=30, row=0, column=2, sticky="e")
+            # self.checkemp.grid(ipadx=80, padx=80, pady=30, row=1, column=0, sticky="e")
+            self.widgetsActuales.extend([self.lp, self.ld, self.bnomina])
             
         #Menus
         self._barraMenu = Menu(self)
@@ -246,7 +265,7 @@ class VentanaUsuario(Tk):
         self.procesosYConsultas.add_command(label = "Funcionalidad 1", command = pantallaReservaDeVuelo)
         self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
         self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
-        self.procesosYConsultas.add_command(label = "Funcionalidad 4", command = prueba)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 4", command = pantallaFinanzas)
         
         self.menuModificaciones = Menu(self.procesosYConsultas)
         self.procesosYConsultas.add_cascade(menu = self.menuModificaciones,label = "Administración de vuelos y aviones")
