@@ -104,6 +104,39 @@ class VentanaUsuario(Tk):
             self.lp=Label(self.fp,text="Gestor de empleados", font = ("Courier", 12),height=2, bg="gray80")
             self.lp.pack()
             self.widgetsActuales.extend([self.lp])
+        
+        def pantallaCambiarAsiento():
+            borrarElementos()
+            self.lp = Label(self.fp,text= "Cambiar silla", font = ("Courier", 12),height=2, bg="gray80")
+            self.lp.pack()
+            self.ld = Label(self.fd, text = "En este apartado puede realizar el cambio de silla a un determinado pasajero", font = ("Courier", 10))
+            self.ld.pack()
+            self.widgetsActuales.extend([self.lp,self.ld])
+
+        def pantallaCancelarVuelo():
+            borrarElementos()
+            self.lp = Label(self.fp,text= "Cancelar vuelo", font = ("Courier", 12),height=2, bg="gray80")
+            self.lp.pack()
+            self.ld = Label(self.fd, text = "En este apartado puede cancelar un determinado vuelo", font = ("Courier", 10))
+            self.ld.pack()
+            self.widgetsActuales.extend([self.lp,self.ld])
+        
+        def pantallaEliminarAvion():
+            borrarElementos()
+            self.lp = Label(self.fp,text= "Eliminar avión", font = ("Courier", 12),height=2, bg="gray80")
+            self.lp.pack()
+            self.ld = Label(self.fd, text = "En este apartado puede eliminar un avión con su respectivo ID", font = ("Courier", 10))
+            self.ld.pack()
+            self.widgetsActuales.extend([self.lp,self.ld])
+        
+        def pantallaComprarAvion():
+            borrarElementos()
+            self.lp = Label(self.fp,text= "Comprar avión", font = ("Courier", 12),height=2, bg="gray80")
+            self.lp.pack()
+            self.ld = Label(self.fd, text = "En este apartado puede realizar la compra de un avión y asignarle un determinado vuelo", font = ("Courier", 10))
+            self.ld.pack()
+            self.widgetsActuales.extend([self.lp,self.ld])
+            
         #Menus
         self._barraMenu = Menu(self)
 
@@ -112,13 +145,19 @@ class VentanaUsuario(Tk):
         archivo.add_command(label = "Aplicacion", command = descripcion)
         archivo.add_command(label = "Salir y guardar", command = self.salir)
 
-        procesosYConsultas = Menu(self._barraMenu)
-        self._barraMenu.add_cascade(label="Procesos y consultas", menu = procesosYConsultas)
-        procesosYConsultas.add_command(label = "Funcionalidad 1", command = pantallaReservaDeVuelo)
-        procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
-        procesosYConsultas.add_command(label = "Funcionalidad 3", command = pantallaEmpleados)
-        procesosYConsultas.add_command(label = "Funcionalidad 4", command = prueba)
-        procesosYConsultas.add_command(label = "Funcionalidad 5", command = prueba)
+        self.procesosYConsultas = Menu(self._barraMenu)
+        self._barraMenu.add_cascade(label="Procesos y consultas", menu = self.procesosYConsultas)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 1", command = pantallaReservaDeVuelo)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 3", command = pantallaEmpleados)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 4", command = prueba)
+        
+        self.menuModificaciones = Menu(self.procesosYConsultas)
+        self.procesosYConsultas.add_cascade(menu = self.menuModificaciones,label = "Administración de vuelos y aviones")
+        self.menuModificaciones.add_command(label= "Cambiar asiento",command=pantallaCambiarAsiento)
+        self.menuModificaciones.add_command(label= "Cancelar vuelo",command=pantallaCancelarVuelo)
+        self.menuModificaciones.add_command(label= "Eliminar avión",command=pantallaEliminarAvion)
+        self.menuModificaciones.add_command(label= "Comprar avión",command=pantallaComprarAvion)
 
         ayuda = Menu(self._barraMenu)
         self._barraMenu.add_cascade(label="Ayuda", menu=ayuda)
