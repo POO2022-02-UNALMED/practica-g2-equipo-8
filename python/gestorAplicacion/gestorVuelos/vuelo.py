@@ -3,6 +3,7 @@ import time
 import baseDatos.deserializador as deserializador
 from gestorAplicacion.gestorHumana.pasajero import Pasajero
 from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto
+from gestorAplicacion.gestorVuelos.equipaje import Equipaje
 
 
 class Vuelo:
@@ -28,6 +29,32 @@ class Vuelo:
 
         else:
             return 1
+        
+    def agregarPasajero(self,pasajero,nroAsiento):
+        pesoEquipajePasajero = 0
+        for equipaje in pasajero.getEquipajes():
+            pesoEquipajePasajero += equipaje.getPeso()
+        asientoElegido = self._avion.getAsientos().get(nroAsiento-1)
+
+        if self._pesoActual + pesoEquipajePasajero < self._avion.getPesoMaximo() and len(self._pasajeros) < len(self._avion.getAsientos()) and not(asientoElegido.isOcupado()):
+            self._pesoActual += pesoEquipajePasajero
+            self._pasajeros.append(pasajero)
+            pasajero.setAsiento(asientoElegido)
+            pasajero.setVuelo(self)
+            asientoElegido.setOcupado(True)
+            if asientoElegido.getClase() == "Primera clase":
+                self._aeropuerto.transaccion("Boleto Primera Clase",3*self._costo)
+                pasajero.setInversion(3*self._costo)
+            elif asientoElegido.getClase() == "Ejecutiva":
+                self._aeropuerto.transaccion("Boleto Clase Ejecutiva", 2 * self._costo)
+                pasajero.setInversion(2*self._costo)
+            else:
+                self._aeropuerto.transaccion("Boleto Clase Turista",self._costo)
+                pasajero.setInversion(self._costo)
+            
+            return True
+        else:
+            return False
 
     def tiquete(self,pasajero):
        tique = str("\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
