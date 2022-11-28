@@ -2,13 +2,17 @@ from tkinter import *
 
 class FieldFrame(Frame):
     
-    def __init__(self, ventana, tituloCriterios = "", criterios = None, tituloValores = "", valores = None, habilitado = None):
+    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado):
         super().__init__(ventana)
         self._tituloCriterios = tituloCriterios
         self._criterios = criterios
         self._tituloValores = tituloValores
         self._valores = valores
         self._habilitado = habilitado
+        self.pack()
+        self.config(relief = "groove") 
+        self.config(bd=20)
+        self.config(borderwidth=2) 
 
         # Lista de elementos
         self._elementos = []
@@ -50,4 +54,5 @@ class FieldFrame(Frame):
         return self._elementos[indice].get()
 
     def crearBotones(self, comando1):
-        aceptar = Button(self, text="Aceptar", font = ("Courier", 12), fg = "white", command=comando1).grid(pady = 20, column = 0, row = len(self._criterios)+1)
+        aceptar = Button(self, text="Aceptar", font = ("Courier", 12), fg = "black", command=comando1).grid(padx= 50,pady = 20, column = 0, row = len(self._criterios)+1)
+        cancelar= Button(self, text="Cancelar", font = ("Courier", 12), fg = "black", command=comando1).grid(pady = 20, column = 1, row = len(self._criterios)+1)

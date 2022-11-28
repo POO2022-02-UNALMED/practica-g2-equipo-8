@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import Menu
 from tkinter import messagebox
 from tkinter import ttk
+from fieldFrame import FieldFrame
 #from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto        NO ME FUNCIONA :(
 
 class VentanaUsuario(Tk):
@@ -119,7 +120,13 @@ class VentanaUsuario(Tk):
             self.lp.pack()
             self.ld = Label(self.fd, text = "En este apartado puede cancelar un determinado vuelo", font = ("Courier", 10))
             self.ld.pack()
-            self.widgetsActuales.extend([self.lp,self.ld])
+
+            criteriosEliminarAvion=["ID"]
+            self.ventanaOpera.pack_forget()
+            self.ventanaOpera = FieldFrame(self.frame,"Datos",criteriosEliminarAvion,"",None,None)
+            self.ventanaOpera.crearBotones(prueba)
+
+            self.widgetsActuales.extend([self.lp,self.ld,self.ventanaOpera])
         
         def pantallaEliminarAvion():
             borrarElementos()
@@ -166,7 +173,7 @@ class VentanaUsuario(Tk):
         self.config(menu=self._barraMenu)
 
         #Frames
-        self.frame = Frame(self,relief="ridge",bd=2,bg="black")
+        self.frame = Frame(self,relief="ridge",bd=2,bg="#C2C4B6")
         self.frame.pack(padx=15,pady=15,expand=True,fill=BOTH)
         self.fp = Frame(self.frame,bg="gray80")
         self.fp.pack(ipadx=6, padx=2,ipady=2,pady=2,fill = X)
