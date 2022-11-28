@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import Menu
 from tkinter import messagebox
 from tkinter import ttk
-from ..baseDatos import serializador
 #from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto        NO ME FUNCIONA :(
 
 class VentanaUsuario(Tk):
