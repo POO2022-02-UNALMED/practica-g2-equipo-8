@@ -74,3 +74,11 @@ class Aeropuerto:
 
     def setDinero(self,dinero):
         self._dinero=dinero
+
+    def ingresarDinero(self, pago):
+        self._dinero += pago
+
+    def transaccion(self, concepto, valor):
+        self._transaccionesKeys.append(concepto)
+        self._transaccionesValues.append(valor)
+        self.ingresarDinero(valor)
