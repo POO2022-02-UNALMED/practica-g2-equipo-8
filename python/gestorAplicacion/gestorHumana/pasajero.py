@@ -1,4 +1,4 @@
-from persona import Persona
+from .persona import Persona
 class Pasajero(Persona):
     def __init__(self, nombre, cedula, edad, sexo,inversion=0):
         super().__init__(nombre, cedula, edad, sexo)

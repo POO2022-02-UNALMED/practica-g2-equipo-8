@@ -3,7 +3,19 @@ from tkinter import Menu
 from tkinter import messagebox
 from tkinter import ttk
 from fieldFrame import FieldFrame
-#from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto        NO ME FUNCIONA :(
+
+from gestorAplicacion.gestorVuelos.aeropuerto import Aeropuerto
+from gestorAplicacion.gestorVuelos.asiento import Asiento
+from gestorAplicacion.gestorVuelos.equipaje import Equipaje
+from gestorAplicacion.gestorVuelos.vuelo import Vuelo
+
+from gestorAplicacion.gestorHumana.cargos import Cargos
+from gestorAplicacion.gestorHumana.empleado import Empleado
+from gestorAplicacion.gestorHumana.pasajero import Pasajero
+from gestorAplicacion.gestorHumana.persona import Persona
+
+from baseDatos.deserializador import deserializar
+from baseDatos.serializador import serializar
 
 class VentanaUsuario(Tk):
     VSabierta = False
@@ -15,7 +27,9 @@ class VentanaUsuario(Tk):
         self.ventanaInicio = None
         self.iconbitmap('./imagenes/icono.ico')
         self.widgetsActuales = []
-        #self.aeropuerto = Aeropuerto()
+        self.aeropuerto = Aeropuerto()
+        Persona.setAeropuerto(self.aeropuerto)
+        #deserializar(self.aeropuerto)
 
         #Funciones
         def prueba():
@@ -189,5 +203,14 @@ class VentanaUsuario(Tk):
         self.__class__.VSabierta = False
         self.ventanaInicio.iconify()
         self.ventanaInicio.deiconify()
+        #serializar(self.aeropuerto)
         self.destroy()
-        
+    
+a=Aeropuerto()
+Persona.setAeropuerto(a)
+deserializar(a)
+
+for i in a.getEmpleados():
+    print(i)
+serializar(a)
+

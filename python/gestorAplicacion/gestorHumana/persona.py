@@ -7,7 +7,7 @@ class Persona:
         self._sexo = sexo
 
     def __str__(self):
-        return "Nombre: "+self._nombre+" Cedula: "+self._cedula
+        return "Nombre: "+self._nombre+" Cedula: "+str(self._cedula)
 
     @classmethod
     def setAeropuerto(cls,aeropuerto):

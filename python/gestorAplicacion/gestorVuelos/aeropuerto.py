@@ -1,4 +1,3 @@
-from ...baseDatos import deserializador
 class Aeropuerto:
     def __init__(self,nombre=None):
         self._nombre=nombre
@@ -9,7 +8,6 @@ class Aeropuerto:
         self._transaccionesKeys=[]
         self._transaccionesValues=[]
         self._dinero=0
-        #deserializador.deserializar(self)
 
     def getNombre(self):
         return self._nombre

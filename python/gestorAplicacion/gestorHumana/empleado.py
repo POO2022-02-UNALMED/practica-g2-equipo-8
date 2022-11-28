@@ -1,4 +1,4 @@
-from persona import Persona
+from .persona import Persona
 class Empleado(Persona):
     def __init__(self, nombre, cedula, edad, sexo,sueldo,cargo,experiencia=0):
         super().__init__(nombre, cedula, edad, sexo)
@@ -6,7 +6,7 @@ class Empleado(Persona):
         self._cargo = cargo
         self._vuelo=None
         self._experiencia = experiencia
-        Persona.addEmpleado(self)
+        Persona.aeropuerto.addEmpleado(self)
 
     def getSueldo(self):
         return self._sueldo
