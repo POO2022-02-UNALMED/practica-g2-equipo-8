@@ -1,8 +1,10 @@
 from tkinter import *
+from tkinter import messagebox
+from excepciones.excepcionTipo import *
 
 class FieldFrame(Frame):
     
-    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado):
+    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado, tipo):
         super().__init__(ventana)
         self._tituloCriterios = tituloCriterios
         self._criterios = criterios
@@ -13,6 +15,7 @@ class FieldFrame(Frame):
         self.config(relief = "groove") 
         self.config(bd=20)
         self.config(borderwidth=2) 
+        self._tipo = tipo
 
         # Lista de elementos
         self._elementos = []
@@ -32,19 +35,19 @@ class FieldFrame(Frame):
             labelCriterio.grid(column=0, row=i+1, padx = (5,5), pady = (5,5))
 
             # Crear y colocar entrada de cada criterio
-            entryValor = Entry(self, font = ("Courier", 12))
-            entryValor.grid(column=1, row=i+1, padx = (5,5), pady = (5,5))
+            self.entryValor = Entry(self, font = ("Courier", 12))
+            self.entryValor.grid(column=1, row=i+1, padx = (5,5), pady = (5,5))
 
             # Colocar el valor inicial si lo hay
             if valores is not None:
-                entryValor.insert(0, valores[i])
+                self.entryValor.insert(0, valores[i])
 
             # Si el campo es no-editable, deshabilitarlo
             if habilitado is not None and not habilitado[i]:
-                entryValor.configure(state = DISABLED)
+                self.entryValor.configure(state = DISABLED)
             
             # Anadir a la lista de elementos
-            self._elementos.append(entryValor)
+            self._elementos.append(self.entryValor)
 
     # GetValue
     # criterio: El criterio cuyo valor se quiere obtener
@@ -53,6 +56,38 @@ class FieldFrame(Frame):
         indice = self._criterios.index(criterio)
         return self._elementos[indice].get()
 
-    def crearBotones(self, comando1):
+    def crearBotones(self, comando1,comando2):
         aceptar = Button(self, text="Aceptar", font = ("Courier", 12), fg = "black", command=comando1).grid(padx= 50,pady = 20, column = 0, row = len(self._criterios)+1)
-        cancelar= Button(self, text="Cancelar", font = ("Courier", 12), fg = "black", command=comando1).grid(pady = 20, column = 1, row = len(self._criterios)+1)
+        cancelar= Button(self, text="Cancelar", font = ("Courier", 12), fg = "black", command=comando2).grid(pady = 20, column = 1, row = len(self._criterios)+1)
+
+    def isfloat(self,num):
+        try:
+            float(num)
+            return True
+        except ValueError:
+            return False
+
+    def procesoAceptar(self):  #Mirar como hacerlo para varios entry a la vez
+        valorUsuario = self.entryValor.get()
+
+        if valorUsuario == "":
+                try:
+                    raise ExcepcionVacio(valorUsuario)
+                except ExcepcionVacio as e:
+                    messagebox.showwarning(title="Aviso",message=e)
+
+        for t in self._tipo:
+            if t == "int":
+                if valorUsuario.isdigit() == False:
+                    if self.isfloat(valorUsuario) == True:
+                        try:
+                            raise ExcepcionEnteroFloat(valorUsuario)
+                        except ExcepcionEnteroFloat as e:
+                            messagebox.showwarning(title="Aviso",message=e)
+                    else:
+                        if valorUsuario != "": 
+                            try:
+                                raise ExcepcionEnteroString(valorUsuario)
+                            except ExcepcionEnteroString as e:
+                                messagebox.showwarning(title="Aviso",message=e)               
+                
