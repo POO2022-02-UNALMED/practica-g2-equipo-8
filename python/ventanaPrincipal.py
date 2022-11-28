@@ -211,11 +211,11 @@ class VentanaUsuario(Tk):
             self.ld.pack()
 
             criteriosEliminarAvion=["ID"]
-            self.ventanaOpera.pack_forget()
-            self.ventanaOpera = FieldFrame(self.frame,"Datos",criteriosEliminarAvion,"",None,None)
-            self.ventanaOpera.crearBotones(prueba)
+            #self.ventanaOpera.pack_forget()
+            self.operaciones = FieldFrame(self.ventanaOpera,"Datos",criteriosEliminarAvion,"Valor",None,None,["int"])
+            self.operaciones.crearBotones(self.operaciones.procesoAceptar,prueba)
 
-            self.widgetsActuales.extend([self.lp,self.ld,self.ventanaOpera])
+            self.widgetsActuales.extend([self.lp,self.ld,self.operaciones])
         
         def pantallaEliminarAvion():
             borrarElementos()
@@ -281,7 +281,7 @@ class VentanaUsuario(Tk):
         self.config(menu=self._barraMenu)
 
         #Frames
-        self.frame = Frame(self,relief="ridge",bd=2,bg="#C2C4B6")
+        self.frame = Frame(self,relief="ridge",bd=2,bg="black")
         self.frame.pack(padx=15,pady=15,expand=True,fill=BOTH)
         self.fp = Frame(self.frame,bg="gray80")
         self.fp.pack(ipadx=6, padx=2,ipady=2,pady=2,fill = X)
