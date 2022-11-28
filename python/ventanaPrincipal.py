@@ -1,7 +1,8 @@
 from tkinter import *
-from tkinter import Menu
-from tkinter import messagebox
-from tkinter import ttk
+from tkinter import messagebox,Menu,ttk
+from tkinter.font import Font
+
+import tkinter as tk
 from fieldFrame import FieldFrame
 
 from datetime import datetime
@@ -28,6 +29,7 @@ class VentanaUsuario(Tk):
         self.option_add("*tearOff",  False)
         self.geometry("1280x720")
         self.ventanaInicio = None
+        self.resizable(0,0)
         self.iconbitmap('./imagenes/icono.ico')
         self.widgetsActuales = []
         self.aeropuerto = Aeropuerto()
@@ -124,17 +126,81 @@ class VentanaUsuario(Tk):
             self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos])
         
         def pantallaEmpleados():
+            def limpiarFrame():
+                for widget in self.of.winfo_children():
+                    widget.destroy()
+            def verDatos():
+                limpiarFrame()
+                if len(self.lb.curselection())!=0:
+                    empleado=self.aeropuerto.buscarEmpleado(int(self.lb.get(self.lb.curselection()[0]).split()[1]))
+
+                    self.nl=Label(self.of,text=empleado.getNombre()+", "+str(empleado.getEdad())+" años",font=Font(family='Courier',size=60))
+                    self.nl.grid(row=0,column=0,padx=5,pady=5,sticky="w")
+                    
+                    self.cl=Label(self.of,text="Numero de cedula: "+str(empleado.getCedula()),font=Font(family='Courier',size=35))
+                    self.cl.grid(row=1,column=0,padx=5,pady=5,sticky="w")
+
+                    self.sl=Label(self.of,text="Sueldo actual: "+str(empleado.getSueldo()),font=Font(family='Courier',size=35))
+                    self.sl.grid(row=2,column=0,padx=5,pady=5,sticky="w")
+
+                    self.carl=Label(self.of,text="Cargo: "+str(empleado.getCargo()),font=Font(family='Courier',size=35))
+                    self.carl.grid(row=3,column=0,padx=5,pady=5,sticky="w")
+
+                    try:
+                        self.v1l=Label(self.of,text="Destino del vuelo asignado: "+str(empleado.getVuelo().getDestino()),font=Font(family='Courier',size=35))
+                        self.v2l=Label(self.of,text="Fecha: "+str(empleado.getVuelo().getFecha()),font=Font(family='Courier',size=35))
+                        self.v2l.grid(row=4,column=1,padx=5,pady=5,sticky="w")
+
+                        self.val=Label(self.of,text="Avión del vuelo: "+str(empleado.getVuelo().getAvion().getModelo()),font=Font(family='Courier',size=35))
+                        self.val.grid(row=5,column=0,padx=5,pady=5,sticky="w")
+
+                        peso=0
+                        for i in empleado.getVuelo().getPasajeros():
+                            try:
+                                pass
+                            except:
+                                pass
+                        self.vpal=Label(self.of,text="Peso actual: "+str(peso)+"/"+str(empleado.getVuelo()),font=Font(family='Courier',size=35))
+                        self.vpal.grid(row=5,column=0,padx=5,pady=5,sticky="w")
+                    except:
+                        self.v1l=Label(self.of,text="Este empleado aún no tiene un vuelo asignado",font=Font(family='Courier',size=35))
+                    self.v1l.grid(row=4,column=0,padx=5,pady=5,sticky="w")
+
+                    
+
             borrarElementos()
             self.lp=Label(self.fp,text="Gestor de empleados", font = ("Courier", 12),height=2, bg="gray80")
             self.lp.pack()
-            self.widgetsActuales.extend([self.lp])
+            self.ld = Label(self.fd, text = "En este apartado puede visualizar los datos de los empleados y gestionar los mismos", font = ("Courier", 10))
+            self.ld.pack()
+
+            self.scroll=Scrollbar(self.ventanaOpera,orient='vertical')
+
+            self.lb=Listbox(self.ventanaOpera,yscrollcommand=self.scroll.set,font='Courier',width=40,height=20)
+            self.lb.grid(row=0,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
+
+            self.scroll.configure(command=self.lb.yview)         
+            self.scroll.grid(column=4, row=0, sticky='NS')    
+
+            for i in self.aeropuerto.getEmpleados():
+                self.lb.insert(tk.END,"Cedula: "+str(i.getCedula())+" "*(15-len(str(i.getCedula()))) +"Nombre: "+i.getNombre())
+            
+            self.of=Frame(self.ventanaOpera)
+            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew')
+
+            self.datosButton=Button(self.ventanaOpera,text="Ver datos",command=verDatos)
+            self.datosButton.grid(row=1,padx=5,pady=5)
+
+            self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of])
         
         def pantallaCambiarAsiento():
             borrarElementos()
             self.lp = Label(self.fp,text= "Cambiar silla", font = ("Courier", 12),height=2, bg="gray80")
             self.lp.pack()
             self.ld = Label(self.fd, text = "En este apartado puede realizar el cambio de silla a un determinado pasajero", font = ("Courier", 10))
-            self.ld.pack()
+            self.ld.pack()            
+
+            
             self.widgetsActuales.extend([self.lp,self.ld])
 
         def pantallaCancelarVuelo():
@@ -179,7 +245,7 @@ class VentanaUsuario(Tk):
         self._barraMenu.add_cascade(label="Procesos y consultas", menu = self.procesosYConsultas)
         self.procesosYConsultas.add_command(label = "Funcionalidad 1", command = pantallaReservaDeVuelo)
         self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
-        self.procesosYConsultas.add_command(label = "Funcionalidad 3", command = pantallaEmpleados)
+        self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
         self.procesosYConsultas.add_command(label = "Funcionalidad 4", command = prueba)
         
         self.menuModificaciones = Menu(self.procesosYConsultas)

@@ -14,7 +14,6 @@ class Empleado(Persona):
     def setSueldo(self,sueldo):
         self._sueldo = sueldo
 	
-
     def getCargo(self):
         return self._cargo
 	
@@ -31,7 +30,6 @@ class Empleado(Persona):
     def setExperiencia(self, experiencia):
         self._experiencia = experiencia
 	
-
     def getExperiencia(self):
         return self._experiencia
 	

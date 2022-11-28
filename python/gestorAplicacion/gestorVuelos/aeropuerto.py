@@ -74,3 +74,8 @@ class Aeropuerto:
 
     def setDinero(self,dinero):
         self._dinero=dinero
+
+    def buscarEmpleado(self,id):
+        for i in self._empleados:
+            if i.getCedula()==id:
+                return i
