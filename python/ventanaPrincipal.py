@@ -562,7 +562,7 @@ class VentanaUsuario(Tk):
                     self.sala=Label(self.of,text="Sala de embarque: "+str(pasajero.getVuelo().getSalaEmbarque()),font=Font(family='Courier',size=35))
                     self.sala.grid(row=5,column=0,padx=5,pady=5,sticky="w")
 
-                    self.costol=Label(self.of,text="Costo: "+str(pasajero.getVuelo().getCosto()),font=Font(family='Courier',size=35))
+                    self.costol=Label(self.of,text="Costo: "+str(pasajero.getInversion()),font=Font(family='Courier',size=35))
                     self.costol.grid(row=6,column=0,padx=5,pady=5,sticky="w")
 
             def verAsientos():
