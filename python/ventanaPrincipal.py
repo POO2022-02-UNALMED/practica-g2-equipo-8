@@ -62,6 +62,10 @@ class VentanaUsuario(Tk):
             for i in self.widgetsActuales:
                 i.destroy()
             self.widgetsActuales = []
+            try:
+                del self.formulario
+            except:
+                pass
 
         # Pantallas
         def pantallaPrincipal():
@@ -163,8 +167,8 @@ class VentanaUsuario(Tk):
                     
             self.listaVuelos.bind("<<ComboboxSelected>>", seleccionVuelo)
 
-            self.asiento = Label(self.ventanaOpera, text="Formulario", font=("Courier", 10))
-            self.asiento.grid(ipadx=8, padx=8, row=2, column=0)
+            self.form = Label(self.ventanaOpera, text="Formulario", font=("Courier", 10))
+            self.form.grid(ipadx=8, padx=8, row=2, column=0)
             self.formulario = FieldFrame(self.ventanaOpera, "Datos personales", ["Nombre","Documento", "Edad", "Genero", "Equipajes", "Peso total"], None, None, None, pack=False)
             self.formulario.grid(ipadx=8, padx=8, row=2, column=1, sticky="w")
 
@@ -189,7 +193,7 @@ class VentanaUsuario(Tk):
             self.ingresar = Button(self.ventanaOpera, text="Reservar vuelo", command=reserva)
             self.ingresar.grid(ipadx=8, padx=8, ipady=8, pady=8, row=4, column=0, columnspan=2)
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos, self.vuelo, self.listaVuelos, self.formulario, self.asiento, self.listaAsientos, self.ingresar])
+            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos,self.form, self.vuelo, self.listaVuelos, self.formulario, self.asiento, self.listaAsientos, self.ingresar])
 
         def pantallaEmpleados():
             def limpiarFrame():
@@ -728,7 +732,6 @@ class VentanaUsuario(Tk):
 
             def cancelar():
                 limpiarFrame()
-                print(self.aeropuerto.getVuelos())
                 vuelo = None
                 #print('veamos',self.aeropuerto.getAviones())
                 #print('vuelos',self.aeropuerto.getVuelos())
@@ -737,61 +740,132 @@ class VentanaUsuario(Tk):
                     #print('vuelo', self.aeropuerto.getVuelos()[curr].getDestino())
                     #print('otra',self.aeropuerto.getAviones()[curr].getModelo())
                     avion = self.aeropuerto.buscarAvion(self.aeropuerto.getAviones()[curr].getModelo())
-                    print('hola',self.aeropuerto.getAviones()[curr].getModelo())
                     for i in self.aeropuerto.getVuelos():
                         if i.getAvion().getModelo() ==  self.aeropuerto.getAviones()[curr].getModelo():
                             vuelo = i
-                            print('well',vuelo)
-                    print('nice',vuelo)
+
                     #vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr].getSalaEmbarque(),self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),self.aeropuerto.getVuelos()[curr].getDestino())
                     #print('vuelo',vuelo.getDestino())
                     #print('avion',avion.getModelo())
-                    if vuelo != None:
-                        if self.aeropuerto.getAviones()[curr].getModelo() == vuelo.getAvion().getModelo():
-                            print('señor',vuelo.getDestino())
-                        else:
-                            print('sin vuelo')
+                    
                     desp = messagebox.askyesno(
                         message="¿Está seguro que desea retirar el " + self.aeropuerto.getAviones()[curr].getModelo() + "?", title="Cancelar")
                     if desp:
                         antesAvion = self.aeropuerto.getAviones()[curr].getModelo()
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
-                        print('macho',vuelo.getAvion().getModelo())
-                        print(self.aeropuerto.getAviones()[curr].getModelo())
-                        print(antesAvion)
+
                         if vuelo.getAvion().getModelo()== antesAvion:
                             pVuelo = messagebox.askyesno(
                                     message="¿Desea agregar un avion al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
                             if pVuelo:
-                                self.scrolla = Scrollbar(self.ventanaOpera, orient='vertical')
-
-                                self.lba = Listbox(self.ventanaOpera, yscrollcommand=self.scrolla.set, font='Courier', width=20, height=20)
-                                self.lba.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
-
-                                self.scrolla.configure(command=self.lba.yview)
-                                self.scrolla.grid(column=4, row=0, sticky='NS')
-
+                                pantallaEliminarAvion()
                                 
-                                for i in self.aeropuerto.getAviones():
-                                    self.lba.insert(tk.END, "Modelo: " + str(i.getModelo()))
-
-                                self.ofa = Frame(self.ventanaOpera)
-                                self.ofa.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
-
-                                self.crearA = Button(self.ventanaOpera, text="Comprar Avion", command=pantallaComprarAvion)
-                                self.crearA.grid(row=4, column=0, padx=5, pady=5, sticky="nsew", columnspan=4)
-                                self.widgetsActuales.extend([self.scrolla,self.lba,self.ofa,self.crearA])
-
-
+                                self.tl = Label(self.of, text="Ingrese los datos del nuevo avion",
+                                                font=Font(family='Courier', size=100))
+                                self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
+                    
+                                def check():
+                                    if self.suevalue.get():
+                                        self.suee.delete(0, tk.END)
+                                        self.suee.insert(0, 20)
+                                        self.suee.config(state='disabled')
+                                    else:
+                                        self.suee.config(state='normal')
+                                        self.suee.delete(0, tk.END)
+                                
+                                def ingreso():
+                                    fallo = False
+                                    try:
+                                        ExcepcionVacio.valorVacio(self.modelo_entry.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada Modelo está vacía, por favor completar.")
+                    
+                                    try:
+                                        ExcepcionVacio.valorVacio(self.pesomax_entry.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada Peso Max está vacía, por favor completar.")
+                                    
+                                    try:
+                                        ExcepcionVacio.valorVacio(self.valor_entry.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada Valor está vacía, por favor completar.")
+                                    
+                                    try:
+                                        ExcepcionVacio.valorVacio(self.suee.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada Asientos está vacía, por favor completar.")
+                    
+                                    try:
+                                        ExcepcionEntero.tipoInt(self.pesomax_entry.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada {self.pesomax_entry.get()} debe ser un número, por favor modificar.")
+                    
+                                    try:
+                                        ExcepcionEntero.tipoInt(self.valor_entry.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada {self.valor_entry.get()} debe ser un número, por favor modificar.")
+                    
+                                    try:
+                                        ExcepcionEntero.tipoInt(self.suee.get())
+                                    except:
+                                        fallo = True
+                                        messagebox.showwarning(title="Advertencia",
+                                                            message=f"La entrada {self.suee.get()} debe ser un número, por favor modificar.")
+                                    
+                                    if not fallo:
+                                        avion = Avion(self.modelo_entry.get(),int(self.pesomax_entry.get()),int(self.valor_entry.get()),int(self.suee.get()))
+                                        vuelo.setAvion(avion)
+                                        self.aeropuerto.transaccion(f"Compra de {avion.getModelo()}",-avion.getValor())
+                                        self.lb.insert(tk.END, "ID: " + str(avion.getId()) + " " * (
+                                            7 - len(str(avion.getId()))) + "Valor: " + str(avion.getValor()) + " " * (
+                                            8 - len(str(avion.getValor()))) + "Modelo: " + avion.getModelo())
+                                        pantallaEliminarAvion()
+                    
+                                self.nl = Label(self.of, text="Modelo:", font=Font(family='Courier', size=100))
+                                self.nl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
+                                self.modelo_entry = Entry(self.of, width=20)
+                                self.modelo_entry.grid(row=1, column=1, padx=0, pady=5, sticky="nsew")
+                    
+                                self.el = Label(self.of, text="Peso Max:", font=Font(family='Courier', size=100))
+                                self.el.grid(row=2, column=0, padx=0, pady=5, sticky="w")
+                                self.pesomax_entry = Entry(self.of, width=20)
+                                self.pesomax_entry.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
+                    
+                                self.ccl = Label(self.of, text="Valor:", font=Font(family='Courier', size=100))
+                                self.ccl.grid(row=3, column=0, padx=0, pady=5, sticky="w")
+                                self.valor_entry = Entry(self.of, width=20)
+                                self.valor_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
+                    
+                                self.suevalue = BooleanVar(self.of)
+                                self.suel = Label(self.of, text="Cantidad de asientos:", font=Font(family='Courier', size=100))
+                                self.suel.grid(row=4, column=0, padx=0, pady=5, sticky="w")
+                                self.suee = Entry(self.of, width=20)
+                                self.suee.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
+                                self.suec = ttk.Checkbutton(self.of, text="Asientos por defecto",
+                                                            variable=self.suevalue, command=check)
+                                self.suec.grid(row=4, column=2, padx=5, pady=5, sticky="nsew")
+                    
+                                self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=ingreso)
+                                self.ingresar.grid(row=5, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
+                    
                         else:
                            self.aeropuerto.cancelarAvion(avion)
                            self.lb.delete(curr)
-                        #print('bien',self.aeropuerto.getAviones())
-                        #print('vuelos_',self.aeropuerto.getVuelos())
 
-
-            self.cancelar = Button(self.ventanaOpera, text="Cancelar", command=cancelar)
+            self.cancelar = Button(self.ventanaOpera, text="Eliminar", command=cancelar)
             self.cancelar.grid(row=4, column=0, padx=5, pady=5, sticky="nsew", columnspan=4)
 
             self.widgetsActuales.extend([self.lp, self.ld, self.lb, self.scroll, self.of,self.cancelar])
@@ -843,7 +917,7 @@ class VentanaUsuario(Tk):
                     self.suee.config(state='normal')
                     self.suee.delete(0, tk.END)
             
-            def ingreso():
+            def ingresar():
                 fallo = False
                 try:
                     ExcepcionVacio.valorVacio(self.modelo_entry.get())
@@ -926,7 +1000,7 @@ class VentanaUsuario(Tk):
                                         variable=self.suevalue, command=check)
             self.suec.grid(row=4, column=2, padx=5, pady=5, sticky="nsew")
 
-            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=ingreso)
+            self.ingresar = Button(self.of, text="Crear nuevo avion", command=ingresar)
             self.ingresar.grid(row=5, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
 
             self.widgetsActuales.extend(
