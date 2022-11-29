@@ -285,7 +285,29 @@ class VentanaUsuario(Tk):
                     self.v1l.grid(row=5,column=0,padx=5,pady=5,sticky="w")
 
             def cambiarSaldo():
-                pass
+                limpiarFrame()
+                def cambioValor(op):
+                    if op=="+":
+                        empleado.setSueldo(empleado.getSueldo()+100)
+                    elif op=="-":
+                        empleado.setSueldo(empleado.getSueldo()-100)
+                    self.sueldo["text"]=empleado.getSueldo()
+
+                if len(self.lb.curselection())!=0:
+                    empleado=self.aeropuerto.buscarEmpleado(int(self.lb.get(self.lb.curselection()[0]).split()[1]))
+
+
+                    self.sl=Label(self.of,text="El sueldo de "+empleado.getNombre()+", que es "+empleado.getCargo()+" actualmente es de: ")
+                    self.sl.grid(row=0,column=0,sticky="nsew",columnspan=3)
+
+                    self.sueldo=Label(self.of,text=empleado.getSueldo(),font=Font(family="Courier",size=80))
+                    self.sueldo.grid(row=1,column=1,sticky="w",columnspan=2)
+                    
+                    self.restab=Button(self.of,text="-",command=lambda:cambioValor("-"))
+                    self.restab.grid(row=1,column=0,sticky="nsew")
+                    self.sumab=Button(self.of,text="+",command=lambda:cambioValor("+"))
+                    self.sumab.grid(row=1,column=2,sticky="nsew")
+
 
             borrarElementos()
             self.lp=Label(self.fp,text="Gestor de empleados", font = ("Courier", 12),height=2, bg="gray80")

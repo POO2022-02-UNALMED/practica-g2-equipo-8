@@ -24,7 +24,6 @@ class ExcepcionEntero(ExcepcionTipo):
             if len(valor)>0:
                 int(valor)
         except ValueError:
-            messagebox.showwarning(title="Advertencia", message=f"\n{valor} es un texto, por favor modificar a un numero entero.")
             raise ExcepcionFloat(valor)
 
 
@@ -38,11 +37,10 @@ class ExcepcionString(ExcepcionTipo):
 
     @classmethod
     def tipoString(cls,valor):
-        try:
+        if len(valor)>0:
             if (any(chr.isdigit() for chr in valor)):
                 raise ExcepcionString(valor)
-        except:
-            pass
+
         
 
 
