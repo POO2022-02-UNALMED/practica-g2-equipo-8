@@ -357,12 +357,26 @@ class VentanaUsuario(Tk):
             self.ld = Label(self.fd, text = "En este apartado puede cancelar un determinado vuelo", font = ("Courier", 10))
             self.ld.pack()
 
-            criteriosEliminarAvion=["ID"]
-            #self.ventanaOpera.pack_forget()
-            self.operaciones = FieldFrame(self.ventanaOpera,"Datos",criteriosEliminarAvion,"Valor",None,None,["int"])
-            self.operaciones.crearBotones(self.operaciones.procesoAceptar,prueba)
+            self.scroll=Scrollbar(self.ventanaOpera,orient='vertical')
 
-            self.widgetsActuales.extend([self.lp,self.ld,self.operaciones])
+            self.lb=Listbox(self.ventanaOpera,yscrollcommand=self.scroll.set,font='Courier',width=20,height=20)
+            self.lb.grid(row=0,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
+
+            self.scroll.configure(command=self.lb.yview)         
+            self.scroll.grid(column=4, row=0, sticky='NS')    
+
+            for i in self.aeropuerto.getVuelos():
+                self.lb.insert(tk.END,"Destino: "+str(i.getDestino()))
+
+            self.of=Frame(self.ventanaOpera)
+            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
+
+            criteriosEliminarAvion=["Destino"]
+            #self.ventanaOpera.pack_forget()
+            self.operaciones = FieldFrame(self.of,"Datos",criteriosEliminarAvion,"Valor",None,None)
+            self.operaciones.crearBotones(prueba,prueba)
+
+            self.widgetsActuales.extend([self.lp,self.ld,self.operaciones,self.lb,self.scroll,self.of])
         
         def pantallaEliminarAvion():
             borrarElementos()
@@ -370,7 +384,22 @@ class VentanaUsuario(Tk):
             self.lp.pack()
             self.ld = Label(self.fd, text = "En este apartado puede eliminar un avión con su respectivo ID", font = ("Courier", 10))
             self.ld.pack()
-            self.widgetsActuales.extend([self.lp,self.ld])
+
+            self.scroll=Scrollbar(self.ventanaOpera,orient='vertical')
+
+            self.lb=Listbox(self.ventanaOpera,yscrollcommand=self.scroll.set,font='Courier',width=20,height=20)
+            self.lb.grid(row=0,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
+
+            self.scroll.configure(command=self.lb.yview)         
+            self.scroll.grid(column=4, row=0, sticky='NS')    
+
+            for i in self.aeropuerto.getAviones():
+                self.lb.insert(tk.END,"Modelo: "+str(i.getModelo()))
+
+            self.of=Frame(self.ventanaOpera)
+            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
+
+            self.widgetsActuales.extend([self.lp,self.ld,self.lb,self.scroll,self.of])
         
         def pantallaComprarAvion():
             borrarElementos()

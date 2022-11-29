@@ -4,7 +4,7 @@ from excepciones.excepcionTipo import *
 
 class FieldFrame(Frame):
     
-    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado, tipo):
+    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado):
         super().__init__(ventana)
         self._tituloCriterios = tituloCriterios
         self._criterios = criterios
@@ -15,7 +15,6 @@ class FieldFrame(Frame):
         self.config(relief = "groove") 
         self.config(bd=20)
         self.config(borderwidth=2) 
-        self._tipo = tipo
 
         # Lista de elementos
         self._elementos = []
@@ -67,27 +66,4 @@ class FieldFrame(Frame):
         except ValueError:
             return False
 
-    def procesoAceptar(self):  #Mirar como hacerlo para varios entry a la vez
-        valorUsuario = self.entryValor.get()
-
-        if valorUsuario == "":
-                try:
-                    raise ExcepcionVacio(valorUsuario)
-                except ExcepcionVacio as e:
-                    messagebox.showwarning(title="Aviso",message=e)
-
-        for t in self._tipo:
-            if t == "int":
-                if valorUsuario.isdigit() == False:
-                    if self.isfloat(valorUsuario) == True:
-                        try:
-                            raise ExcepcionEnteroFloat(valorUsuario)
-                        except ExcepcionEnteroFloat as e:
-                            messagebox.showwarning(title="Aviso",message=e)
-                    else:
-                        if valorUsuario != "": 
-                            try:
-                                raise ExcepcionEnteroString(valorUsuario)
-                            except ExcepcionEnteroString as e:
-                                messagebox.showwarning(title="Aviso",message=e)               
-                
+    
