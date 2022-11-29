@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import messagebox, Menu, ttk
 from tkinter.font import Font
-from tkcalendar import DateEntry
 
 import tkinter as tk
 from fieldFrame import FieldFrame
@@ -1055,7 +1054,7 @@ class VentanaUsuario(Tk):
             self.l2 = Label(self.ventanaOpera, text='Hora')
             self.l4 = Label(self.ventanaOpera, text='Minutos')
             self.l3 = Label(self.ventanaOpera, text='Aviones disponibles')
-            self.e1 = DateEntry(self.ventanaOpera)
+            self.e1 = Entry(self.ventanaOpera)
             self.e2 = Entry(self.ventanaOpera)
             self.esub = Label(self.ventanaOpera, text=':')
             self.e3 = Entry(self.ventanaOpera)
@@ -1084,15 +1083,11 @@ class VentanaUsuario(Tk):
             self.of = Frame(self.ventanaOpera)
             self.of.grid(row=0, column=6, rowspan=4, sticky='nsew', padx=30, pady=30)
 
-            #self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
-            #self.datosButton.grid(row=4, columnspan=5, padx=5, pady=5, sticky="nsew")
-
-
             self.tl = Label(self.of, text="Ingrese los datos del nuevo vuelo",
                             font=Font(family='Courier', size=100))
             self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
 
-            self.sl = Label(self.of, text="Indetificador:", font=Font(family='Courier', size=100))
+            self.sl = Label(self.of, text="Identificador:", font=Font(family='Courier', size=100))
             self.sl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
             self.sc = ttk.Combobox(self.of, state="readonly", values=["Nacional", "Internacional"], width=20)
             self.sc.grid(row=1, column=1, padx=0, pady=5, sticky="nsew")
@@ -1111,12 +1106,6 @@ class VentanaUsuario(Tk):
             self.ccl.grid(row=4, column=0, padx=0, pady=5, sticky="w")
             self.valor_entry = Entry(self.of, width=20)
             self.valor_entry.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
-
-
-            self.suel = Label(self.of, text="Empleados:", font=Font(family='Courier', size=100))
-            self.suel.grid(row=5, column=0, padx=0, pady=5, sticky="w")
-            self.suee = Entry(self.of, width=20)
-            self.suee.grid(row=5, column=1, padx=0, pady=5, sticky="nsew")
 
             self.ingresar = Button(self.of, text="Ingresar nuevo vuelo", command=prueba)
             self.ingresar.grid(row=6, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
@@ -1141,7 +1130,7 @@ class VentanaUsuario(Tk):
 
         self._barraMenu.add_cascade(label="Procesos y consultas", menu = self.procesosYConsultas)
         self.procesosYConsultas.add_command(label = "Reserva de vuelo", command = pantallaReservaDeVuelo)
-        self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = pantallaProgramarVuelo)
+        self.procesosYConsultas.add_command(label = "Programar vuelo", command = pantallaProgramarVuelo)
         self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
         self.procesosYConsultas.add_command(label = "Gestionar finanzas", command = pantallaFinanzas)
 
