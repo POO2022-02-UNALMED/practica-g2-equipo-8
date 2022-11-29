@@ -104,3 +104,12 @@ class Aeropuerto:
                 except:
                     pass
                 self._empleados.remove(empleado)
+
+    def cancelarVuelo(self,vuelo):
+        for i in self._vuelos:
+            if i==vuelo:
+                try:
+                    vuelo.getAvion().remove(vuelo)
+                except:
+                    pass
+                self._vuelos.remove(vuelo)

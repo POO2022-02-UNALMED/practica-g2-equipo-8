@@ -483,6 +483,9 @@ class VentanaUsuario(Tk):
 
         def pantallaCancelarVuelo():
             borrarElementos()
+            def limpiarFrame():
+                for widget in self.of.winfo_children():
+                    widget.destroy()
             self.lp = Label(self.fp, text="Cancelar vuelo", font=("Courier", 12), height=2, bg="gray80")
             self.lp.pack()
             self.ld = Label(self.fd, text="En este apartado puede cancelar un determinado vuelo", font=("Courier", 10))
@@ -502,37 +505,21 @@ class VentanaUsuario(Tk):
             self.of = Frame(self.ventanaOpera)
             self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
 
-            def aceptar():
-                valorUsuario = FieldFrame.getValorEntry()
-                tipo = "string"
-                fallo = False
-                if valorUsuario == "":
-                    try:
-                        raise ExcepcionVacio(valorUsuario)
-                    except ExcepcionVacio as e:
-                        fallo = True
-                        messagebox.showwarning(title="Aviso", message=e)
-                if tipo == "string" and valorUsuario != "":
-                    if valorUsuario.isdigit() == True:
-                        try:
-                            raise ExcepcionString(valorUsuario)
-                        except ExcepcionString as e:
-                            fallo = True
-                            messagebox.showwarning(title="Aviso", message=e)
-                if not fallo:
-                    for vuelo in self.aeropuerto.getVuelos():
-                        if vuelo.getDestino() == valorUsuario:
-                            self.getVuelos.remove(vuelo)
-                        
-                    print(self.aeropuerto.getVuelos())
-                    pantallaCancelarVuelo()
+            def cancelar():
+                limpiarFrame()
+                if len(self.lb.curselection()) != 0:
+                    curr = self.lb.curselection()[0]
+                    vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr].getSalaEmbarque(),self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),self.lb.get(curr).split()[1])
+                    desp = messagebox.askyesno(
+                        message="¿Está seguro que desea cancelar el " + vuelo.getDestino() + "?", title="Cancelar")
+                    if desp:
+                        self.aeropuerto.cancelarVuelo(vuelo)
+                        self.lb.delete(curr)
 
-            criteriosEliminarAvion = ["Destino"]
-            # self.ventanaOpera.pack_forget()
-            self.operaciones = FieldFrame(self.of, "Datos", criteriosEliminarAvion, "Valor", None, None)
-            self.operaciones.crearBotones(aceptar, prueba)
+            self.cancelar = Button(self.ventanaOpera, text="Cancelar", command=cancelar)
+            self.cancelar.grid(row=4, column=0, padx=5, pady=5, sticky="nsew", columnspan=4)
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.operaciones, self.lb, self.scroll, self.of])
+            self.widgetsActuales.extend([self.lp, self.ld, self.lb, self.scroll, self.of,self.cancelar])
 
         def pantallaEliminarAvion():
             borrarElementos()
