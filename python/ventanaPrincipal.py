@@ -1148,19 +1148,21 @@ class VentanaUsuario(Tk):
             self.sala = Entry(self.of, width=20)
             self.sala.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
 
-
-
             def obtenerAvion():
                 global avionElegido
                 indice = self.lb.curselection()
                 idAvion = int(self.lb.get(indice).split("      Valor:")[0][4:])
                 for i in self.aeropuerto.getAviones():
                     if i.getId() == idAvion: avionElegido = i
-                fecha = self.e1.get() + " " + self.e2.get() + ":" + self.e3.get()
-                Vuelo(avionElegido, datetime.strptime(fecha,'%d/%m/%Y %H:%M'),self.destino.get(),int(self.costo.get()),self.sala.get())
-                self.conf = Label(self.of, text="El vuelo ha sido agendado!", font=Font(family='Courier', size=100))
-                self.conf.grid(row=7, column=0, padx=0, pady=5)
-                self.widgetsActuales.append(self.conf)
+                try:
+                    fecha = self.e1.get() + " " + self.e2.get() + ":" + self.e3.get()
+                    Vuelo(avionElegido, datetime.strptime(fecha,'%d/%m/%Y %H:%M'),self.destino.get(),int(self.costo.get()),self.sala.get())
+                    self.conf = Label(self.of, text="El vuelo ha sido agendado!", font=Font(family='Courier', size=100))
+                    self.conf.grid(row=7, column=0, padx=0, pady=5)
+                    self.widgetsActuales.append(self.conf)
+                except ExcepcionTipo:
+                    messagebox.showwarning(title="Advertencia",
+                                        message=f"Los tipos de datos requeridos no concuerdan, revise el formato de fecha.")
 
             self.ingresar = Button(self.of, text="Ingresar nuevo vuelo", command=obtenerAvion)
             self.ingresar.grid(row=6, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
