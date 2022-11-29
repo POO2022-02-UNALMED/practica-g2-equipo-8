@@ -338,7 +338,7 @@ class VentanaUsuario(Tk):
             self.cambiarSaldo=Button(self.ventanaOpera,text="Cambiar saldo",command=cambiarSaldo)
             self.cambiarSaldo.grid(row=2,column=0,padx=5,pady=5)
 
-            self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of])
+            self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of,self.cambiarSaldo,self.nuevoEmpleadoButton])
         
         def pantallaCambiarAsiento():
             borrarElementos()
