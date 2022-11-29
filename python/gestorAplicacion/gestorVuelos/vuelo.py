@@ -60,11 +60,11 @@ class Vuelo:
     def tiquete(self,pasajero):
        tique = str("\n" + "Ha sido registrado exitosamente" + "\n" + "\n" + "------------------------------------\n"
 				+ "             Tiquete " + "\n" + "------------------------------------\n"
-				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + self._fecha + "\n" + "Vuelo: " + self.getId()
-				+ "\n" + "Sala de embarque: " + pasajero.getVuelo().getSalaEmbarque() + "\n" + "Clase: "
-				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + pasajero.getAsiento().getNumero() + "\n"
+				+ "Nombre Pasajero: " + pasajero.getNombre() + "\n" + "Fecha: " + str(self._fecha) + "\n" + "Vuelo: " + str(self.getId())
+				+ "\n" + "Sala de embarque: " + str(pasajero.getVuelo().getSalaEmbarque()) + "\n" + "Clase: "
+				+ pasajero.getAsiento().getClase() + "\n" + "Num Silla: " + str(pasajero.getAsiento().getNumero()) + "\n"
 				+ "Origen: " + self._origen + "\n" + "Destino: " + self.getDestino() + "\n" + "Precio Total: "
-				+ pasajero.getInversion() + "\n" + "------------------------------------\n")
+				+ str(pasajero.getInversion()) + "\n" + "------------------------------------\n")
        return tique
 
     def getAvion(self):

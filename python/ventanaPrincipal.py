@@ -486,13 +486,85 @@ class VentanaUsuario(Tk):
 
         def pantallaCambiarAsiento():
             borrarElementos()
+            def limpiarFrame():
+                for widget in self.of.winfo_children():
+                    widget.destroy()
             self.lp = Label(self.fp,text= "Cambiar silla", font = ("Courier", 12),height=2, bg="gray80")
             self.lp.pack()
             self.ld = Label(self.fd, text = "En este apartado puede realizar el cambio de silla a un determinado pasajero", font = ("Courier", 10))
             self.ld.pack()            
 
-            
-            self.widgetsActuales.extend([self.lp,self.ld])
+            self.scroll=Scrollbar(self.ventanaOpera,orient='vertical')           
+
+            self.lb=Listbox(self.ventanaOpera,yscrollcommand=self.scroll.set,font='Courier',width=40,height=20)
+            self.lb.grid(row=0,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
+
+            self.scroll.configure(command=self.lb.yview)         
+            self.scroll.grid(column=4, row=0, sticky='NS')    
+
+            for i in self.aeropuerto.getPasajeros():
+                self.lb.insert(tk.END,"Cedula: "+str(i.getCedula())+" "*(15-len(str(i.getCedula()))) +"Nombre: "+i.getNombre())
+
+            self.of=Frame(self.ventanaOpera)
+            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)          
+
+            def verDatos():
+                limpiarFrame()
+                global pasajero
+                if len(self.lb.curselection())!=0:
+
+                    pasajero=self.aeropuerto.buscarPasajero(int(self.lb.get(self.lb.curselection()[0]).split()[1]))
+
+                    self.cl=Label(self.of,text="Numero de cedula: "+str(pasajero.getCedula()),font=Font(family='Courier',size=35))
+                    self.cl.grid(row=1,column=0,padx=5,pady=5,sticky="w")
+
+                    self.sl=Label(self.of,text="Silla actual: "+str(pasajero.getAsiento().getNumero()),font=Font(family='Courier',size=35))
+                    self.sl.grid(row=2,column=0,padx=5,pady=5,sticky="w")
+
+            def verAsientos():
+                limpiarFrame()
+                self.scrollpa=Scrollbar(self.ventanaOpera,orient='vertical')           
+
+                self.lp=Listbox(self.ventanaOpera,yscrollcommand=self.scroll.set,font='Courier',width=40,height=20)
+                self.lp.grid(row=0,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
+
+                self.scrollpa.configure(command=self.lb.yview)         
+                self.scrollpa.grid(column=4, row=0, sticky='NS')    
+
+                for i in pasajero.getVuelo().getAvion().getAsientos():
+                    self.lp.insert(tk.END,"Número: "+str(i.getNumero())+" "*(15-len(str(i.getNumero()))) +"Clase: "+i.getClase())
+
+                self.ofp=Frame(self.ventanaOpera)
+                self.ofp.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
+
+                def cambiar():
+                    if len(self.lp.curselection())!=0:
+                        asiento=pasajero.getVuelo().getAvion().buscarAsiento(int(self.lp.get(self.lp.curselection()[0]).split()[1]))
+        
+                        pasajero.setAsiento(asiento)
+                        self.dl=Label(self.ofp,text="Numero de la silla: "+str(asiento.getNumero()),font=Font(family='Courier',size=35))
+                        self.dl.grid(row=1,column=0,padx=5,pady=5,sticky="w")
+
+                        self.bl=Label(self.ofp,text="Clase: "+str(asiento.getClase()),font=Font(family='Courier',size=35))
+                        self.bl.grid(row=2,column=0,padx=5,pady=5,sticky="w")
+
+                        self.tiquete=Label(self.ofp,text=pasajero.getVuelo().tiquete(pasajero),font=Font(family='Courier',size=20))
+                        self.tiquete.grid(row=3,column=9,padx=5,pady=5,sticky="w")
+
+                        self.widgetsActuales.extend([self.dl,self.bl,self.tiquete])
+
+                self.cambiarButton = Button(self.ventanaOpera,text="Cambiar",command=cambiar)
+                self.cambiarButton.grid(row=1,column=3,padx=5,pady=5)
+                self.widgetsActuales.extend([self.lp,self.scrollpa,self.ofp,self.cambiarButton])
+
+
+            self.datosButton=Button(self.ventanaOpera,text="Ver datos",command=verDatos)
+            self.datosButton.grid(row=1,padx=5,pady=5)
+
+            self.asientosDisponibles=Button(self.ventanaOpera,text="Asientos disponibles",command=verAsientos)
+            self.asientosDisponibles.grid(row=1,column=2,padx=5,pady=5)
+
+            self.widgetsActuales.extend([self.lp,self.ld,self.lb,self.scroll,self.of,self.datosButton,self.asientosDisponibles])
 
         def pantallaCancelarVuelo():
             borrarElementos()
