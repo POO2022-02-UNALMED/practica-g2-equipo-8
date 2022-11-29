@@ -330,13 +330,13 @@ class VentanaUsuario(Tk):
             self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
             self.datosButton=Button(self.ventanaOpera,text="Ver datos",command=verDatos)
-            self.datosButton.grid(row=1,padx=5,pady=5)
+            self.datosButton.grid(row=1,columnspan=4,padx=5,pady=5,sticky="nsew")
 
             self.nuevoEmpleadoButton=Button(self.ventanaOpera,text="Crear nuevo empleado",command=nuevoEmpleado)
-            self.nuevoEmpleadoButton.grid(row=1,column=2,padx=5,pady=5)
+            self.nuevoEmpleadoButton.grid(row=2,column=0,padx=5,pady=5)
 
             self.cambiarSaldo=Button(self.ventanaOpera,text="Cambiar saldo",command=cambiarSaldo)
-            self.cambiarSaldo.grid(row=2,column=0,padx=5,pady=5)
+            self.cambiarSaldo.grid(row=2,column=1,padx=5,pady=5)
 
             self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of,self.cambiarSaldo,self.nuevoEmpleadoButton])
         
