@@ -34,7 +34,7 @@ class Vuelo:
         pesoEquipajePasajero = 0
         for equipaje in pasajero.getEquipajes():
             pesoEquipajePasajero += equipaje.getPeso()
-        asientoElegido = self._avion.getAsientos().get(nroAsiento-1)
+        asientoElegido = self._avion.getAsientos()[nroAsiento]
 
         if self._pesoActual + pesoEquipajePasajero < self._avion.getPesoMaximo() and len(self._pasajeros) < len(self._avion.getAsientos()) and not(asientoElegido.isOcupado()):
             self._pesoActual += pesoEquipajePasajero

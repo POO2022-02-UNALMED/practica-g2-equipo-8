@@ -1,7 +1,7 @@
 class Equipaje():
-    def __init__(self,peso,propietario):
+    def __init__(self,peso):
         self._peso=peso
-        self._propietario=propietario
+        self._propietario=None
 
     def getPeso(self):
         return self._peso

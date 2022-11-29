@@ -21,6 +21,8 @@ from gestorAplicacion.gestorHumana.persona import Persona
 from baseDatos.deserializador import deserializar
 from baseDatos.serializador import serializar
 
+from excepciones.excepcionTipo import *
+
 class VentanaUsuario(Tk):
     VSabierta = False
     def __init__(self):
@@ -129,9 +131,131 @@ class VentanaUsuario(Tk):
             def limpiarFrame():
                 for widget in self.of.winfo_children():
                     widget.destroy()
+
+            def nuevoEmpleado():
+                limpiarFrame()
+                def checkbox_clicked():
+                    if self.suevalue.get():
+                        self.suee.delete(0,tk.END)
+                        self.suee.insert(0,Cargos.buscarCargo(self.cc.get()).getSueldoBase())
+                        self.cc.config(state='disable')
+                        self.suee.config(state='disabled')
+                    else:
+                        self.cc.config(state='normal')
+                        self.suee.config(state='normal')
+                        self.suee.delete(0,tk.END)
+                def ingresarNuevoEmpleado():
+                    fallo=False
+                    try:            
+                        ExcepcionString.tipoString(self.ne.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada {self.ne.get()} contiene al menos un número, debería ser completamente texto, por favor modificar.")
+
+                    try:            
+                        ExcepcionEntero.tipoInt(self.ee.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada {self.ee.get()} debe ser un número, por favor modificar.")
+
+                    try:            
+                        ExcepcionEntero.tipoInt(self.cce.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada {self.cce.get()} debe ser un número, por favor modificar.")
+
+                    try:            
+                        ExcepcionEntero.tipoInt(self.suee.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada {self.suee.get()} debe ser un número, por favor modificar.")
+
+                    try:
+                        ExcepcionVacio.valorVacio(self.ne.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada Nombre está vacía, por favor completarla.")
+                    
+                    try:
+                        ExcepcionVacio.valorVacio(self.ee.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada Edad está vacía, por favor completarla.")
+
+                    try:
+                        ExcepcionVacio.valorVacio(self.cce.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada Cedula está vacía, por favor completarla.")
+
+                    try:
+                        ExcepcionVacio.valorVacio(self.cc.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada Cargo está vacía, por favor completarla.")
+
+                    try:
+                        ExcepcionVacio.valorVacio(self.sc.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada Sexo está vacía, por favor completarla.")
+                    
+                    try:
+                        ExcepcionVacio.valorVacio(self.suee.get())
+                    except:
+                        fallo=True
+                        messagebox.showwarning(title="Advertencia", message=f"La entrada Sueldo está vacía, por favor completarla.")
+                    
+                    if not fallo:
+                        e=Empleado(self.ne.get(),int(self.cce.get()),int(self.ee.get()),self.sc.get(),int(self.suee.get()),self.cc.get())
+                        self.lb.insert(tk.END,"Cedula: "+str(e.getCedula())+" "*(15-len(str(e.getCedula()))) +"Nombre: "+e.getNombre())
+                        self.lb.selection_set(tk.END)
+                        verDatos()
+
+                self.tl=Label(self.of,text="Ingrese los datos del nuevo empleado",font=Font(family='Courier',size=100))
+                self.tl.grid(row=0,column=0,padx=0,pady=5,sticky="w",columnspan=2)
+
+                self.nl=Label(self.of,text="Nombre:",font=Font(family='Courier',size=100))
+                self.nl.grid(row=1,column=0,padx=0,pady=5,sticky="w")
+                self.ne=Entry(self.of,width=20)
+                self.ne.grid(row=1,column=1,padx=0,pady=5,sticky="nsew")
+
+                self.el=Label(self.of,text="Edad:",font=Font(family='Courier',size=100))
+                self.el.grid(row=2,column=0,padx=0,pady=5,sticky="w")
+                self.ee=Entry(self.of,width=20)
+                self.ee.grid(row=2,column=1,padx=0,pady=5,sticky="nsew")
+
+                self.ccl=Label(self.of,text="Cedula:",font=Font(family='Courier',size=100))
+                self.ccl.grid(row=3,column=0,padx=0,pady=5,sticky="w")
+                self.cce=Entry(self.of,width=20)
+                self.cce.grid(row=3,column=1,padx=0,pady=5,sticky="nsew")
+
+                self.cl=Label(self.of,text="Cargo:",font=Font(family='Courier',size=100))
+                self.cl.grid(row=4,column=0,padx=0,pady=5,sticky="w")
+                self.cc=ttk.Combobox(self.of,state="readonly",values=Cargos.getTodosLosCargos(),width=20)
+                self.cc.grid(row=4,column=1,padx=0,pady=5,sticky="nsew")
+
+                self.sl=Label(self.of,text="Sexo:",font=Font(family='Courier',size=100))
+                self.sl.grid(row=5,column=0,padx=0,pady=5,sticky="w")
+                self.sc=ttk.Combobox(self.of,state="readonly",values=["M","F"],width=20)
+                self.sc.grid(row=5,column=1,padx=0,pady=5,sticky="nsew")
+
+                self.suevalue=BooleanVar(self.of)
+                self.suel=Label(self.of,text="Sueldo:",font=Font(family='Courier',size=100))
+                self.suel.grid(row=6,column=0,padx=0,pady=5,sticky="w")
+                self.suee=Entry(self.of,width=20)
+                self.suee.grid(row=6,column=1,padx=0,pady=5,sticky="nsew")
+                self.suec=ttk.Checkbutton(self.of,text="Asignar valor predeterminado por el cargo",variable=self.suevalue,command=checkbox_clicked)
+                self.suec.grid(row=6,column=2,padx=5,pady=5,sticky="nsew")
+
+                self.ingresar=Button(self.of,text="Ingresar nuevo empleado",command=ingresarNuevoEmpleado)
+                self.ingresar.grid(row=7,column=0,padx=0,pady=5,sticky="nsew",columnspan=3)
+
+
             def verDatos():
                 limpiarFrame()
                 if len(self.lb.curselection())!=0:
+
                     empleado=self.aeropuerto.buscarEmpleado(int(self.lb.get(self.lb.curselection()[0]).split()[1]))
 
                     self.nl=Label(self.of,text=empleado.getNombre()+", "+str(empleado.getEdad())+" años",font=Font(family='Courier',size=60))
@@ -149,24 +273,19 @@ class VentanaUsuario(Tk):
                     try:
                         self.v1l=Label(self.of,text="Destino del vuelo asignado: "+str(empleado.getVuelo().getDestino()),font=Font(family='Courier',size=35))
                         self.v2l=Label(self.of,text="Fecha: "+str(empleado.getVuelo().getFecha()),font=Font(family='Courier',size=35))
-                        self.v2l.grid(row=4,column=1,padx=5,pady=5,sticky="w")
+                        self.v2l.grid(row=5,column=1,padx=5,pady=5,sticky="w")
 
                         self.val=Label(self.of,text="Avión del vuelo: "+str(empleado.getVuelo().getAvion().getModelo()),font=Font(family='Courier',size=35))
-                        self.val.grid(row=5,column=0,padx=5,pady=5,sticky="w")
+                        self.val.grid(row=6,column=0,padx=5,pady=5,sticky="w")
 
-                        peso=0
-                        for i in empleado.getVuelo().getPasajeros():
-                            try:
-                                pass
-                            except:
-                                pass
-                        self.vpal=Label(self.of,text="Peso actual: "+str(peso)+"/"+str(empleado.getVuelo()),font=Font(family='Courier',size=35))
-                        self.vpal.grid(row=5,column=0,padx=5,pady=5,sticky="w")
+                        self.vpal=Label(self.of,text="Peso actual: "+str(empleado.getVuelo().getPesoActual())+"/"+str(empleado.getVuelo().getAvion().getPesoMaximo()),font=Font(family='Courier',size=35))
+                        self.vpal.grid(row=7,column=0,padx=5,pady=5,sticky="w")
                     except:
                         self.v1l=Label(self.of,text="Este empleado aún no tiene un vuelo asignado",font=Font(family='Courier',size=35))
-                    self.v1l.grid(row=4,column=0,padx=5,pady=5,sticky="w")
+                    self.v1l.grid(row=5,column=0,padx=5,pady=5,sticky="w")
 
-                    
+            def cambiarSaldo():
+                pass
 
             borrarElementos()
             self.lp=Label(self.fp,text="Gestor de empleados", font = ("Courier", 12),height=2, bg="gray80")
@@ -186,10 +305,16 @@ class VentanaUsuario(Tk):
                 self.lb.insert(tk.END,"Cedula: "+str(i.getCedula())+" "*(15-len(str(i.getCedula()))) +"Nombre: "+i.getNombre())
             
             self.of=Frame(self.ventanaOpera)
-            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew')
+            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
             self.datosButton=Button(self.ventanaOpera,text="Ver datos",command=verDatos)
             self.datosButton.grid(row=1,padx=5,pady=5)
+
+            self.nuevoEmpleadoButton=Button(self.ventanaOpera,text="Crear nuevo empleado",command=nuevoEmpleado)
+            self.nuevoEmpleadoButton.grid(row=1,column=2,padx=5,pady=5)
+
+            self.cambiarSaldo=Button(self.ventanaOpera,text="Cambiar saldo",command=cambiarSaldo)
+            self.cambiarSaldo.grid(row=2,column=0,padx=5,pady=5)
 
             self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of])
         
@@ -279,8 +404,8 @@ class VentanaUsuario(Tk):
     def valoresIniciales(self):
 
         self.aeropuerto.setDinero(10000000)
-
-        vuelo1=Vuelo(Avion("XYZ",100,50000),datetime(2022,11,30,10,0,0),"Cancun",1500,"A1")
+        a1=Avion("XYZ",100,50000)
+        vuelo1=Vuelo(a1,datetime(2022,11,30,10,0,0),"Cancun",1500,"A1")
         vuelo2=Vuelo(Avion("YY3X",150,75000),datetime(2022,12,5,10,0,0),"Madrid",5500,"A2")
         vuelo3=Vuelo(Avion("XCF",75,25000),datetime(2022,12,5,10,0,0),"Madrid",5500,"A2")
         e1=Empleado("Juan",12345,30,"M",2300,Cargos.PILOTO.getCargo())
@@ -320,18 +445,22 @@ class VentanaUsuario(Tk):
         p11=Pasajero("Julian",764521,65,"M")
         p12=Pasajero("Julio",7868754,35,"M")
 
-        p1.setVuelo(vuelo1)
-        p2.setVuelo(vuelo1)
-        p3.setVuelo(vuelo1)
-        p4.setVuelo(vuelo1)
-        p5.setVuelo(vuelo2)
-        p6.setVuelo(vuelo2)
-        p7.setVuelo(vuelo2)
-        p8.setVuelo(vuelo2)
-        p9.setVuelo(vuelo3)
-        p10.setVuelo(vuelo3)
-        p11.setVuelo(vuelo3)
-        p12.setVuelo(vuelo3)
+        for i in self.aeropuerto.getPasajeros():
+            i.addEquipaje(Equipaje(5))
+
+        vuelo1.agregarPasajero(p1,1)
+        vuelo1.agregarPasajero(p2,2)
+        vuelo1.agregarPasajero(p3,3)
+        vuelo1.agregarPasajero(p4,4)
+        vuelo2.agregarPasajero(p5,1)
+        vuelo2.agregarPasajero(p6,2)
+        vuelo2.agregarPasajero(p7,3)
+        vuelo2.agregarPasajero(p8,4)
+        vuelo3.agregarPasajero(p9,1)
+        vuelo3.agregarPasajero(p10,2)
+        vuelo3.agregarPasajero(p11,3)
+        vuelo3.agregarPasajero(p12,4)
+  
 
     def salir(self):
         self.__class__.VSabierta = False

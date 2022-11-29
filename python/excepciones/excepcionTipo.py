@@ -1,4 +1,5 @@
 from excepciones.errorAplicacion import ErrorAplicacion
+from tkinter import messagebox
 
 class ExcepcionTipo(ErrorAplicacion):
     def __init__(self, error):
@@ -7,17 +8,43 @@ class ExcepcionTipo(ErrorAplicacion):
 class ExcepcionVacio(ExcepcionTipo):
     def __init__(self,entradas):
          super().__init__(f"\nFalta llenar entradas: {entradas} \nPor favor ingreselas e intente de nuevo.")
+    
+    @classmethod
+    def valorVacio(cls,valor):
+        if valor=="" or valor is None or len(str(valor))==0:
+            raise ExcepcionVacio(valor)
 
-class ExcepcionEnteroString(ExcepcionTipo):
+class ExcepcionEntero(ExcepcionTipo):
     def __init__(self,valor):
-        super().__init__(f"\n{valor} es un texto, por favor modificar a un numero entero." )
+        super().__init__(f"\n{valor} es un texto, por favor modificar a un numero entero.")
 
-class ExcepcionEnteroFloat(ExcepcionTipo):
-    def __init__(self,valor):
-        super().__init__(f"\n{valor} no válido, por favor modificar a un entero.")
+    @classmethod
+    def tipoInt(cls,valor):
+        try:
+            if len(valor)>0:
+                int(valor)
+        except ValueError:
+            messagebox.showwarning(title="Advertencia", message=f"\n{valor} es un texto, por favor modificar a un numero entero.")
+            raise ExcepcionFloat(valor)
 
-class ExcepcionStringNumero(ExcepcionTipo):
+
+class ExcepcionFloat(ExcepcionTipo):
     def __init__(self,valor):
-        super().__init__(f"la entrada {valor} es un número, debería ser texto, por favor modificar.")
+        super().__init__(f"\n{valor} no válido, por favor modificar a un float.")
+
+class ExcepcionString(ExcepcionTipo):
+    def __init__(self,valor):
+        super().__init__(f"la entrada {valor} contiene al menos un número, debería ser completamente texto, por favor modificar.")
+
+    @classmethod
+    def tipoString(cls,valor):
+        try:
+            if (any(chr.isdigit() for chr in valor)):
+                raise ExcepcionString(valor)
+        except:
+            pass
+        
+
+
 
 

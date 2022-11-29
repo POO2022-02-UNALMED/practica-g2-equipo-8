@@ -15,3 +15,16 @@ class Cargos(enum.Enum):
     
     def getSueldoBase(self):
         return self._sueldoBase
+
+    @staticmethod
+    def getTodosLosCargos():
+        l=[]
+        for i in Cargos:
+            l.append(i.getCargo())
+        return l
+    @classmethod
+    def buscarCargo(cls,cargo):
+        for i in cls:
+            if i.getCargo()==cargo:
+                return i
+

@@ -1,13 +1,13 @@
 import random
-from .asiento import *
+from .asiento import Asiento
 class Avion():
     _aeropuerto=None
     def __init__(self,modelo,pesoMaximo,valor,cantidadAsientos=0):
         self._asientos=[]
         if cantidadAsientos==0:
-            self._asientos=self.genAsientos(15,20)
+            self.genAsientos(15,20)
         else:
-            self._asientos=self.genAsientos(cantidadAsientos,cantidadAsientos)
+            self.genAsientos(cantidadAsientos,cantidadAsientos)
 
         self._id=Avion.nuevoID()
         self._modelo=modelo

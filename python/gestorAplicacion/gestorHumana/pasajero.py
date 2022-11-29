@@ -27,11 +27,12 @@ class Pasajero(Persona):
         self._vuelo=vuelo
         self._vuelo.addPasajero(self)
 
-    def getEquipaje(self):
-        return self._equipaje
+    def getEquipajes(self):
+        return self._equipajes
 
     def addEquipaje(self,equipaje):
         self._equipajes.append(equipaje)
+        equipaje.setPropietario(self)
 
     def setEquipaje(self,equipaje):
         self._equipaje=equipaje
