@@ -521,6 +521,18 @@ class VentanaUsuario(Tk):
                     self.sl=Label(self.of,text="Silla actual: "+str(pasajero.getAsiento().getNumero()),font=Font(family='Courier',size=35))
                     self.sl.grid(row=2,column=0,padx=5,pady=5,sticky="w")
 
+                    self.clasel=Label(self.of,text="Clase: "+str(pasajero.getAsiento().getClase()),font=Font(family='Courier',size=35))
+                    self.clasel.grid(row=3,column=0,padx=5,pady=5,sticky="w")
+
+                    self.vl=Label(self.of,text="Destino: "+str(pasajero.getVuelo().getDestino()),font=Font(family='Courier',size=35))
+                    self.vl.grid(row=4,column=0,padx=5,pady=5,sticky="w")
+
+                    self.sala=Label(self.of,text="Sala de embarque: "+str(pasajero.getVuelo().getSalaEmbarque()),font=Font(family='Courier',size=35))
+                    self.sala.grid(row=5,column=0,padx=5,pady=5,sticky="w")
+
+                    self.costol=Label(self.of,text="Costo: "+str(pasajero.getVuelo().getCosto()),font=Font(family='Courier',size=35))
+                    self.costol.grid(row=6,column=0,padx=5,pady=5,sticky="w")
+
             def verAsientos():
                 limpiarFrame()
                 self.scrollpa=Scrollbar(self.ventanaOpera,orient='vertical')           
@@ -532,26 +544,38 @@ class VentanaUsuario(Tk):
                 self.scrollpa.grid(column=4, row=0, sticky='NS')    
 
                 for i in pasajero.getVuelo().getAvion().getAsientos():
-                    self.lp.insert(tk.END,"Número: "+str(i.getNumero())+" "*(15-len(str(i.getNumero()))) +"Clase: "+i.getClase())
+                    self.lp.insert(tk.END,"Número: "+str(i.getNumero())+" "*(10-len(str(i.getNumero()))) +"Clase: "+i.getClase())
 
                 self.ofp=Frame(self.ventanaOpera)
                 self.ofp.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
                 def cambiar():
+                    valorInicial = pasajero.getInversion()
                     if len(self.lp.curselection())!=0:
                         asiento=pasajero.getVuelo().getAvion().buscarAsiento(int(self.lp.get(self.lp.curselection()[0]).split()[1]))
         
                         pasajero.setAsiento(asiento)
-                        self.dl=Label(self.ofp,text="Numero de la silla: "+str(asiento.getNumero()),font=Font(family='Courier',size=35))
-                        self.dl.grid(row=1,column=0,padx=5,pady=5,sticky="w")
 
-                        self.bl=Label(self.ofp,text="Clase: "+str(asiento.getClase()),font=Font(family='Courier',size=35))
-                        self.bl.grid(row=2,column=0,padx=5,pady=5,sticky="w")
+                        if asiento.getClase() == "Primera clase":
+                            pasajero.setInversion(3*pasajero.getVuelo().getCosto())
+                        elif asiento.getClase() == "Ejecutiva":
+                            pasajero.setInversion(2*pasajero.getVuelo().getCosto())
+                        else:
+                            pasajero.setInversion(pasajero.getVuelo().getCosto())
 
                         self.tiquete=Label(self.ofp,text=pasajero.getVuelo().tiquete(pasajero),font=Font(family='Courier',size=20))
                         self.tiquete.grid(row=3,column=9,padx=5,pady=5,sticky="w")
 
-                        self.widgetsActuales.extend([self.dl,self.bl,self.tiquete])
+                        if valorInicial < pasajero.getInversion():
+                            self.ex=Label(self.ofp,text="Por favor pagar un excedente de: "+str(pasajero.getInversion()- valorInicial),font=Font(family='Courier',size=35))
+                            self.ex.grid(row=8,column=9,padx=5,pady=5,sticky="w")
+                            self.aeropuerto.transaccion("Excedente cambio de asiento",pasajero.getInversion()-valorInicial)
+                        else:
+                            self.de=Label(self.ofp,text="Devolución: $ "+str(valorInicial - pasajero.getInversion()),font=Font(family='Courier',size=35))
+                            self.de.grid(row=8,column=9,padx=5,pady=5,sticky="w")
+                            self.aeropuerto.transaccion("Devolución cambio de asiento",valorInicial-pasajero.getInversion())
+
+                        self.widgetsActuales.extend([self.tiquete])
 
                 self.cambiarButton = Button(self.ventanaOpera,text="Cambiar",command=cambiar)
                 self.cambiarButton.grid(row=1,column=3,padx=5,pady=5)
