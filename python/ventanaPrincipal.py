@@ -146,12 +146,12 @@ class VentanaUsuario(Tk):
                         self.suee.delete(0,tk.END)
                 def ingresarNuevoEmpleado():
                     fallo=False
-                    try:            
+                    try:
                         ExcepcionString.tipoString(self.ne.get())
                     except:
                         fallo=True
                         messagebox.showwarning(title="Advertencia", message=f"La entrada {self.ne.get()} contiene al menos un número, debería ser completamente texto, por favor modificar.")
-
+                    
                     try:            
                         ExcepcionEntero.tipoInt(self.ee.get())
                     except:
@@ -307,7 +307,78 @@ class VentanaUsuario(Tk):
                     self.restab.grid(row=1,column=0,sticky="nsew")
                     self.sumab=Button(self.of,text="+",command=lambda:cambioValor("+"))
                     self.sumab.grid(row=1,column=2,sticky="nsew")
+                
+            def despedir():
+                limpiarFrame()
+                if len(self.lb.curselection())!=0:
+                    curr=self.lb.curselection()[0]
+                    empleado=self.aeropuerto.buscarEmpleado(int(self.lb.get(curr).split()[1]))
+                    desp=messagebox.askyesno(message="¿Está seguro que desea despedir a "+empleado.getNombre()+"?", title="Despedir")
+                    if desp:
+                        self.aeropuerto.despedirEmpleado(empleado)
+                        self.lb.delete(curr)
 
+            def cambiarCargo():
+                limpiarFrame()
+                def cambio():
+                    if len(self.cargos.curselection())!=0:
+                        
+                        empleado.setCargo(self.cargos.get(self.cargos.curselection()[0]))
+                        self.lb.selection_set(curr)
+                        cambiarCargo()
+                        
+                if len(self.lb.curselection())!=0:
+                    curr=self.lb.curselection()[0]
+                    empleado=self.aeropuerto.buscarEmpleado(int(self.lb.get(self.lb.curselection()[0]).split()[1]))
+                    self.carg=Label(self.of,text="El cargo actual de "+empleado.getNombre()+" es "+str(empleado.getCargo()))
+                    self.carg.grid(row=0,column=0,sticky="nsew")
+
+                    self.cargos=Listbox(self.of,font='Courier',width=40,height=4)
+                    self.cargos.grid(row=1,column=0,sticky="n")
+
+                    for i in Cargos.getTodosLosCargos():
+                        if i!=empleado.getCargo():
+                            self.cargos.insert(tk.END,i)
+
+                    self.cambiar=Button(self.of,text="Cambiar cargo",command=cambio)
+                    self.cambiar.grid(row=1,column=1,rowspan=2,padx=15)
+
+            def cambiarVuelo():
+                limpiarFrame()
+                if len(self.lb.curselection())!=0:
+                    curr=self.lb.curselection()[0]
+                    empleado=self.aeropuerto.buscarEmpleado(int(self.lb.get(self.lb.curselection()[0]).split()[1]))
+                    try:
+                        self.carg=Label(self.of,text="El vuelo actual de "+empleado.getNombre()+" es:")
+                        self.vuelo=Label(self.of,text="Sala "+empleado.getVuelo().getSalaEmbarque()+" - Destino: "+empleado.getVuelo().getDestino()+" - Avión: "+empleado.getVuelo().getAvion().getModelo())
+                        self.vuelo.grid(row=1,column=0)
+                    except:
+                        self.carg=Label(self.of,text="Este empleado aún no tiene un vuelo asignado")
+
+                    self.carg.grid(row=0,column=0,sticky="nsew")
+
+                    self.scroll2=Scrollbar(self.of,orient='vertical')
+
+                    self.vuelos=Listbox(self.of,yscrollcommand=self.scroll2.set,font='Courier',width=40,height=20)
+                    self.vuelos.grid(row=2,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
+
+                    self.scroll2.configure(command=self.vuelos.yview)         
+                    self.scroll2.grid(column=4, row=2, sticky='NS')
+
+                    for i in self.aeropuerto.getVuelos():
+                        if i!=empleado.getVuelo():
+                            self.vuelos.insert(tk.END,i.getSalaEmbarque()+" - "+i.getAvion().getModelo()+" - "+i.getDestino())
+
+                    def cambiar():
+                        if self.vuelos.curselection()!=0:
+                            lista=self.vuelos.get(self.vuelos.curselection()[0]).split(" - ")
+                            vuelo=self.aeropuerto.buscarVuelo(lista[0],lista[1],lista[2])
+                            empleado.setVuelo(vuelo)
+                            self.lb.selection_set(curr)
+                            cambiarVuelo()
+
+                    self.cambiar=Button(self.of,text="Cambiar vuelo",command=cambiar)
+                    self.cambiar.grid(column=0,row=3,columnspan=4,sticky="nsew")
 
             borrarElementos()
             self.lp=Label(self.fp,text="Gestor de empleados", font = ("Courier", 12),height=2, bg="gray80")
@@ -333,10 +404,19 @@ class VentanaUsuario(Tk):
             self.datosButton.grid(row=1,columnspan=4,padx=5,pady=5,sticky="nsew")
 
             self.nuevoEmpleadoButton=Button(self.ventanaOpera,text="Crear nuevo empleado",command=nuevoEmpleado)
-            self.nuevoEmpleadoButton.grid(row=2,column=0,padx=5,pady=5)
+            self.nuevoEmpleadoButton.grid(row=2,column=0,padx=5,pady=5,sticky="nsew",columnspan=2)
 
             self.cambiarSaldo=Button(self.ventanaOpera,text="Cambiar saldo",command=cambiarSaldo)
-            self.cambiarSaldo.grid(row=2,column=1,padx=5,pady=5)
+            self.cambiarSaldo.grid(row=2,column=2,padx=5,pady=5,sticky="nsew",columnspan=2)
+
+            self.cambiarCargo=Button(self.ventanaOpera,text="Cambiar cargo",command=cambiarCargo)
+            self.cambiarCargo.grid(row=3,column=2,padx=5,pady=5,sticky="nsew",columnspan=2)
+
+            self.cambiarVuelo=Button(self.ventanaOpera,text="Cambiar vuelo",command=cambiarVuelo)
+            self.cambiarVuelo.grid(row=3,column=0,padx=5,pady=5,sticky="nsew",columnspan=2)
+
+            self.despedir=Button(self.ventanaOpera,text="Despedir",command=despedir)
+            self.despedir.grid(row=4,column=0,padx=5,pady=5,sticky="nsew",columnspan=4)
 
             self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of,self.cambiarSaldo,self.nuevoEmpleadoButton])
         
@@ -448,7 +528,7 @@ class VentanaUsuario(Tk):
         a1=Avion("XYZ",100,50000)
         vuelo1=Vuelo(a1,datetime(2022,11,30,10,0,0),"Cancun",1500,"A1")
         vuelo2=Vuelo(Avion("YY3X",150,75000),datetime(2022,12,5,10,0,0),"Madrid",5500,"A2")
-        vuelo3=Vuelo(Avion("XCF",75,25000),datetime(2022,12,5,10,0,0),"Madrid",5500,"A2")
+        vuelo3=Vuelo(Avion("XCF",75,25000),datetime(2022,12,5,10,0,0),"Paris",5500,"A2")
         e1=Empleado("Juan",12345,30,"M",2300,Cargos.PILOTO.getCargo())
         e2=Empleado("Pedro",543657,35,"M",1800,Cargos.COPILOTO.getCargo())
         e3=Empleado("Sara",4235246,66,"F",1500,Cargos.CONTROL_DE_PISTA.getCargo())
