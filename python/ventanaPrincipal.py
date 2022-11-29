@@ -949,7 +949,7 @@ class VentanaUsuario(Tk):
 
                     except ExcepcionValorMaximo:
                         messagebox.showerror('Error',
-                                             f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
+                                             f'Fondos insuficientes\nsolo tienes ${self.aeropuerto.getDinero()}')
 
                     """if total > self.aeropuerto.getDinero():
                         messagebox.showerror('Error',
@@ -996,7 +996,7 @@ class VentanaUsuario(Tk):
 
                 if opcion:
                     try:
-                        valor = int(valor)
+                        valor = float(valor)
                         ExcepcionPositivo.valorPositivo(valor)
 
                         if combo == 'Ingreso':
@@ -1012,7 +1012,7 @@ class VentanaUsuario(Tk):
                             messagebox.showerror('Error', 'Debes seleccionar Ingreso o Retiro')
                             
                     except ExcepcionPositivo:
-                        messagebox.showerror('Error', 'No puedes introducir un numero negativo')
+                        messagebox.showerror('Error', 'No puedes introducir un numero negativo ni cero')
                     except ExcepcionValorMaximo:
                         messagebox.showerror('Error', f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
                     except ValueError:
