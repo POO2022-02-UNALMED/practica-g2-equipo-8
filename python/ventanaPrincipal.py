@@ -490,15 +490,27 @@ class VentanaUsuario(Tk):
                                                i.getSalaEmbarque() + " - " + i.getAvion().getModelo() + " - " + i.getDestino())
 
                     def cambiar():
-                        if self.vuelos.curselection() != 0:
-                            lista = self.vuelos.get(self.vuelos.curselection()[0]).split(" - ")
-                            vuelo = self.aeropuerto.buscarVuelo(lista[0], lista[1], lista[2])
-                            empleado.setVuelo(vuelo)
-                            self.lb.selection_set(curr)
-                            cambiarVuelo()
+                        try:
+                            if self.vuelos.curselection() != 0:
+                                lista = self.vuelos.get(self.vuelos.curselection()[0]).split(" - ")
+                                vuelo = self.aeropuerto.buscarVuelo(lista[0], lista[1], lista[2])
+                                empleado.setVuelo(vuelo)
+                                self.lb.selection_set(curr)
+                                cambiarVuelo()
+                        except:
+                            messagebox.showwarning("Sin selección","No seleccionaste ningún vuelo, vuelva a intentarlo.")
 
+                    def borrarVuelo():
+                        if empleado.getVuelo()!= None:
+                            empleado.getVuelo().getEmpleados().remove(empleado)
+                        empleado.setVuelo(None)
+                        self.lb.selection_set(curr)
+                        cambiarVuelo()
                     self.cambiar = Button(self.of, text="Cambiar vuelo", command=cambiar)
                     self.cambiar.grid(column=0, row=3, columnspan=4, sticky="nsew")
+
+                    self.borrar = Button(self.of, text="Borrar vuelo", command=borrarVuelo)
+                    self.borrar.grid(column=0, row=4, columnspan=4, sticky="nsew")
 
             borrarElementos()
             self.lp = Label(self.fp, text="Gestor de empleados", font=("Courier", 12), height=2, bg="gray80")
