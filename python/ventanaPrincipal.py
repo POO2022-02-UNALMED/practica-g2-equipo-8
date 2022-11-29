@@ -655,7 +655,8 @@ class VentanaUsuario(Tk):
                         message="¿Está seguro que desea cancelar el " + vuelo.getDestino() + "?", title="Cancelar")
                     if desp:
                         for pasa in self.aeropuerto.getVuelos()[curr].getPasajeros():
-                            self.aeropuerto.getPasajeros().remove(pasajero)
+                            self.aeropuerto.eliminarPasajero(self.aeropuerto.buscarPasajero(pasa.getCedula()))
+                        self.aeropuerto.getVuelos()[curr].getPasajeros().clear()
                         self.aeropuerto.cancelarVuelo(vuelo)
                         self.lb.delete(curr)
 
