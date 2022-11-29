@@ -733,21 +733,14 @@ class VentanaUsuario(Tk):
             def cancelar():
                 limpiarFrame()
                 vuelo = None
-                #print('veamos',self.aeropuerto.getAviones())
-                #print('vuelos',self.aeropuerto.getVuelos())
                 if len(self.lb.curselection()) != 0:
                     curr = self.lb.curselection()[0]
-                    #print('vuelo', self.aeropuerto.getVuelos()[curr].getDestino())
-                    #print('otra',self.aeropuerto.getAviones()[curr].getModelo())
                     avion = self.aeropuerto.buscarAvion(self.aeropuerto.getAviones()[curr].getModelo())
                     for i in self.aeropuerto.getVuelos():
                         if i.getAvion().getModelo() ==  self.aeropuerto.getAviones()[curr].getModelo():
                             vuelo = i
-
                     #vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr].getSalaEmbarque(),self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),self.aeropuerto.getVuelos()[curr].getDestino())
-                    #print('vuelo',vuelo.getDestino())
-                    #print('avion',avion.getModelo())
-                    
+
                     desp = messagebox.askyesno(
                         message="¿Está seguro que desea retirar el " + self.aeropuerto.getAviones()[curr].getModelo() + "?", title="Cancelar")
                     if desp:
