@@ -128,22 +128,35 @@ class VentanaUsuario(Tk):
                 if destino not in destinos: destinos.append(destino)
 
             self.listaDestinos = ttk.Combobox(self.ventanaOpera, values=destinos, textvariable=StringVar(value=""), state="readonly")
-            self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, sticky="w")
+            self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, columnspan=10, sticky="w")
+            self.vuelo = Label(self.ventanaOpera, text = "Vuelos al destino seleccionado", font = ("Courier", 10))
+            self.vuelo.grid(ipadx=8, padx=8, ipady=8, pady=8, row=1, column=0, sticky="w")
 
-            def seleccion(Event):
-                self.vuelo = Label(self.ventanaOpera, text = "Vuelos al destino seleccionado", font = ("Courier", 10))
-                self.vuelo.grid(ipadx=8, padx=8, row=1, column=0, sticky="w")
+            self.listaVuelos = ttk.Combobox(self.ventanaOpera, values=[], textvariable=StringVar(value=""), state="readonly", width=50)
+            self.listaVuelos.grid(ipadx=8, padx=8, row=1, column=1, sticky="w")
+
+            def seleccionDestino(Event):
                 sel = self.listaDestinos.get()
                 vuelos = []
                 for vuelo in self.aeropuerto.getVuelos():
-                    v = "Destino: "+vuelo.getDestino()+" - Costo: "+str(vuelo.getCosto())+" - Fecha: "+str(vuelo.getFecha())
-                    if destino not in destinos and vuelo.getDestino() == sel: vuelos.append(v)
-                self.listaVuelos = ttk.Combobox(self.ventanaOpera, values=vuelos, textvariable=StringVar(value=""), state="readonly")
-                self.listaVuelos.grid(ipadx=8, padx=8, row=1, column=1, sticky="w")
-                self.widgetsActuales.extend([self.vuelo, self.listaVuelos])
-            
-            self.listaDestinos.bind("<<ComboboxSelected>>", seleccion)
-            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos])
+                    v = "ID: "+str(vuelo.getId())+" - Precio: "+str(vuelo.getCosto())+" - Fecha: "+str(vuelo.getFecha())
+                    if vuelo not in vuelos and vuelo.getDestino()==sel:
+                        vuelos.append(v)
+                self.listaVuelos.config(textvariable=StringVar(value=""))
+                self.listaVuelos.config(values=vuelos)
+
+            self.listaDestinos.bind("<<ComboboxSelected>>", seleccionDestino)
+
+            def seleccionVuelo(Event):
+                sel1 = self.listaVuelos.get().split(" - ")[0][4:]
+                print(sel1)
+                for vuelo in self.aeropuerto.getVuelos():
+                    if vuelo.getId() == int(sel1):
+                        vueloActual = vuelo
+
+            self.listaVuelos.bind("<<ComboboxSelected>>", seleccionVuelo)
+
+            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos, self.vuelo, self.listaVuelos])
 
         def pantallaEmpleados():
             def limpiarFrame():
@@ -754,7 +767,7 @@ class VentanaUsuario(Tk):
         self.aeropuerto.setDinero(10000000)
         a1 = Avion("XYZ", 100, 50000)
         vuelo1 = Vuelo(a1, datetime(2022, 11, 30, 10, 0, 0), "Cancun", 1500, "A1")
-        vuelo2 = Vuelo(Avion("YY3X", 150, 75000), datetime(2022, 12, 5, 10, 0, 0), "Madrid", 5500, "A2")
+        vuelo2 = Vuelo(Avion("YY3X", 150, 75000), datetime(2022, 10, 15, 10, 0, 0), "Madrid", 3250, "A2")
         vuelo3 = Vuelo(Avion("XCF", 75, 25000), datetime(2022, 12, 5, 10, 0, 0), "Paris", 5500, "A2")
         e1 = Empleado("Juan", 12345, 30, "M", 2300, Cargos.PILOTO.getCargo())
         e2 = Empleado("Pedro", 543657, 35, "M", 1800, Cargos.COPILOTO.getCargo())
