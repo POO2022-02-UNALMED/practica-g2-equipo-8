@@ -24,7 +24,6 @@ from baseDatos.serializador import serializar
 from excepciones.excepcionTipo import *
 from excepciones.excepcionImposibilidades import *
 
-
 class VentanaUsuario(Tk):
     VSabierta = False
 
@@ -1109,24 +1108,33 @@ class VentanaUsuario(Tk):
 
             self.nl = Label(self.of, text="Destino:", font=Font(family='Courier', size=100))
             self.nl.grid(row=2, column=0, padx=0, pady=5, sticky="w")
-            self.modelo_entry = Entry(self.of, width=20)
-            self.modelo_entry.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
+            self.destino = Entry(self.of, width=20)
+            self.destino.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
 
             self.el = Label(self.of, text="Costo:", font=Font(family='Courier', size=100))
             self.el.grid(row=3, column=0, padx=0, pady=5, sticky="w")
-            self.pesomax_entry = Entry(self.of, width=20)
-            self.pesomax_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
+            self.costo = Entry(self.of, width=20)
+            self.costo.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
 
             self.ccl = Label(self.of, text="Sala de embarque:", font=Font(family='Courier', size=100))
             self.ccl.grid(row=4, column=0, padx=0, pady=5, sticky="w")
-            self.valor_entry = Entry(self.of, width=20)
-            self.valor_entry.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
+            self.sala = Entry(self.of, width=20)
+            self.sala.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
 
-            self.ingresar = Button(self.of, text="Ingresar nuevo vuelo", command=prueba)
+
+
+            def obtenerAvion():
+                global avionElegido
+                indice = self.lb.curselection()
+                idAvion = int(self.lb.get(indice).split("      Valor:")[0][4:])
+                for i in self.aeropuerto.getAviones():
+                    if i.getId() == idAvion: avionElegido = i
+                fecha = self.e1.get() + " " + self.e2.get() + ":" + self.e3.get()
+                print(fecha)
+                Vuelo(avionElegido, datetime.strptime(fecha,'%d/%m/%y %H:%M'),self.destino.get(),int(self.costo.get()),self.sala.get())
+
+            self.ingresar = Button(self.of, text="Ingresar nuevo vuelo", command=obtenerAvion)
             self.ingresar.grid(row=6, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
-
-            #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
-            #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
 
             self.widgetsActuales.extend(
                 [self.lp, self.ld, self.lb, self.l1, self.l2, self.l3, self.l4, self.e1, self.e2, self.e3, self.esub,
