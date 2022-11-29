@@ -79,6 +79,10 @@ class Aeropuerto:
         for i in self._empleados:
             if i.getCedula()==id:
                 return i
+    def buscarPasajero(self,id):
+        for i in self._pasajeros:
+            if i.getCedula()==id:
+                return i
     def ingresarDinero(self, pago):
         self._dinero += pago
 

@@ -59,3 +59,8 @@ class Avion():
         for i in range(1,cantidad+1):
             ind=random.randint(0,2)
             self._asientos.append(Asiento(i,tipoAsiento[ind]))
+
+    def buscarAsiento(self,nro):
+        for i in self._asientos:
+            if i.getNumero()==nro:
+                return i
