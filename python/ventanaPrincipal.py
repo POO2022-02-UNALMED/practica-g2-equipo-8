@@ -723,15 +723,15 @@ class VentanaUsuario(Tk):
                     #print('vuelo', self.aeropuerto.getVuelos()[curr].getDestino())
                     print('otra',self.aeropuerto.getAviones()[curr].getModelo())
                     avion = self.aeropuerto.buscarAvion(self.aeropuerto.getAviones()[curr].getModelo())
-                    print('vuelo',self.aeropuerto.getAviones()[curr].getVuelos())
-                   # vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr],self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),)
+                    vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr].getSalaEmbarque(),self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),self.aeropuerto.getVuelos()[curr].getDestino())
+                    print(vuelo.getDestino())
                     desp = messagebox.askyesno(
-                        message="¿Está seguro que desea retirar el " + self.aeropuerto.getVuelos()[curr].getAvion().getModelo() + "?", title="Cancelar")
+                        message="¿Está seguro que desea retirar el " + self.aeropuerto.getAviones()[curr].getModelo() + "?", title="Cancelar")
                     if desp:
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
                         pVuelo = messagebox.askyesno(
-                        message="¿Desea comprar un avión para asignarlo al vuelo " + self.aeropuerto.getVuelos()[curr].getDestino() + "?", title="Cancelar")
+                        message="¿Desea comprar un avión para asignarlo al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
                         #print('bien',self.aeropuerto.getAviones())
                         #print('vuelos_',self.aeropuerto.getVuelos())
 
