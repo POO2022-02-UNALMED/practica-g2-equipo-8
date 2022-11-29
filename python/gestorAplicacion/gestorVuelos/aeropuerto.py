@@ -90,3 +90,17 @@ class Aeropuerto:
         self._transaccionesKeys.append(concepto)
         self._transaccionesValues.append(valor)
         self.ingresarDinero(valor)
+
+    def buscarVuelo(self,sala,modelo,destino):
+        for i in self._vuelos:
+            if i.getDestino()==destino and i.getAvion().getModelo()==modelo and i.getSalaEmbarque()==sala:
+                return i
+
+    def despedirEmpleado(self,empleado):
+        for i in self._empleados:
+            if i==empleado:
+                try:
+                    empleado.getVuelo().remove(empleado)
+                except:
+                    pass
+                self._empleados.remove(empleado)
