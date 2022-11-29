@@ -849,11 +849,11 @@ class VentanaUsuario(Tk):
 
             self.aceptar = Button(self.ventanaOpera, text='Aceptar', command=aceptarfun)
 
-            self.label1.grid(padx=8, pady=8, row=2, column=0)
+            self.label1.grid(padx=8, pady=1, row=2, column=0)
             self.scroll.pack(side=RIGHT, fill=Y)
             self.checkemp.pack(fill=X)
-            self.framelist.grid(ipadx=80, padx=80, pady=30, row=3, column=0, rowspan=5)
-            self.aceptar.grid(ipadx=80, padx=80, pady=30, row=8, column=0)
+            self.framelist.grid(ipadx=80, padx=80, pady=10, row=3, column=0, rowspan=5)
+            self.aceptar.grid(ipadx=80, padx=80, pady=10, row=8, column=0)
 
             self.widgetsActuales.extend([self.checkemp, self.aceptar, self.label1, self.scroll])
 
@@ -913,13 +913,13 @@ class VentanaUsuario(Tk):
             self.scrolltrans.config(command=self.text.yview)
 
             self.frametrans.grid(row=2, column=1, rowspan=7, columnspan=1)
-            self.newtrans.grid(row=2, column=2, columnspan=2)
-            self.combo.grid(row=3, column=2)
-            self.le.grid(row=4, column=2)
-            self.entrada_concepto.grid(row=5, column=2)
-            self.le2.grid(row=6, column=2)
-            self.entrada_valor.grid(row=7, column=2)
-            self.aceptar.grid(row=8, column=2)
+            self.newtrans.grid(row=2, column=2, columnspan=2, sticky='snew', ipadx=1, ipady=1, pady=2, padx=30)
+            self.combo.grid(row=3, column=2, sticky='sw', padx=30)
+            self.le.grid(row=4, column=2, sticky='sw', ipadx=1, ipady=1, pady=2, padx=30)
+            self.entrada_concepto.grid(row=5, column=2, sticky='nwe', ipadx=1, ipady=1, pady=2, padx=30)
+            self.le2.grid(row=6, column=2, sticky='sw', ipadx=1, ipady=1, pady=2, padx=30)
+            self.entrada_valor.grid(row=7, column=2, sticky='nwe', ipadx=1, ipady=1, pady=2, padx=30)
+            self.aceptar.grid(row=8, column=2, ipadx=80, padx=80, pady=10,)
             self.scrolltrans.pack(side=RIGHT, fill=Y)
             self.text.pack(side=LEFT)
             self.widgetsActuales.extend([self.frametrans, self.newtrans, self.combo, self.le, self.entrada_concepto,
@@ -933,16 +933,21 @@ class VentanaUsuario(Tk):
                             text="En este apartado puede realizar el pago de nomina a los empleados, registrar los "
                                  "cambios con el dinero del aeropuerto, y ver el historial de transacciones",
                             font=("Courier", 10))
-            self.labeldinero = Label(self.ventanaOpera, text=f'Dinero del Aeropuerto: {self.aeropuerto.getDinero()}')
+            self.labeldinero = Label(self.ventanaOpera, text=f'Dinero del Aeropuerto: {self.aeropuerto.getDinero()}',
+                                     font=("Courier", 10), bg='gray10', fg='white')
             self.bnomina = Button(self.ventanaOpera, text='Nomina', command=pantallaNomina)
             self.btrans = Button(self.ventanaOpera, text='Transacciones', command=pantallaTransacciones)
 
             # self.checkemp = ChecklistBox(self.ventanaOpera)
             self.lp.pack()
             self.ld.pack()
-            self.labeldinero.grid(ipadx=0, padx=0, pady=0, row=0, column=0, columnspan=3)
+            self.labeldinero.grid(ipadx=0, padx=0, pady=0, row=0, column=0, columnspan=4, sticky='nsew')
+            #root.columnconfigure(1, weight=1)
             self.bnomina.grid(ipadx=80, padx=80, pady=30, row=1, column=0)
             self.btrans.grid(ipadx=80, padx=80, pady=30, row=1, column=1, columnspan=1)
+            self.ventanaOpera.columnconfigure(0, weight=1)
+            self.ventanaOpera.columnconfigure(1, weight=1)
+            self.ventanaOpera.columnconfigure(2, weight=1)
 
             self.widgetsActuales.extend([self.lp, self.ld, self.bnomina, self.btrans])
 
