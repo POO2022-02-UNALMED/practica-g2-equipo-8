@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, Menu, ttk
 from tkinter.font import Font
+from tkcalendar import DateEntry
 
 import tkinter as tk
 from fieldFrame import FieldFrame
@@ -1040,13 +1041,15 @@ class VentanaUsuario(Tk):
 
             self.l1 = Label(self.ventanaOpera, text='Fecha')
             self.l2 = Label(self.ventanaOpera, text='Hora')
+            self.l4 = Label(self.ventanaOpera, text='Minutos')
             self.l3 = Label(self.ventanaOpera, text='Aviones disponibles')
-            self.e1 = Entry(self.ventanaOpera)
+            self.e1 = DateEntry(self.ventanaOpera)
             self.e2 = Entry(self.ventanaOpera)
             self.esub = Label(self.ventanaOpera, text=':')
             self.e3 = Entry(self.ventanaOpera)
             self.l1.grid(row=0, column=0)
-            self.l2.grid(row=0, column=1, columnspan=3)
+            self.l2.grid(row=0, column=2)
+            self.l4.grid(row=0, column=4)
             self.l3.grid(row=2, column=0, columnspan=5)
             self.e1.grid(row=1, column=0)
             self.e2.grid(row=1, column=1)
@@ -1069,8 +1072,8 @@ class VentanaUsuario(Tk):
             self.of = Frame(self.ventanaOpera)
             self.of.grid(row=0, column=6, rowspan=4, sticky='nsew', padx=30, pady=30)
 
-            self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
-            self.datosButton.grid(row=4, columnspan=5, padx=5, pady=5, sticky="nsew")
+            #self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
+            #self.datosButton.grid(row=4, columnspan=5, padx=5, pady=5, sticky="nsew")
 
 
             self.tl = Label(self.of, text="Ingrese los datos del nuevo vuelo",
@@ -1103,14 +1106,14 @@ class VentanaUsuario(Tk):
             self.suee = Entry(self.of, width=20)
             self.suee.grid(row=5, column=1, padx=0, pady=5, sticky="nsew")
 
-            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=prueba)
+            self.ingresar = Button(self.of, text="Ingresar nuevo vuelo", command=prueba)
             self.ingresar.grid(row=6, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
 
             #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
             #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
 
             self.widgetsActuales.extend(
-                [self.lp, self.datosButton, self.ld, self.lb,
+                [self.lp, self.ld, self.lb, self.l1, self.l2, self.l3, self.l4, self.e1, self.e2, self.e3, self.esub,
                  self.scroll, self.of])
 
 
