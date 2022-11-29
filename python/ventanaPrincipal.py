@@ -536,9 +536,12 @@ class VentanaUsuario(Tk):
 
         def pantallaEliminarAvion():
             borrarElementos()
+            def limpiarFrame():
+                for widget in self.of.winfo_children():
+                    widget.destroy()
             self.lp = Label(self.fp, text="Eliminar avión", font=("Courier", 12), height=2, bg="gray80")
             self.lp.pack()
-            self.ld = Label(self.fd, text="En este apartado puede eliminar un avión con su respectivo ID",
+            self.ld = Label(self.fd, text="En este apartado puede eliminar un avión con la referencia del modelo.",
                             font=("Courier", 10))
             self.ld.pack()
 
@@ -556,7 +559,26 @@ class VentanaUsuario(Tk):
             self.of = Frame(self.ventanaOpera)
             self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.lb, self.scroll, self.of])
+            def cancelar():
+                limpiarFrame()
+                #print('veamos',self.aeropuerto.getAviones())
+                #print('vuelos',self.aeropuerto.getVuelos())
+                if len(self.lb.curselection()) != 0:
+                    curr = self.lb.curselection()[0]
+                    avion = self.aeropuerto.buscarAvion(self.aeropuerto.getVuelos()[curr].getAvion().getModelo())
+                    desp = messagebox.askyesno(
+                        message="¿Está seguro que desea retirar el " + avion.getModelo() + "?", title="Cancelar")
+                    if desp:
+                        self.aeropuerto.cancelarAvion(avion)
+                        self.lb.delete(curr)
+                        #print('bien',self.aeropuerto.getAviones())
+                        #print('vuelos_',self.aeropuerto.getVuelos())
+
+
+            self.cancelar = Button(self.ventanaOpera, text="Cancelar", command=cancelar)
+            self.cancelar.grid(row=4, column=0, padx=5, pady=5, sticky="nsew", columnspan=4)
+
+            self.widgetsActuales.extend([self.lp, self.ld, self.lb, self.scroll, self.of,self.cancelar])
 
 
         def pantallaComprarAvion():

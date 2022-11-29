@@ -96,6 +96,11 @@ class Aeropuerto:
             if i.getDestino()==destino and i.getAvion().getModelo()==modelo and i.getSalaEmbarque()==sala:
                 return i
 
+    def buscarAvion(self,modelo):
+        for i in self._aviones:
+            if i.getModelo()==modelo:
+                return i
+
     def despedirEmpleado(self,empleado):
         for i in self._empleados:
             if i==empleado:
@@ -113,3 +118,12 @@ class Aeropuerto:
                 except:
                     pass
                 self._vuelos.remove(vuelo)
+
+    def cancelarAvion(self,avion):
+        for i in self._aviones:
+            if i==avion:
+                try:
+                    avion.getvuelo().remove(avion)
+                except:
+                    pass
+                self._aviones.remove(avion)
