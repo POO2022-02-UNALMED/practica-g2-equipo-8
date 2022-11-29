@@ -9,6 +9,7 @@ from gestorAplicacion.gestorVuelos.equipaje import Equipaje
 class Vuelo:
     _origen = "Medellín"
     _aeropuerto = None
+    contadorID = 0
     def __init__(self,avion,fecha,destino,costo,salaEmbarque):
         self._avion = avion
         self._empleados = []
@@ -19,7 +20,8 @@ class Vuelo:
         self._costo = costo
         self._salaEmbarque = salaEmbarque
         self._pesoActual = 0
-        self._id = Vuelo.nuevoID()
+        self._id = Vuelo.contadorID
+        Vuelo.contadorID += 1
         self._aeropuerto.addVuelo(self)
     
     @classmethod
