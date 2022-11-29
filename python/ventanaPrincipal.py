@@ -679,7 +679,8 @@ class VentanaUsuario(Tk):
                         message="¿Está seguro que desea cancelar el " + vuelo.getDestino() + "?", title="Cancelar")
                     if desp:
                         for pasa in self.aeropuerto.getVuelos()[curr].getPasajeros():
-                            self.aeropuerto.getPasajeros().remove(pasajero)
+                            self.aeropuerto.eliminarPasajero(self.aeropuerto.buscarPasajero(pasa.getCedula()))
+                        self.aeropuerto.getVuelos()[curr].getPasajeros().clear()
                         self.aeropuerto.cancelarVuelo(vuelo)
                         self.lb.delete(curr)
 
@@ -722,15 +723,30 @@ class VentanaUsuario(Tk):
                     #print('vuelo', self.aeropuerto.getVuelos()[curr].getDestino())
                     print('otra',self.aeropuerto.getAviones()[curr].getModelo())
                     avion = self.aeropuerto.buscarAvion(self.aeropuerto.getAviones()[curr].getModelo())
-                    print('vuelo',self.aeropuerto.getAviones()[curr].getVuelos())
-                   # vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr],self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),)
+                    vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr].getSalaEmbarque(),self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),self.aeropuerto.getVuelos()[curr].getDestino())
+                    print(vuelo.getDestino())
                     desp = messagebox.askyesno(
-                        message="¿Está seguro que desea retirar el " + self.aeropuerto.getVuelos()[curr].getAvion().getModelo() + "?", title="Cancelar")
+                        message="¿Está seguro que desea retirar el " + self.aeropuerto.getAviones()[curr].getModelo() + "?", title="Cancelar")
                     if desp:
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
                         pVuelo = messagebox.askyesno(
-                        message="¿Desea comprar un avión para asignarlo al vuelo " + self.aeropuerto.getVuelos()[curr].getDestino() + "?", title="Cancelar")
+                        message="¿Desea agregar un avion al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
+                        if pVuelo:
+                            self.scrolla = Scrollbar(self.ventanaOpera, orient='vertical')
+
+                            self.lba = Listbox(self.ventanaOpera, yscrollcommand=self.scrolla.set, font='Courier', width=20, height=20)
+                            self.lba.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
+
+                            self.scrolla.configure(command=self.lba.yview)
+                            self.scrolla.grid(column=4, row=0, sticky='NS')
+
+                            for i in self.aeropuerto.getVuelos():
+                                self.lba.insert(tk.END, "Destino: " + str(i.getDestino()))
+
+                            self.of = Frame(self.ventanaOpera)
+                            self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
+                            self.widgetsActuales.extend([self.scrolla,self.lba])
                         #print('bien',self.aeropuerto.getAviones())
                         #print('vuelos_',self.aeropuerto.getVuelos())
 
@@ -910,11 +926,11 @@ class VentanaUsuario(Tk):
 
             self.aceptar = Button(self.ventanaOpera, text='Aceptar', command=aceptarfun)
 
-            self.label1.grid(padx=8, pady=8, row=2, column=0)
+            self.label1.grid(padx=8, pady=1, row=2, column=0)
             self.scroll.pack(side=RIGHT, fill=Y)
             self.checkemp.pack(fill=X)
-            self.framelist.grid(ipadx=80, padx=80, pady=30, row=3, column=0, rowspan=5)
-            self.aceptar.grid(ipadx=80, padx=80, pady=30, row=8, column=0)
+            self.framelist.grid(ipadx=80, padx=80, pady=10, row=3, column=0, rowspan=5)
+            self.aceptar.grid(ipadx=80, padx=80, pady=10, row=8, column=0)
 
             self.widgetsActuales.extend([self.checkemp, self.aceptar, self.label1, self.scroll])
 
@@ -974,13 +990,13 @@ class VentanaUsuario(Tk):
             self.scrolltrans.config(command=self.text.yview)
 
             self.frametrans.grid(row=2, column=1, rowspan=7, columnspan=1)
-            self.newtrans.grid(row=2, column=2, columnspan=2)
-            self.combo.grid(row=3, column=2)
-            self.le.grid(row=4, column=2)
-            self.entrada_concepto.grid(row=5, column=2)
-            self.le2.grid(row=6, column=2)
-            self.entrada_valor.grid(row=7, column=2)
-            self.aceptar.grid(row=8, column=2)
+            self.newtrans.grid(row=2, column=2, columnspan=2, sticky='snew', ipadx=1, ipady=1, pady=2, padx=30)
+            self.combo.grid(row=3, column=2, sticky='sw', padx=30)
+            self.le.grid(row=4, column=2, sticky='sw', ipadx=1, ipady=1, pady=2, padx=30)
+            self.entrada_concepto.grid(row=5, column=2, sticky='nwe', ipadx=1, ipady=1, pady=2, padx=30)
+            self.le2.grid(row=6, column=2, sticky='sw', ipadx=1, ipady=1, pady=2, padx=30)
+            self.entrada_valor.grid(row=7, column=2, sticky='nwe', ipadx=1, ipady=1, pady=2, padx=30)
+            self.aceptar.grid(row=8, column=2, ipadx=80, padx=80, pady=10,)
             self.scrolltrans.pack(side=RIGHT, fill=Y)
             self.text.pack(side=LEFT)
             self.widgetsActuales.extend([self.frametrans, self.newtrans, self.combo, self.le, self.entrada_concepto,
@@ -994,18 +1010,109 @@ class VentanaUsuario(Tk):
                             text="En este apartado puede realizar el pago de nomina a los empleados, registrar los "
                                  "cambios con el dinero del aeropuerto, y ver el historial de transacciones",
                             font=("Courier", 10))
-            self.labeldinero = Label(self.ventanaOpera, text=f'Dinero del Aeropuerto: {self.aeropuerto.getDinero()}')
+            self.labeldinero = Label(self.ventanaOpera, text=f'Dinero del Aeropuerto: {self.aeropuerto.getDinero()}',
+                                     font=("Courier", 10), bg='gray10', fg='white')
             self.bnomina = Button(self.ventanaOpera, text='Nomina', command=pantallaNomina)
             self.btrans = Button(self.ventanaOpera, text='Transacciones', command=pantallaTransacciones)
 
             # self.checkemp = ChecklistBox(self.ventanaOpera)
             self.lp.pack()
             self.ld.pack()
-            self.labeldinero.grid(ipadx=0, padx=0, pady=0, row=0, column=0, columnspan=3)
+            self.labeldinero.grid(ipadx=0, padx=0, pady=0, row=0, column=0, columnspan=4, sticky='nsew')
+            #root.columnconfigure(1, weight=1)
             self.bnomina.grid(ipadx=80, padx=80, pady=30, row=1, column=0)
             self.btrans.grid(ipadx=80, padx=80, pady=30, row=1, column=1, columnspan=1)
+            self.ventanaOpera.columnconfigure(0, weight=1)
+            self.ventanaOpera.columnconfigure(1, weight=1)
+            self.ventanaOpera.columnconfigure(2, weight=1)
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.bnomina, self.btrans])
+            self.widgetsActuales.extend([self.lp, self.ld, self.bnomina, self.btrans, self.labeldinero])
+
+        def pantallaProgramarVuelo():
+            borrarElementos()
+
+            self.lp = Label(self.fp, text="Programar Vuelo", font=("Courier", 12), height=2, bg="gray80")
+            self.lp.pack()
+            self.ld = Label(self.fd,
+                            text="En este apartado puede programar un nuevo vuelo",
+                            font=("Courier", 10))
+            self.ld.pack()
+
+            self.l1 = Label(self.ventanaOpera, text='Fecha')
+            self.l2 = Label(self.ventanaOpera, text='Hora')
+            self.l3 = Label(self.ventanaOpera, text='Aviones disponibles')
+            self.e1 = Entry(self.ventanaOpera)
+            self.e2 = Entry(self.ventanaOpera)
+            self.esub = Label(self.ventanaOpera, text=':')
+            self.e3 = Entry(self.ventanaOpera)
+            self.l1.grid(row=0, column=0)
+            self.l2.grid(row=0, column=1, columnspan=3)
+            self.l3.grid(row=2, column=0, columnspan=5)
+            self.e1.grid(row=1, column=0)
+            self.e2.grid(row=1, column=1)
+            self.e2.grid(row=1, column=2)
+            self.esub.grid(row=1, column=3)
+            self.e3.grid(row=1, column=4)
+
+            self.scroll = Scrollbar(self.ventanaOpera, orient='vertical')
+            self.lb = Listbox(self.ventanaOpera, yscrollcommand=self.scroll.set, font='Courier', width=40, height=16)
+            self.lb.grid(row=3, column=0, columnspan=5, sticky="snew", padx=5, pady=5)
+
+            self.scroll.configure(command=self.lb.yview)
+            self.scroll.grid(column=5, row=3, sticky='NS')
+
+            for i in self.aeropuerto.getAviones():
+                self.lb.insert(tk.END, "ID: " + str(i.getId()) + " " * (
+                        7 - len(str(i.getId()))) + "Valor: " + str(i.getValor()) + " " * (
+                        8 - len(str(i.getValor()))) + "Modelo: " + i.getModelo())
+
+            self.of = Frame(self.ventanaOpera)
+            self.of.grid(row=0, column=6, rowspan=4, sticky='nsew', padx=30, pady=30)
+
+            self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
+            self.datosButton.grid(row=4, columnspan=5, padx=5, pady=5, sticky="nsew")
+
+
+            self.tl = Label(self.of, text="Ingrese los datos del nuevo vuelo",
+                            font=Font(family='Courier', size=100))
+            self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
+
+            self.sl = Label(self.of, text="Indetificador:", font=Font(family='Courier', size=100))
+            self.sl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
+            self.sc = ttk.Combobox(self.of, state="readonly", values=["Nacional", "Internacional"], width=20)
+            self.sc.grid(row=1, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.nl = Label(self.of, text="Destino:", font=Font(family='Courier', size=100))
+            self.nl.grid(row=2, column=0, padx=0, pady=5, sticky="w")
+            self.modelo_entry = Entry(self.of, width=20)
+            self.modelo_entry.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.el = Label(self.of, text="Costo:", font=Font(family='Courier', size=100))
+            self.el.grid(row=3, column=0, padx=0, pady=5, sticky="w")
+            self.pesomax_entry = Entry(self.of, width=20)
+            self.pesomax_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.ccl = Label(self.of, text="Sala de embarque:", font=Font(family='Courier', size=100))
+            self.ccl.grid(row=4, column=0, padx=0, pady=5, sticky="w")
+            self.valor_entry = Entry(self.of, width=20)
+            self.valor_entry.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
+
+
+            self.suel = Label(self.of, text="Empleados:", font=Font(family='Courier', size=100))
+            self.suel.grid(row=5, column=0, padx=0, pady=5, sticky="w")
+            self.suee = Entry(self.of, width=20)
+            self.suee.grid(row=5, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=prueba)
+            self.ingresar.grid(row=6, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
+
+            #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
+            #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
+
+            self.widgetsActuales.extend(
+                [self.lp, self.datosButton, self.ld, self.lb,
+                 self.scroll, self.of])
+
 
         # Menus
         self._barraMenu = Menu(self)
@@ -1019,7 +1126,7 @@ class VentanaUsuario(Tk):
 
         self._barraMenu.add_cascade(label="Procesos y consultas", menu = self.procesosYConsultas)
         self.procesosYConsultas.add_command(label = "Reserva de vuelo", command = pantallaReservaDeVuelo)
-        self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = pantallaProgramarVuelo)
         self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
         self.procesosYConsultas.add_command(label = "Gestionar finanzas", command = pantallaFinanzas)
 

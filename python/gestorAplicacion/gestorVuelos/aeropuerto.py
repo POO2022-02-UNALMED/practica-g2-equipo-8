@@ -110,6 +110,15 @@ class Aeropuerto:
                     pass
                 self._empleados.remove(empleado)
 
+    def eliminarPasajero(self,pasajero):
+        for i in self._pasajeros:
+            if i==pasajero:
+                try:
+                    pasajero.getVuelo().remove(pasajero)
+                except:
+                    pass
+                self._pasajeros.remove(pasajero)
+
     def cancelarVuelo(self,vuelo):
         for i in self._vuelos:
             if i==vuelo:
