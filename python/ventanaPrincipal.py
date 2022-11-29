@@ -330,13 +330,13 @@ class VentanaUsuario(Tk):
             self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
             self.datosButton=Button(self.ventanaOpera,text="Ver datos",command=verDatos)
-            self.datosButton.grid(row=1,columnspan=4,padx=5,pady=5,sticky="nsew")
+            self.datosButton.grid(row=1,padx=5,pady=5)
 
             self.nuevoEmpleadoButton=Button(self.ventanaOpera,text="Crear nuevo empleado",command=nuevoEmpleado)
-            self.nuevoEmpleadoButton.grid(row=2,column=0,padx=5,pady=5)
+            self.nuevoEmpleadoButton.grid(row=1,column=2,padx=5,pady=5)
 
             self.cambiarSaldo=Button(self.ventanaOpera,text="Cambiar saldo",command=cambiarSaldo)
-            self.cambiarSaldo.grid(row=2,column=1,padx=5,pady=5)
+            self.cambiarSaldo.grid(row=2,column=0,padx=5,pady=5)
 
             self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of,self.cambiarSaldo,self.nuevoEmpleadoButton])
         
@@ -371,10 +371,33 @@ class VentanaUsuario(Tk):
             self.of=Frame(self.ventanaOpera)
             self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
+            def aceptar():
+                valorUsuario = FieldFrame.getValorEntry()
+                tipo = "string"
+                fallo = False
+                if valorUsuario == "":
+                    try:
+                        raise ExcepcionVacio(valorUsuario)
+                    except ExcepcionVacio as e:
+                        fallo = True
+                        messagebox.showwarning(title="Aviso",message=e)
+                if tipo == "string" and valorUsuario != "":
+                    if valorUsuario.isdigit() == True:
+                        try:
+                            raise ExcepcionString(valorUsuario)
+                        except ExcepcionString as e:
+                            fallo = True
+                            messagebox.showwarning(title="Aviso",message=e)
+                if not fallo:
+                    for vuelo in self.aeropuerto.getVuelos():
+                        if vuelo.getDestino() == valorUsuario:
+                            self.aeropuerto.getVuelos.remove(vuelo)
+                    pantallaCancelarVuelo()
+
             criteriosEliminarAvion=["Destino"]
             #self.ventanaOpera.pack_forget()
             self.operaciones = FieldFrame(self.of,"Datos",criteriosEliminarAvion,"Valor",None,None)
-            self.operaciones.crearBotones(prueba,prueba)
+            self.operaciones.crearBotones(aceptar,prueba)
 
             self.widgetsActuales.extend([self.lp,self.ld,self.operaciones,self.lb,self.scroll,self.of])
         
@@ -403,11 +426,18 @@ class VentanaUsuario(Tk):
         
         def pantallaComprarAvion():
             borrarElementos()
+            def limpiarFrame():
+                for widget in self.of.winfo_children():
+                    widget.destroy()
             self.lp = Label(self.fp,text= "Comprar avión", font = ("Courier", 12),height=2, bg="gray80")
             self.lp.pack()
             self.ld = Label(self.fd, text = "En este apartado puede realizar la compra de un avión y asignarle un determinado vuelo", font = ("Courier", 10))
             self.ld.pack()
-            self.widgetsActuales.extend([self.lp,self.ld])
+
+            self.nuevoAvionButton=Button(self.ventanaOpera,text="Comprar avión",command=prueba)
+            self.nuevoAvionButton.grid(row=1,column=2,padx=5,pady=5)
+
+            self.widgetsActuales.extend([self.lp,self.ld,self.nuevoAvionButton])
 
         def pantallaFinanzas():
             borrarElementos()

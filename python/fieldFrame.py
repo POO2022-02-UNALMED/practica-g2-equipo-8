@@ -34,19 +34,20 @@ class FieldFrame(Frame):
             labelCriterio.grid(column=0, row=i+1, padx = (5,5), pady = (5,5))
 
             # Crear y colocar entrada de cada criterio
-            self.entryValor = Entry(self, font = ("Courier", 12))
-            self.entryValor.grid(column=1, row=i+1, padx = (5,5), pady = (5,5))
+            global entryValor
+            entryValor = Entry(self, font = ("Courier", 12))
+            entryValor.grid(column=1, row=i+1, padx = (5,5), pady = (5,5))
 
             # Colocar el valor inicial si lo hay
             if valores is not None:
-                self.entryValor.insert(0, valores[i])
+                entryValor.insert(0, valores[i])
 
             # Si el campo es no-editable, deshabilitarlo
             if habilitado is not None and not habilitado[i]:
-                self.entryValor.configure(state = DISABLED)
+                entryValor.configure(state = DISABLED)
             
             # Anadir a la lista de elementos
-            self._elementos.append(self.entryValor)
+            self._elementos.append(entryValor)
 
     # GetValue
     # criterio: El criterio cuyo valor se quiere obtener
@@ -58,6 +59,9 @@ class FieldFrame(Frame):
     def crearBotones(self, comando1,comando2):
         aceptar = Button(self, text="Aceptar", font = ("Courier", 12), fg = "black", command=comando1).grid(padx= 50,pady = 20, column = 0, row = len(self._criterios)+1)
         cancelar= Button(self, text="Cancelar", font = ("Courier", 12), fg = "black", command=comando2).grid(pady = 20, column = 1, row = len(self._criterios)+1)
+
+    def getValorEntry():
+        return entryValor.get()
 
     def isfloat(self,num):
         try:
