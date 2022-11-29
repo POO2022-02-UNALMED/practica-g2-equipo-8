@@ -743,9 +743,6 @@ class VentanaUsuario(Tk):
                         antesAvion = self.aeropuerto.getAviones()[curr].getModelo()
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
-                        print('macho',vuelo.getAvion().getModelo())
-                        print(self.aeropuerto.getAviones()[curr].getModelo())
-                        print(antesAvion)
                         if vuelo.getAvion().getModelo()== antesAvion:
                             pVuelo = messagebox.askyesno(
                                     message="¿Desea agregar un avion al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
