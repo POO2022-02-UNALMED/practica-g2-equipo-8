@@ -401,15 +401,19 @@ class VentanaUsuario(Tk):
             self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
             self.datosButton=Button(self.ventanaOpera,text="Ver datos",command=verDatos)
-            self.datosButton.grid(row=1,padx=5,pady=5)
-
+            self.datosButton.grid(row=1,columnspan=4,padx=5,pady=5,sticky="nsew")
             self.nuevoEmpleadoButton=Button(self.ventanaOpera,text="Crear nuevo empleado",command=nuevoEmpleado)
-            self.nuevoEmpleadoButton.grid(row=2,column=0,padx=5,pady=5)
-
+            self.nuevoEmpleadoButton.grid(row=2,column=0,padx=5,pady=5,sticky="nsew",columnspan=2)
             self.cambiarSaldo=Button(self.ventanaOpera,text="Cambiar saldo",command=cambiarSaldo)
-            self.cambiarSaldo.grid(row=2,column=1,padx=5,pady=5)
+            self.cambiarSaldo.grid(row=2,column=2,padx=5,pady=5,sticky="nsew",columnspan=2)
+            self.cambiarCargo=Button(self.ventanaOpera,text="Cambiar cargo",command=cambiarCargo)
+            self.cambiarCargo.grid(row=3,column=2,padx=5,pady=5,sticky="nsew",columnspan=2)
+            self.cambiarVuelo=Button(self.ventanaOpera,text="Cambiar vuelo",command=cambiarVuelo)
+            self.cambiarVuelo.grid(row=3,column=0,padx=5,pady=5,sticky="nsew",columnspan=2)
+            self.despedir=Button(self.ventanaOpera,text="Despedir",command=despedir)
+            self.despedir.grid(row=4,column=0,padx=5,pady=5,sticky="nsew",columnspan=4)
 
-            self.widgetsActuales.extend([self.lp,self.datosButton,self.ld,self.lb,self.scroll,self.of,self.cambiarSaldo,self.nuevoEmpleadoButton])
+            self.widgetsActuales.extend([self.lp,self.despedir,self.cambiarVuelo,self.cambiarCargo,self.datosButton,self.ld,self.lb,self.scroll,self.of,self.cambiarSaldo,self.nuevoEmpleadoButton])
         
         def pantallaCambiarAsiento():
             borrarElementos()
