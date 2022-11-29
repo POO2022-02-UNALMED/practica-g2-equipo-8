@@ -531,14 +531,14 @@ class VentanaUsuario(Tk):
             self.lb=Listbox(self.ventanaOpera,yscrollcommand=self.scroll.set,font='Courier',width=40,height=20)
             self.lb.grid(row=0,column=0,columnspan=4,sticky="snew",padx=5,pady=5)
 
-            self.scroll.configure(command=self.lb.yview)         
+            self.scroll.configure(command=self.lb.yview)
             self.scroll.grid(column=4, row=0, sticky='NS')    
 
             for i in self.aeropuerto.getPasajeros():
                 self.lb.insert(tk.END,"Cedula: "+str(i.getCedula())+" "*(15-len(str(i.getCedula()))) +"Nombre: "+i.getNombre())
 
             self.of=Frame(self.ventanaOpera)
-            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)          
+            self.of.grid(row=0,column=5,rowspan=4,sticky='nsew',padx=30,pady=30)
 
             def verDatos():
                 limpiarFrame()
