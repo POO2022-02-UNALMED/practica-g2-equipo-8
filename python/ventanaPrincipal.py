@@ -731,7 +731,22 @@ class VentanaUsuario(Tk):
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
                         pVuelo = messagebox.askyesno(
-                        message="¿Desea comprar un avión para asignarlo al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
+                        message="¿Desea agregar un avion al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
+                        if pVuelo:
+                            self.scrolla = Scrollbar(self.ventanaOpera, orient='vertical')
+
+                            self.lba = Listbox(self.ventanaOpera, yscrollcommand=self.scrolla.set, font='Courier', width=20, height=20)
+                            self.lba.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
+
+                            self.scrolla.configure(command=self.lba.yview)
+                            self.scrolla.grid(column=4, row=0, sticky='NS')
+
+                            for i in self.aeropuerto.getVuelos():
+                                self.lba.insert(tk.END, "Destino: " + str(i.getDestino()))
+
+                            self.of = Frame(self.ventanaOpera)
+                            self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
+                            self.widgetsActuales.extend([self.scrolla,self.lba])
                         #print('bien',self.aeropuerto.getAviones())
                         #print('vuelos_',self.aeropuerto.getVuelos())
 
