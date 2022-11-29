@@ -678,6 +678,8 @@ class VentanaUsuario(Tk):
                     desp = messagebox.askyesno(
                         message="¿Está seguro que desea cancelar el " + vuelo.getDestino() + "?", title="Cancelar")
                     if desp:
+                        for pasa in self.aeropuerto.getVuelos()[curr].getPasajeros():
+                            self.aeropuerto.getPasajeros().remove(pasajero)
                         self.aeropuerto.cancelarVuelo(vuelo)
                         self.lb.delete(curr)
 
@@ -717,12 +719,18 @@ class VentanaUsuario(Tk):
                 #print('vuelos',self.aeropuerto.getVuelos())
                 if len(self.lb.curselection()) != 0:
                     curr = self.lb.curselection()[0]
-                    avion = self.aeropuerto.buscarAvion(self.aeropuerto.getVuelos()[curr].getAvion().getModelo())
+                    #print('vuelo', self.aeropuerto.getVuelos()[curr].getDestino())
+                    print('otra',self.aeropuerto.getAviones()[curr].getModelo())
+                    avion = self.aeropuerto.buscarAvion(self.aeropuerto.getAviones()[curr].getModelo())
+                    print('vuelo',self.aeropuerto.getAviones()[curr].getVuelos())
+                   # vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr],self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),)
                     desp = messagebox.askyesno(
-                        message="¿Está seguro que desea retirar el " + avion.getModelo() + "?", title="Cancelar")
+                        message="¿Está seguro que desea retirar el " + self.aeropuerto.getVuelos()[curr].getAvion().getModelo() + "?", title="Cancelar")
                     if desp:
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
+                        pVuelo = messagebox.askyesno(
+                        message="¿Desea comprar un avión para asignarlo al vuelo " + self.aeropuerto.getVuelos()[curr].getDestino() + "?", title="Cancelar")
                         #print('bien',self.aeropuerto.getAviones())
                         #print('vuelos_',self.aeropuerto.getVuelos())
 
