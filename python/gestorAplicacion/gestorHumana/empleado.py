@@ -25,7 +25,8 @@ class Empleado(Persona):
     
     def setVuelo(self, vuelo):
         self._vuelo = vuelo
-        self._vuelo.addEmpleado(self)
+        if vuelo != None:
+            self._vuelo.addEmpleado(self)
 
     def setExperiencia(self, experiencia):
         self._experiencia = experiencia

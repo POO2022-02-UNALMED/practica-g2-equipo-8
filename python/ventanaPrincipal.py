@@ -24,7 +24,6 @@ from baseDatos.serializador import serializar
 from excepciones.excepcionTipo import *
 from excepciones.excepcionImposibilidades import *
 
-
 class VentanaUsuario(Tk):
     VSabierta = False
 
@@ -490,15 +489,27 @@ class VentanaUsuario(Tk):
                                                i.getSalaEmbarque() + " - " + i.getAvion().getModelo() + " - " + i.getDestino())
 
                     def cambiar():
-                        if self.vuelos.curselection() != 0:
-                            lista = self.vuelos.get(self.vuelos.curselection()[0]).split(" - ")
-                            vuelo = self.aeropuerto.buscarVuelo(lista[0], lista[1], lista[2])
-                            empleado.setVuelo(vuelo)
-                            self.lb.selection_set(curr)
-                            cambiarVuelo()
+                        try:
+                            if self.vuelos.curselection() != 0:
+                                lista = self.vuelos.get(self.vuelos.curselection()[0]).split(" - ")
+                                vuelo = self.aeropuerto.buscarVuelo(lista[0], lista[1], lista[2])
+                                empleado.setVuelo(vuelo)
+                                self.lb.selection_set(curr)
+                                cambiarVuelo()
+                        except:
+                            messagebox.showwarning("Sin selección","No seleccionaste ningún vuelo, vuelva a intentarlo.")
 
+                    def borrarVuelo():
+                        if empleado.getVuelo()!= None:
+                            empleado.getVuelo().getEmpleados().remove(empleado)
+                        empleado.setVuelo(None)
+                        self.lb.selection_set(curr)
+                        cambiarVuelo()
                     self.cambiar = Button(self.of, text="Cambiar vuelo", command=cambiar)
                     self.cambiar.grid(column=0, row=3, columnspan=4, sticky="nsew")
+
+                    self.borrar = Button(self.of, text="Borrar vuelo", command=borrarVuelo)
+                    self.borrar.grid(column=0, row=4, columnspan=4, sticky="nsew")
 
             borrarElementos()
             self.lp = Label(self.fp, text="Gestor de empleados", font=("Courier", 12), height=2, bg="gray80")
@@ -929,13 +940,23 @@ class VentanaUsuario(Tk):
 
                 opcion = messagebox.askokcancel('Alerta de pago', f'Está a punto de pagar ${total}\nCofirmar?')
                 if opcion:
-                    if total > self.aeropuerto.getDinero():
+                    try:
+                        ExcepcionValorMaximo.menorQue(total, self.aeropuerto.getDinero())
+                        for e in empleadosi:
+                            self.aeropuerto.transaccion(f'nomina de {e.getNombre()}', (-1) * e.getSueldo())
+                            pantallaFinanzas()
+
+                    except ExcepcionValorMaximo:
+                        messagebox.showerror('Error',
+                                             f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
+
+                    """if total > self.aeropuerto.getDinero():
                         messagebox.showerror('Error',
                                              f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
                     else:
                         for e in empleadosi:
                             self.aeropuerto.transaccion(f'nomina de {e.getNombre()}', (-1) * e.getSueldo())
-                            pantallaFinanzas()
+                            pantallaFinanzas()"""
 
             empleados = self.aeropuerto.getEmpleados()
             empleadosnames = list(map(lambda x: '$ ' + str(x.getSueldo()) + ' | ' + x.getNombre(), empleados))
@@ -975,19 +996,24 @@ class VentanaUsuario(Tk):
                 if opcion:
                     try:
                         valor = int(valor)
-                        if valor < 0:
-                            messagebox.showerror('Error', 'No puedes introducir un numero negativo')
-                        elif valor > self.aeropuerto.getDinero():
-                            messagebox.showerror('Error',
-                                                 f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
-                        elif combo == 'Ingreso':
+                        ExcepcionPositivo.valorPositivo(valor)
+
+                        if combo == 'Ingreso':
                             self.aeropuerto.transaccion(concepto, valor)
                             pantallaFinanzas()
+
                         elif combo == 'Retiro':
+                            ExcepcionValorMaximo.menorQue(valor, self.aeropuerto.getDinero())
                             self.aeropuerto.transaccion(concepto, valor * (-1))
                             pantallaFinanzas()
+
                         else:
                             messagebox.showerror('Error', 'Debes seleccionar Ingreso o Retiro')
+                            
+                    except ExcepcionPositivo:
+                        messagebox.showerror('Error', 'No puedes introducir un numero negativo')
+                    except ExcepcionValorMaximo:
+                        messagebox.showerror('Error', f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
                     except ValueError:
                         messagebox.showerror('Error', 'Debes introducir solamente numeros en el monto')
 
@@ -1066,13 +1092,15 @@ class VentanaUsuario(Tk):
 
             self.l1 = Label(self.ventanaOpera, text='Fecha')
             self.l2 = Label(self.ventanaOpera, text='Hora')
+            self.l4 = Label(self.ventanaOpera, text='Minutos')
             self.l3 = Label(self.ventanaOpera, text='Aviones disponibles')
             self.e1 = Entry(self.ventanaOpera)
             self.e2 = Entry(self.ventanaOpera)
             self.esub = Label(self.ventanaOpera, text=':')
             self.e3 = Entry(self.ventanaOpera)
             self.l1.grid(row=0, column=0)
-            self.l2.grid(row=0, column=1, columnspan=3)
+            self.l2.grid(row=0, column=2)
+            self.l4.grid(row=0, column=4)
             self.l3.grid(row=2, column=0, columnspan=5)
             self.e1.grid(row=1, column=0)
             self.e2.grid(row=1, column=1)
@@ -1095,48 +1123,47 @@ class VentanaUsuario(Tk):
             self.of = Frame(self.ventanaOpera)
             self.of.grid(row=0, column=6, rowspan=4, sticky='nsew', padx=30, pady=30)
 
-            self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
-            self.datosButton.grid(row=4, columnspan=5, padx=5, pady=5, sticky="nsew")
-
-
             self.tl = Label(self.of, text="Ingrese los datos del nuevo vuelo",
                             font=Font(family='Courier', size=100))
             self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
 
-            self.sl = Label(self.of, text="Indetificador:", font=Font(family='Courier', size=100))
+            self.sl = Label(self.of, text="Identificador:", font=Font(family='Courier', size=100))
             self.sl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
             self.sc = ttk.Combobox(self.of, state="readonly", values=["Nacional", "Internacional"], width=20)
             self.sc.grid(row=1, column=1, padx=0, pady=5, sticky="nsew")
 
             self.nl = Label(self.of, text="Destino:", font=Font(family='Courier', size=100))
             self.nl.grid(row=2, column=0, padx=0, pady=5, sticky="w")
-            self.modelo_entry = Entry(self.of, width=20)
-            self.modelo_entry.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
+            self.destino = Entry(self.of, width=20)
+            self.destino.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
 
             self.el = Label(self.of, text="Costo:", font=Font(family='Courier', size=100))
             self.el.grid(row=3, column=0, padx=0, pady=5, sticky="w")
-            self.pesomax_entry = Entry(self.of, width=20)
-            self.pesomax_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
+            self.costo = Entry(self.of, width=20)
+            self.costo.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
 
             self.ccl = Label(self.of, text="Sala de embarque:", font=Font(family='Courier', size=100))
             self.ccl.grid(row=4, column=0, padx=0, pady=5, sticky="w")
-            self.valor_entry = Entry(self.of, width=20)
-            self.valor_entry.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
+            self.sala = Entry(self.of, width=20)
+            self.sala.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
 
 
-            self.suel = Label(self.of, text="Empleados:", font=Font(family='Courier', size=100))
-            self.suel.grid(row=5, column=0, padx=0, pady=5, sticky="w")
-            self.suee = Entry(self.of, width=20)
-            self.suee.grid(row=5, column=1, padx=0, pady=5, sticky="nsew")
 
-            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=prueba)
+            def obtenerAvion():
+                global avionElegido
+                indice = self.lb.curselection()
+                idAvion = int(self.lb.get(indice).split("      Valor:")[0][4:])
+                for i in self.aeropuerto.getAviones():
+                    if i.getId() == idAvion: avionElegido = i
+                fecha = self.e1.get() + " " + self.e2.get() + ":" + self.e3.get()
+                print(fecha)
+                Vuelo(avionElegido, datetime.strptime(fecha,'%d/%m/%y %H:%M'),self.destino.get(),int(self.costo.get()),self.sala.get())
+
+            self.ingresar = Button(self.of, text="Ingresar nuevo vuelo", command=obtenerAvion)
             self.ingresar.grid(row=6, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
 
-            #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
-            #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
-
             self.widgetsActuales.extend(
-                [self.lp, self.datosButton, self.ld, self.lb,
+                [self.lp, self.ld, self.lb, self.l1, self.l2, self.l3, self.l4, self.e1, self.e2, self.e3, self.esub,
                  self.scroll, self.of])
 
 
@@ -1152,7 +1179,7 @@ class VentanaUsuario(Tk):
 
         self._barraMenu.add_cascade(label="Procesos y consultas", menu = self.procesosYConsultas)
         self.procesosYConsultas.add_command(label = "Reserva de vuelo", command = pantallaReservaDeVuelo)
-        self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = pantallaProgramarVuelo)
+        self.procesosYConsultas.add_command(label = "Programar vuelo", command = pantallaProgramarVuelo)
         self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
         self.procesosYConsultas.add_command(label = "Gestionar finanzas", command = pantallaFinanzas)
 
