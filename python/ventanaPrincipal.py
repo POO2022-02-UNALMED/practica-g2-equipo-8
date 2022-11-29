@@ -721,32 +721,58 @@ class VentanaUsuario(Tk):
                 if len(self.lb.curselection()) != 0:
                     curr = self.lb.curselection()[0]
                     #print('vuelo', self.aeropuerto.getVuelos()[curr].getDestino())
-                    print('otra',self.aeropuerto.getAviones()[curr].getModelo())
+                    #print('otra',self.aeropuerto.getAviones()[curr].getModelo())
+                    #avion = None
+                    #vuelo = None
+                    #for i in range(len(self.aeropuerto.getAviones())):
+                        #print(self.aeropuerto.getAviones())
+                        #print(self.aeropuerto.getAviones()[0])
+                        #print('1',self.aeropuerto.getAviones()[i])
+                        #if self.aeropuerto.getAviones()[curr].getModelo() == self.aeropuerto.getAviones()[i].getModelo():
+                         #   avion=self.aeropuerto.getAviones()[i]
+                          #  self.aeropuerto.cancelarAvion(self.aeropuerto.getAviones()[curr])
+                        #for j in range(len(self.aeropuerto.getVuelos())):
+                         #   if(avion != None):
+                          #      if avion.getModelo() ==self.aeropuerto.getVuelos()[j].getAvion().getModelo():
+                           #         vuelo=self.aeropuerto.getVuelos()[j]
                     avion = self.aeropuerto.buscarAvion(self.aeropuerto.getAviones()[curr].getModelo())
                     vuelo = self.aeropuerto.buscarVuelo(self.aeropuerto.getVuelos()[curr].getSalaEmbarque(),self.aeropuerto.getVuelos()[curr].getAvion().getModelo(),self.aeropuerto.getVuelos()[curr].getDestino())
-                    print(vuelo.getDestino())
+                    #print('vuelo',vuelo.getDestino())
+                    #print('avion',avion.getModelo())
+                    if self.aeropuerto.getAviones()[curr].getModelo() == vuelo.getAvion().getModelo():
+                        print('señor',vuelo.getDestino())
+                    else:
+                        print('sin vuelo')
                     desp = messagebox.askyesno(
                         message="¿Está seguro que desea retirar el " + self.aeropuerto.getAviones()[curr].getModelo() + "?", title="Cancelar")
                     if desp:
+                        antesAvion = self.aeropuerto.getAviones()[curr].getModelo()
                         self.aeropuerto.cancelarAvion(avion)
                         self.lb.delete(curr)
-                        pVuelo = messagebox.askyesno(
-                        message="¿Desea agregar un avion al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
-                        if pVuelo:
-                            self.scrolla = Scrollbar(self.ventanaOpera, orient='vertical')
+                        print('macho',vuelo.getAvion().getModelo())
+                        print(self.aeropuerto.getAviones()[curr].getModelo())
+                        print(antesAvion)
+                        if vuelo.getAvion().getModelo()== antesAvion:
+                            pVuelo = messagebox.askyesno(
+                                    message="¿Desea agregar un avion al vuelo " + vuelo.getDestino() + "?", title="Cancelar")
+                            if pVuelo:
+                                self.scrolla = Scrollbar(self.ventanaOpera, orient='vertical')
 
-                            self.lba = Listbox(self.ventanaOpera, yscrollcommand=self.scrolla.set, font='Courier', width=20, height=20)
-                            self.lba.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
+                                self.lba = Listbox(self.ventanaOpera, yscrollcommand=self.scrolla.set, font='Courier', width=20, height=20)
+                                self.lba.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
 
-                            self.scrolla.configure(command=self.lba.yview)
-                            self.scrolla.grid(column=4, row=0, sticky='NS')
+                                self.scrolla.configure(command=self.lba.yview)
+                                self.scrolla.grid(column=4, row=0, sticky='NS')
 
-                            for i in self.aeropuerto.getVuelos():
-                                self.lba.insert(tk.END, "Destino: " + str(i.getDestino()))
+                                for i in self.aeropuerto.getVuelos():
+                                    self.lba.insert(tk.END, "Destino: " + str(i.getDestino()))
 
-                            self.of = Frame(self.ventanaOpera)
-                            self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
-                            self.widgetsActuales.extend([self.scrolla,self.lba])
+                                self.ofa = Frame(self.ventanaOpera)
+                                self.ofa.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
+                                self.widgetsActuales.extend([self.scrolla,self.lba,self.ofa])
+                        #else:
+                         #   self.aeropuerto.cancelarAvion(avion)
+                          #  self.lb.delete(curr)
                         #print('bien',self.aeropuerto.getAviones())
                         #print('vuelos_',self.aeropuerto.getVuelos())
 
