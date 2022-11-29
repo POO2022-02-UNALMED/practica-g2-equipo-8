@@ -1,5 +1,4 @@
 from excepciones.errorAplicacion import ErrorAplicacion
-from tkinter import messagebox
 
 class ExcepcionTipo(ErrorAplicacion):
     def __init__(self, error):

@@ -22,6 +22,7 @@ from baseDatos.deserializador import deserializar
 from baseDatos.serializador import serializar
 
 from excepciones.excepcionTipo import *
+from excepciones.excepcionImposibilidades import *
 
 
 class VentanaUsuario(Tk):
@@ -55,7 +56,7 @@ class VentanaUsuario(Tk):
 
         def info():
             messagebox.showinfo("Desarrolladores del aplicativo",
-                                "Maria Camila Zapata Arrubla\nJuan Camilo Molina Roncancio\nJuan Jose Zapata Cadavid\nNombre4")
+                                "Maria Camila Zapata Arrubla\nJuan Camilo Molina Roncancio\nJuan Jose Zapata Cadavid\nJuan Diego Giraldo Jaramillo")
 
         def borrarElementos():
             for i in self.widgetsActuales:
@@ -199,15 +200,23 @@ class VentanaUsuario(Tk):
                 limpiarFrame()
 
                 def checkbox_clicked():
-                    if self.suevalue.get():
-                        self.suee.delete(0, tk.END)
-                        self.suee.insert(0, Cargos.buscarCargo(self.cc.get()).getSueldoBase())
-                        self.cc.config(state='disable')
-                        self.suee.config(state='disabled')
-                    else:
-                        self.cc.config(state='normal')
-                        self.suee.config(state='normal')
-                        self.suee.delete(0, tk.END)
+                    try:
+                        ExcepcionVacio.valorVacio(self.cc.get())
+                        if self.suevalue.get():
+                            self.suee.delete(0, tk.END)
+                            self.suee.insert(0, Cargos.buscarCargo(self.cc.get()).getSueldoBase())
+                            self.cc.config(state='disable')
+                            self.suee.config(state='disabled')
+                        else:
+                            self.cc.config(state='normal')
+                            self.suee.config(state='normal')
+                            self.suee.delete(0, tk.END)
+                    except:
+                        fallo = True
+                        self.suevalue.set(False)
+                        messagebox.showwarning(title="Advertencia",
+                                               message=f"La entrada Cargo está vacía, por favor completarla.")
+                    
 
                 def ingresarNuevoEmpleado():
                     fallo = False
@@ -380,9 +389,19 @@ class VentanaUsuario(Tk):
 
                 def cambioValor(op):
                     if op == "+":
-                        empleado.setSueldo(empleado.getSueldo() + 100)
+                        val=empleado.getSueldo() + 100
+                        try:
+                            ExcepcionValorMaximo.menorQue(val,3000)
+                            empleado.setSueldo(val)
+                        except:
+                            messagebox.showwarning("Valor incorrecto",message="El sueldo no puede ser mayor que 4000")
                     elif op == "-":
-                        empleado.setSueldo(empleado.getSueldo() - 100)
+                        val=empleado.getSueldo() - 100
+                        try:
+                            ExcepcionPositivo.valorPositivo(val)
+                            empleado.setSueldo(val)
+                        except:
+                            messagebox.showwarning("Valor incorrecto",message="El sueldo no puede ser menor que 0")
                     self.sueldo["text"] = empleado.getSueldo()
 
                 if len(self.lb.curselection()) != 0:
@@ -399,6 +418,11 @@ class VentanaUsuario(Tk):
                     self.restab.grid(row=1, column=0, sticky="nsew")
                     self.sumab = Button(self.of, text="+", command=lambda: cambioValor("+"))
                     self.sumab.grid(row=1, column=2, sticky="nsew")
+
+                    r=0
+                    for i in Cargos:
+                        Label(self.of,text=i.getCargo()+": "+str(i.getSueldoBase())).grid(row=r,column=3, sticky="w",padx=15)
+                        r=r+1
 
             def despedir():
                 limpiarFrame()
@@ -936,7 +960,7 @@ class VentanaUsuario(Tk):
         self.procesosYConsultas.add_command(label = "Reserva de vuelo", command = pantallaReservaDeVuelo)
         self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
         self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
-        self.procesosYConsultas.add_command(label = "Funcionalidad 4", command = pantallaFinanzas)
+        self.procesosYConsultas.add_command(label = "Gestionar finanzas", command = pantallaFinanzas)
 
         self.menuModificaciones = Menu(self.procesosYConsultas)
         self.procesosYConsultas.add_cascade(menu=self.menuModificaciones, label="Administración de vuelos y aviones")
