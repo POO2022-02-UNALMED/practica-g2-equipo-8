@@ -41,7 +41,7 @@ class VentanaUsuario(Tk):
         Persona.setAeropuerto(self.aeropuerto)
         Avion.setAeropuerto(self.aeropuerto)
         Vuelo.setAeropuerto(self.aeropuerto)
-        self.valoresIniciales()
+        #self.valoresIniciales()
         deserializar(self.aeropuerto)
 
         # Funciones
@@ -764,21 +764,87 @@ class VentanaUsuario(Tk):
             self.scroll.configure(command=self.lb.yview)
             self.scroll.grid(column=4, row=0, sticky='NS')
 
-            for i in self.aeropuerto.getAviones():
-                self.lb.insert(tk.END, "ID: " + str(i.getId()) + " " * (
-                        7 - len(str(i.getId()))) + "Valor: " + str(i.getValor()) + " " * (
-                        8 - len(str(i.getValor()))) + "Modelo: " + i.getModelo())
+            for avion in self.aeropuerto.getAviones():
+                self.lb.insert(tk.END, "ID: " + str(avion.getId()) + " " * (
+                        7 - len(str(avion.getId()))) + "Valor: " + str(avion.getValor()) + " " * (
+                        8 - len(str(avion.getValor()))) + "Modelo: " + avion.getModelo())
 
             self.of = Frame(self.ventanaOpera)
             self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
 
-            self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
-            self.datosButton.grid(row=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
 
             self.tl = Label(self.of, text="Ingrese los datos del nuevo avion",
                             font=Font(family='Courier', size=100))
             self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
+
+            def check():
+                if self.suevalue.get():
+                    self.suee.delete(0, tk.END)
+                    self.suee.insert(0, 20)
+                    self.suee.config(state='disabled')
+                else:
+                    self.suee.config(state='normal')
+                    self.suee.delete(0, tk.END)
+            
+            def ingreso():
+                fallo = False
+                try:
+                    ExcepcionVacio.valorVacio(self.modelo_entry.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                        message=f"La entrada Modelo está vacía, por favor completar.")
+
+                try:
+                    ExcepcionVacio.valorVacio(self.pesomax_entry.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                        message=f"La entrada Peso Max está vacía, por favor completar.")
+                
+                try:
+                    ExcepcionVacio.valorVacio(self.valor_entry.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                        message=f"La entrada Valor está vacía, por favor completar.")
+                
+                try:
+                    ExcepcionVacio.valorVacio(self.suee.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                        message=f"La entrada Asientos está vacía, por favor completar.")
+
+                try:
+                    ExcepcionEntero.tipoInt(self.pesomax_entry.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                           message=f"La entrada {self.pesomax_entry.get()} debe ser un número, por favor modificar.")
+
+                try:
+                    ExcepcionEntero.tipoInt(self.valor_entry.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                           message=f"La entrada {self.valor_entry.get()} debe ser un número, por favor modificar.")
+
+                try:
+                    ExcepcionEntero.tipoInt(self.suee.get())
+                except:
+                    fallo = True
+                    messagebox.showwarning(title="Advertencia",
+                                           message=f"La entrada {self.suee.get()} debe ser un número, por favor modificar.")
+                
+                if not fallo:
+                    avion = Avion(self.modelo_entry.get(),int(self.pesomax_entry.get()),int(self.valor_entry.get()),int(self.suee.get()))
+                    self.aeropuerto.transaccion(f"Compra de {avion.getModelo()}",-avion.getValor())
+                    self.lb.insert(tk.END, "ID: " + str(avion.getId()) + " " * (
+                        7 - len(str(avion.getId()))) + "Valor: " + str(avion.getValor()) + " " * (
+                        8 - len(str(avion.getValor()))) + "Modelo: " + avion.getModelo())
+                    pantallaComprarAvion()
 
             self.nl = Label(self.of, text="Modelo:", font=Font(family='Courier', size=100))
             self.nl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
@@ -795,24 +861,20 @@ class VentanaUsuario(Tk):
             self.valor_entry = Entry(self.of, width=20)
             self.valor_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
 
-
             self.suevalue = BooleanVar(self.of)
             self.suel = Label(self.of, text="Cantidad de asientos:", font=Font(family='Courier', size=100))
             self.suel.grid(row=4, column=0, padx=0, pady=5, sticky="w")
             self.suee = Entry(self.of, width=20)
             self.suee.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
             self.suec = ttk.Checkbutton(self.of, text="Asientos por defecto",
-                                        variable=self.suevalue, command=prueba)
+                                        variable=self.suevalue, command=check)
             self.suec.grid(row=4, column=2, padx=5, pady=5, sticky="nsew")
 
-            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=prueba)
+            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=ingreso)
             self.ingresar.grid(row=5, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
 
-            #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
-            #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
-
             self.widgetsActuales.extend(
-                [self.lp, self.datosButton, self.ld, self.lb,
+                [self.lp, self.ld, self.lb,
                  self.scroll, self.of])
 
         def pantallaNomina():

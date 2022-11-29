@@ -49,7 +49,7 @@ class Avion():
     @classmethod
     def nuevoID(cls):
         try:
-            return cls.aeropuerto.getAviones()[len(cls.aeropuerto.getAviones())-1].getId()+1
+            return cls._aeropuerto.getAviones()[len(cls._aeropuerto.getAviones())-1].getId()+1
         except:
             return 1
 
