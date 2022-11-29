@@ -4,14 +4,15 @@ from excepciones.excepcionTipo import *
 
 class FieldFrame(Frame):
     
-    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado):
+    def __init__(self, ventana, tituloCriterios, criterios, tituloValores, valores, habilitado,pack=True):
         super().__init__(ventana)
         self._tituloCriterios = tituloCriterios
         self._criterios = criterios
         self._tituloValores = tituloValores
         self._valores = valores
         self._habilitado = habilitado
-        self.pack()
+        if pack:
+            self.pack()
         self.config(relief = "groove") 
         self.config(bd=20)
         self.config(borderwidth=2) 
