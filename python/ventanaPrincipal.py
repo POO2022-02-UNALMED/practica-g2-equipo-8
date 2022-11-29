@@ -119,9 +119,8 @@ class VentanaUsuario(Tk):
             self.ld.pack()
 
             self.destino = Label(self.ventanaOpera, text="Ingrese el destino deseado", font=("Courier", 10))
-            self.destino.grid(ipadx=8, padx=8, row=0, column=0, sticky="w")
+            self.destino.grid(ipadx=8, padx=8, ipady=8, pady=8, row=0, column=0)
 
-            
             destinos = []
             for vuelo in self.aeropuerto.getVuelos():
                 destino = vuelo.getDestino()
@@ -130,7 +129,7 @@ class VentanaUsuario(Tk):
             self.listaDestinos = ttk.Combobox(self.ventanaOpera, values=destinos, textvariable=StringVar(value=""), state="readonly")
             self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, columnspan=10, sticky="w")
             self.vuelo = Label(self.ventanaOpera, text = "Vuelos al destino seleccionado", font = ("Courier", 10))
-            self.vuelo.grid(ipadx=8, padx=8, ipady=8, pady=8, row=1, column=0, sticky="w")
+            self.vuelo.grid(ipadx=8, padx=8, ipady=8, pady=8, row=1, column=0)
 
             self.listaVuelos = ttk.Combobox(self.ventanaOpera, values=[], textvariable=StringVar(value=""), state="readonly", width=50)
             self.listaVuelos.grid(ipadx=8, padx=8, row=1, column=1, sticky="w")
@@ -149,14 +148,47 @@ class VentanaUsuario(Tk):
 
             def seleccionVuelo(Event):
                 sel1 = self.listaVuelos.get().split(" - ")[0][4:]
-                print(sel1)
                 for vuelo in self.aeropuerto.getVuelos():
                     if vuelo.getId() == int(sel1):
+                        global vueloActual 
                         vueloActual = vuelo
-
+                        asientos = []
+                        for asiento in vuelo.getAvion().getAsientos():
+                            a = "Numero: "+str(asiento.getNumero())+" - Clase: "+str(asiento.getClase())
+                            if not asiento.isOcupado(): asientos.append(a)
+                        self.listaAsientos.config(textvariable=StringVar(value=""))
+                        self.listaAsientos.config(values=asientos)
+                    break
+                    
             self.listaVuelos.bind("<<ComboboxSelected>>", seleccionVuelo)
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos, self.vuelo, self.listaVuelos])
+            self.asiento = Label(self.ventanaOpera, text="Formulario", font=("Courier", 10))
+            self.asiento.grid(ipadx=8, padx=8, row=2, column=0)
+            self.formulario = FieldFrame(self.ventanaOpera, "Datos personales", ["Nombre","Documento", "Edad", "Genero", "Equipajes", "Peso total"], None, None, None, pack=False)
+            self.formulario.grid(ipadx=8, padx=8, row=2, column=1, sticky="w")
+
+            self.asiento = Label(self.ventanaOpera, text="Asientos disponibles", font=("Courier", 10))
+            self.asiento.grid(ipadx=8, padx=8, ipady=8, pady=8, row=3, column=0)
+
+            self.listaAsientos = ttk.Combobox(self.ventanaOpera, values=[], textvariable=StringVar(value=""), state="readonly", width=50)
+            self.listaAsientos.grid(ipadx=8, padx=8, row=3, column=1, sticky="w")
+
+            def reserva():
+                try:
+                    NuevoPasajero = Pasajero(self.formulario.getValue("Nombre"), self.formulario.getValue("Documento"), 
+                                            self.formulario.getValue("Edad"),self.formulario.getValue("Genero"))
+
+                    NuevoPasajero.addEquipaje(Equipaje(int(self.formulario.getValue("Peso total"))))
+                    vueloActual.agregarPasajero(NuevoPasajero, int(self.listaAsientos.get().split(" - ")[0][7:]))
+                    self.asiento = Label(self.ventanaOpera, text="El vuelo ha sido registrado\n exitosamente!", font=("Courier", 20))
+                    self.asiento.grid(ipadx=8, padx=8, ipady=8, pady=8, row=2, column=2)
+                except:
+                    messagebox.showwarning(title="Advertencia", message=f"Por favor rellene todos los apartados.")
+
+            self.ingresar = Button(self.ventanaOpera, text="Reservar vuelo", command=reserva)
+            self.ingresar.grid(ipadx=8, padx=8, ipady=8, pady=8, row=4, column=0, columnspan=2)
+
+            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos, self.vuelo, self.listaVuelos, self.formulario, self.asiento, self.listaAsientos, self.ingresar])
 
         def pantallaEmpleados():
             def limpiarFrame():
