@@ -40,7 +40,7 @@ class VentanaUsuario(Tk):
         Persona.setAeropuerto(self.aeropuerto)
         Avion.setAeropuerto(self.aeropuerto)
         Vuelo.setAeropuerto(self.aeropuerto)
-        # self.valoresIniciales()
+        self.valoresIniciales()
         deserializar(self.aeropuerto)
 
         # Funciones
@@ -121,14 +121,28 @@ class VentanaUsuario(Tk):
             self.destino = Label(self.ventanaOpera, text="Ingrese el destino deseado", font=("Courier", 10))
             self.destino.grid(ipadx=8, padx=8, row=0, column=0, sticky="w")
 
-            destinos = ["ejemplo 1", "ejemplo 2"]
-            # for vuelo in self.aeropuerto.getVuelos():
-            #    destino = vuelo.getDestino()
-            #    destinos.append(destino)
+            
+            destinos = []
+            for vuelo in self.aeropuerto.getVuelos():
+                destino = vuelo.getDestino()
+                if destino not in destinos: destinos.append(destino)
 
-            self.listaDestinos = ttk.Combobox(self.ventanaOpera, values=destinos, textvariable=StringVar(value=""))
+            self.listaDestinos = ttk.Combobox(self.ventanaOpera, values=destinos, textvariable=StringVar(value=""), state="readonly")
             self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, sticky="w")
 
+            def seleccion(Event):
+                self.vuelo = Label(self.ventanaOpera, text = "Vuelos al destino seleccionado", font = ("Courier", 10))
+                self.vuelo.grid(ipadx=8, padx=8, row=1, column=0, sticky="w")
+                sel = self.listaDestinos.get()
+                vuelos = []
+                for vuelo in self.aeropuerto.getVuelos():
+                    v = "Destino: "+vuelo.getDestino()+" - Costo: "+str(vuelo.getCosto())+" - Fecha: "+str(vuelo.getFecha())
+                    if destino not in destinos and vuelo.getDestino() == sel: vuelos.append(v)
+                self.listaVuelos = ttk.Combobox(self.ventanaOpera, values=vuelos, textvariable=StringVar(value=""), state="readonly")
+                self.listaVuelos.grid(ipadx=8, padx=8, row=1, column=1, sticky="w")
+                self.widgetsActuales.extend([self.vuelo, self.listaVuelos])
+            
+            self.listaDestinos.bind("<<ComboboxSelected>>", seleccion)
             self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos])
 
         def pantallaEmpleados():
@@ -701,11 +715,12 @@ class VentanaUsuario(Tk):
         archivo.add_command(label="Salir y guardar", command=self.salir)
 
         self.procesosYConsultas = Menu(self._barraMenu)
-        self._barraMenu.add_cascade(label="Procesos y consultas", menu=self.procesosYConsultas)
-        self.procesosYConsultas.add_command(label="Funcionalidad 1", command=pantallaReservaDeVuelo)
-        self.procesosYConsultas.add_command(label="Funcionalidad 2", command=prueba)
-        self.procesosYConsultas.add_command(label="Gestion de empleados", command=pantallaEmpleados)
-        self.procesosYConsultas.add_command(label="Funcionalidad 4", command=pantallaFinanzas)
+
+        self._barraMenu.add_cascade(label="Procesos y consultas", menu = self.procesosYConsultas)
+        self.procesosYConsultas.add_command(label = "Reserva de vuelo", command = pantallaReservaDeVuelo)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 2", command = prueba)
+        self.procesosYConsultas.add_command(label = "Gestion de empleados", command = pantallaEmpleados)
+        self.procesosYConsultas.add_command(label = "Funcionalidad 4", command = pantallaFinanzas)
 
         self.menuModificaciones = Menu(self.procesosYConsultas)
         self.procesosYConsultas.add_cascade(menu=self.menuModificaciones, label="Administración de vuelos y aviones")
