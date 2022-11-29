@@ -915,13 +915,23 @@ class VentanaUsuario(Tk):
 
                 opcion = messagebox.askokcancel('Alerta de pago', f'Está a punto de pagar ${total}\nCofirmar?')
                 if opcion:
-                    if total > self.aeropuerto.getDinero():
+                    try:
+                        ExcepcionValorMaximo.menorQue(total, self.aeropuerto.getDinero())
+                        for e in empleadosi:
+                            self.aeropuerto.transaccion(f'nomina de {e.getNombre()}', (-1) * e.getSueldo())
+                            pantallaFinanzas()
+
+                    except ExcepcionValorMaximo:
+                        messagebox.showerror('Error',
+                                             f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
+
+                    """if total > self.aeropuerto.getDinero():
                         messagebox.showerror('Error',
                                              f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
                     else:
                         for e in empleadosi:
                             self.aeropuerto.transaccion(f'nomina de {e.getNombre()}', (-1) * e.getSueldo())
-                            pantallaFinanzas()
+                            pantallaFinanzas()"""
 
             empleados = self.aeropuerto.getEmpleados()
             empleadosnames = list(map(lambda x: '$ ' + str(x.getSueldo()) + ' | ' + x.getNombre(), empleados))
@@ -961,19 +971,24 @@ class VentanaUsuario(Tk):
                 if opcion:
                     try:
                         valor = int(valor)
-                        if valor < 0:
-                            messagebox.showerror('Error', 'No puedes introducir un numero negativo')
-                        elif valor > self.aeropuerto.getDinero():
-                            messagebox.showerror('Error',
-                                                 f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
-                        elif combo == 'Ingreso':
+                        ExcepcionPositivo.valorPositivo(valor)
+
+                        if combo == 'Ingreso':
                             self.aeropuerto.transaccion(concepto, valor)
                             pantallaFinanzas()
+
                         elif combo == 'Retiro':
+                            ExcepcionValorMaximo.menorQue(valor, self.aeropuerto.getDinero())
                             self.aeropuerto.transaccion(concepto, valor * (-1))
                             pantallaFinanzas()
+
                         else:
                             messagebox.showerror('Error', 'Debes seleccionar Ingreso o Retiro')
+                            
+                    except ExcepcionPositivo:
+                        messagebox.showerror('Error', 'No puedes introducir un numero negativo')
+                    except ExcepcionValorMaximo:
+                        messagebox.showerror('Error', f'Fondos insuficientes\nsolo tienes {self.aeropuerto.getDinero()}')
                     except ValueError:
                         messagebox.showerror('Error', 'Debes introducir solamente numeros en el monto')
 
