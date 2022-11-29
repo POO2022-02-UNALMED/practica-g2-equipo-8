@@ -19,14 +19,13 @@ class Vuelo:
         self._costo = costo
         self._salaEmbarque = salaEmbarque
         self._pesoActual = 0
-        self._id = 0
+        self._id = Vuelo.nuevoID()
         self._aeropuerto.addVuelo(self)
     
     @classmethod
     def nuevoID(cls):
         if len(cls._aeropuerto.getVuelos()) != 0:
-            return cls._aeropuerto.getVuelos().get(len(cls._aeropuerto.getVuelos())-1).getId() + 1
-
+            return cls._aeropuerto.getVuelos()[len(cls._aeropuerto.getVuelos())-1].getId() + 1
         else:
             return 1
         

@@ -128,22 +128,35 @@ class VentanaUsuario(Tk):
                 if destino not in destinos: destinos.append(destino)
 
             self.listaDestinos = ttk.Combobox(self.ventanaOpera, values=destinos, textvariable=StringVar(value=""), state="readonly")
-            self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, sticky="w")
+            self.listaDestinos.grid(ipadx=8, padx=8, row=0, column=1, columnspan=10, sticky="w")
+            self.vuelo = Label(self.ventanaOpera, text = "Vuelos al destino seleccionado", font = ("Courier", 10))
+            self.vuelo.grid(ipadx=8, padx=8, ipady=8, pady=8, row=1, column=0, sticky="w")
 
-            def seleccion(Event):
-                self.vuelo = Label(self.ventanaOpera, text = "Vuelos al destino seleccionado", font = ("Courier", 10))
-                self.vuelo.grid(ipadx=8, padx=8, row=1, column=0, sticky="w")
+            self.listaVuelos = ttk.Combobox(self.ventanaOpera, values=[], textvariable=StringVar(value=""), state="readonly", width=50)
+            self.listaVuelos.grid(ipadx=8, padx=8, row=1, column=1, sticky="w")
+
+            def seleccionDestino(Event):
                 sel = self.listaDestinos.get()
                 vuelos = []
                 for vuelo in self.aeropuerto.getVuelos():
-                    v = "Destino: "+vuelo.getDestino()+" - Costo: "+str(vuelo.getCosto())+" - Fecha: "+str(vuelo.getFecha())
-                    if destino not in destinos and vuelo.getDestino() == sel: vuelos.append(v)
-                self.listaVuelos = ttk.Combobox(self.ventanaOpera, values=vuelos, textvariable=StringVar(value=""), state="readonly")
-                self.listaVuelos.grid(ipadx=8, padx=8, row=1, column=1, sticky="w")
-                self.widgetsActuales.extend([self.vuelo, self.listaVuelos])
-            
-            self.listaDestinos.bind("<<ComboboxSelected>>", seleccion)
-            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos])
+                    v = "ID: "+str(vuelo.getId())+" - Precio: "+str(vuelo.getCosto())+" - Fecha: "+str(vuelo.getFecha())
+                    if vuelo not in vuelos and vuelo.getDestino()==sel:
+                        vuelos.append(v)
+                self.listaVuelos.config(textvariable=StringVar(value=""))
+                self.listaVuelos.config(values=vuelos)
+
+            self.listaDestinos.bind("<<ComboboxSelected>>", seleccionDestino)
+
+            def seleccionVuelo(Event):
+                sel1 = self.listaVuelos.get().split(" - ")[0][4:]
+                print(sel1)
+                for vuelo in self.aeropuerto.getVuelos():
+                    if vuelo.getId() == int(sel1):
+                        vueloActual = vuelo
+
+            self.listaVuelos.bind("<<ComboboxSelected>>", seleccionVuelo)
+
+            self.widgetsActuales.extend([self.lp, self.ld, self.destino, self.listaDestinos, self.vuelo, self.listaVuelos])
 
         def pantallaEmpleados():
             def limpiarFrame():
@@ -545,9 +558,9 @@ class VentanaUsuario(Tk):
 
             self.widgetsActuales.extend([self.lp, self.ld, self.lb, self.scroll, self.of])
 
+
         def pantallaComprarAvion():
             borrarElementos()
-
             def limpiarFrame():
                 for widget in self.of.winfo_children():
                     widget.destroy()
@@ -559,10 +572,66 @@ class VentanaUsuario(Tk):
                             font=("Courier", 10))
             self.ld.pack()
 
-            self.nuevoAvionButton = Button(self.ventanaOpera, text="Comprar avión", command=prueba)
-            self.nuevoAvionButton.grid(row=1, column=2, padx=5, pady=5)
+            vuelos = self.aeropuerto.getAviones()
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.nuevoAvionButton])
+            self.scroll = Scrollbar(self.ventanaOpera, orient='vertical')
+
+            self.lb = Listbox(self.ventanaOpera, yscrollcommand=self.scroll.set, font='Courier', width=40, height=22)
+            self.lb.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
+
+            self.scroll.configure(command=self.lb.yview)
+            self.scroll.grid(column=4, row=0, sticky='NS')
+
+            for i in self.aeropuerto.getAviones():
+                self.lb.insert(tk.END, "ID: " + str(i.getId()) + " " * (
+                        7 - len(str(i.getId()))) + "Valor: " + str(i.getValor()) + " " * (
+                        8 - len(str(i.getValor()))) + "Modelo: " + i.getModelo())
+
+            self.of = Frame(self.ventanaOpera)
+            self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
+
+            self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
+            self.datosButton.grid(row=1, columnspan=4, padx=5, pady=5, sticky="nsew")
+
+
+            self.tl = Label(self.of, text="Ingrese los datos del nuevo avion",
+                            font=Font(family='Courier', size=100))
+            self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
+
+            self.nl = Label(self.of, text="Modelo:", font=Font(family='Courier', size=100))
+            self.nl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
+            self.modelo_entry = Entry(self.of, width=20)
+            self.modelo_entry.grid(row=1, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.el = Label(self.of, text="Peso Max:", font=Font(family='Courier', size=100))
+            self.el.grid(row=2, column=0, padx=0, pady=5, sticky="w")
+            self.pesomax_entry = Entry(self.of, width=20)
+            self.pesomax_entry.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.ccl = Label(self.of, text="Valor:", font=Font(family='Courier', size=100))
+            self.ccl.grid(row=3, column=0, padx=0, pady=5, sticky="w")
+            self.valor_entry = Entry(self.of, width=20)
+            self.valor_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
+
+
+            self.suevalue = BooleanVar(self.of)
+            self.suel = Label(self.of, text="Cantidad de asientos:", font=Font(family='Courier', size=100))
+            self.suel.grid(row=4, column=0, padx=0, pady=5, sticky="w")
+            self.suee = Entry(self.of, width=20)
+            self.suee.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
+            self.suec = ttk.Checkbutton(self.of, text="Asientos por defecto",
+                                        variable=self.suevalue, command=prueba)
+            self.suec.grid(row=4, column=2, padx=5, pady=5, sticky="nsew")
+
+            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=prueba)
+            self.ingresar.grid(row=5, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
+
+            #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
+            #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
+
+            self.widgetsActuales.extend(
+                [self.lp, self.datosButton, self.ld, self.lb,
+                 self.scroll, self.of])
 
         def pantallaNomina():
             def aceptarfun():
@@ -741,7 +810,7 @@ class VentanaUsuario(Tk):
         self.aeropuerto.setDinero(10000000)
         a1 = Avion("XYZ", 100, 50000)
         vuelo1 = Vuelo(a1, datetime(2022, 11, 30, 10, 0, 0), "Cancun", 1500, "A1")
-        vuelo2 = Vuelo(Avion("YY3X", 150, 75000), datetime(2022, 12, 5, 10, 0, 0), "Madrid", 5500, "A2")
+        vuelo2 = Vuelo(Avion("YY3X", 150, 75000), datetime(2022, 10, 15, 10, 0, 0), "Madrid", 3250, "A2")
         vuelo3 = Vuelo(Avion("XCF", 75, 25000), datetime(2022, 12, 5, 10, 0, 0), "Paris", 5500, "A2")
         e1 = Empleado("Juan", 12345, 30, "M", 2300, Cargos.PILOTO.getCargo())
         e2 = Empleado("Pedro", 543657, 35, "M", 1800, Cargos.COPILOTO.getCargo())
