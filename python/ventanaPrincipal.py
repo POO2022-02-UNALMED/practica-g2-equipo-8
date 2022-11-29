@@ -571,9 +571,9 @@ class VentanaUsuario(Tk):
 
             self.widgetsActuales.extend([self.lp, self.ld, self.lb, self.scroll, self.of])
 
+
         def pantallaComprarAvion():
             borrarElementos()
-
             def limpiarFrame():
                 for widget in self.of.winfo_children():
                     widget.destroy()
@@ -585,10 +585,66 @@ class VentanaUsuario(Tk):
                             font=("Courier", 10))
             self.ld.pack()
 
-            self.nuevoAvionButton = Button(self.ventanaOpera, text="Comprar avión", command=prueba)
-            self.nuevoAvionButton.grid(row=1, column=2, padx=5, pady=5)
+            vuelos = self.aeropuerto.getAviones()
 
-            self.widgetsActuales.extend([self.lp, self.ld, self.nuevoAvionButton])
+            self.scroll = Scrollbar(self.ventanaOpera, orient='vertical')
+
+            self.lb = Listbox(self.ventanaOpera, yscrollcommand=self.scroll.set, font='Courier', width=40, height=22)
+            self.lb.grid(row=0, column=0, columnspan=4, sticky="snew", padx=5, pady=5)
+
+            self.scroll.configure(command=self.lb.yview)
+            self.scroll.grid(column=4, row=0, sticky='NS')
+
+            for i in self.aeropuerto.getAviones():
+                self.lb.insert(tk.END, "ID: " + str(i.getId()) + " " * (
+                        7 - len(str(i.getId()))) + "Valor: " + str(i.getValor()) + " " * (
+                        8 - len(str(i.getValor()))) + "Modelo: " + i.getModelo())
+
+            self.of = Frame(self.ventanaOpera)
+            self.of.grid(row=0, column=5, rowspan=4, sticky='nsew', padx=30, pady=30)
+
+            self.datosButton = Button(self.ventanaOpera, text="Ver datos", command=prueba)
+            self.datosButton.grid(row=1, columnspan=4, padx=5, pady=5, sticky="nsew")
+
+
+            self.tl = Label(self.of, text="Ingrese los datos del nuevo avion",
+                            font=Font(family='Courier', size=100))
+            self.tl.grid(row=0, column=0, padx=0, pady=5, sticky="w", columnspan=2)
+
+            self.nl = Label(self.of, text="Modelo:", font=Font(family='Courier', size=100))
+            self.nl.grid(row=1, column=0, padx=0, pady=5, sticky="w")
+            self.modelo_entry = Entry(self.of, width=20)
+            self.modelo_entry.grid(row=1, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.el = Label(self.of, text="Peso Max:", font=Font(family='Courier', size=100))
+            self.el.grid(row=2, column=0, padx=0, pady=5, sticky="w")
+            self.pesomax_entry = Entry(self.of, width=20)
+            self.pesomax_entry.grid(row=2, column=1, padx=0, pady=5, sticky="nsew")
+
+            self.ccl = Label(self.of, text="Valor:", font=Font(family='Courier', size=100))
+            self.ccl.grid(row=3, column=0, padx=0, pady=5, sticky="w")
+            self.valor_entry = Entry(self.of, width=20)
+            self.valor_entry.grid(row=3, column=1, padx=0, pady=5, sticky="nsew")
+
+
+            self.suevalue = BooleanVar(self.of)
+            self.suel = Label(self.of, text="Cantidad de asientos:", font=Font(family='Courier', size=100))
+            self.suel.grid(row=4, column=0, padx=0, pady=5, sticky="w")
+            self.suee = Entry(self.of, width=20)
+            self.suee.grid(row=4, column=1, padx=0, pady=5, sticky="nsew")
+            self.suec = ttk.Checkbutton(self.of, text="Asientos por defecto",
+                                        variable=self.suevalue, command=prueba)
+            self.suec.grid(row=4, column=2, padx=5, pady=5, sticky="nsew")
+
+            self.ingresar = Button(self.of, text="Ingresar nuevo avion", command=prueba)
+            self.ingresar.grid(row=5, column=0, padx=0, pady=5, sticky="nsew", columnspan=3)
+
+            #self.datos = Label(self.of, text="adsfhasdhfasdfbfisdob", font=Font(family='Courier', size=100))
+            #self.datos.grid(row=6, column=0, padx=0, pady=5, sticky="w")
+
+            self.widgetsActuales.extend(
+                [self.lp, self.datosButton, self.ld, self.lb,
+                 self.scroll, self.of])
 
         def pantallaNomina():
             def aceptarfun():
